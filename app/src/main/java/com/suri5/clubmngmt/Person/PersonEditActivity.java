@@ -21,10 +21,12 @@ import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
+import java.util.Locale;
+
 public class PersonEditActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
     ImageView imageView;
-    EditText editText_Name,editText_Major,editText_Birthday,editText_Mobile,editText_Email;
+    EditText editText_Name,editText_IdNum,editText_Major,editText_Birthday,editText_Mobile,editText_Email;
     RadioGroup radioGroup_Sex;
     Bitmap picture;
     PersonDB personDB;
@@ -35,11 +37,23 @@ public class PersonEditActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         editText_Email=findViewById(R.id.editPersonEmail);
         editText_Major=findViewById(R.id.editPersonMajor);
+        editText_IdNum=findViewById(R.id.editPersonIDNum);
         editText_Mobile=findViewById(R.id.editPersonMobile);
         editText_Birthday=findViewById(R.id.editPersonDate);
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+        Intent intent = getIntent();
+        if(intent.getIntExtra("pk",0)!=0){
+            Person p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
+            imageView.setImageBitmap(p.getPicture());
+            editText_Email.setText(p.getEmail());
+            editText_Major.setText(p.getMajor());
+            editText_Mobile.setText(p.getMobile());
+            editText_Birthday.setText(p.getBirthday());
+            editText_Name.setText(p.getName());
+            editText_IdNum.setText(String.valueOf(p.getId_num()));
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +73,7 @@ public class PersonEditActivity extends AppCompatActivity {
                 //추가한 person 객체를 넘겨줌
                 Person p = new Person();
                 p.setName(editText_Name.getText().toString());
+                p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
                 p.setMajor(editText_Major.getText().toString());
                 p.setEmail(editText_Email.getText().toString());
                 p.setMobile(editText_Mobile.getText().toString());
