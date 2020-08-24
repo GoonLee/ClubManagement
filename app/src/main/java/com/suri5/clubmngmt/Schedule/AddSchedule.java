@@ -31,8 +31,8 @@ public class AddSchedule extends AppCompatActivity {
         editTextSchedule=findViewById(R.id.editTextSchedule);
 
         //시작 월
-        editTextMonthS=findViewById(R.id.editTextMonthS);
-        editTextMonthS.addTextChangedListener(new TextWatcher() {
+        //editTextMonthS=findViewById(R.id.editTextMonthS);
+        /*editTextMonthS.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -64,11 +64,11 @@ public class AddSchedule extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 editTextMonthS.setSelection(editTextMonthS.getText().length());
             }
-        });
+        });*/
 
         //시작 일
-        editTextDayS=findViewById(R.id.editTextDayS);
-        editTextDayS.addTextChangedListener(new TextWatcher() {
+        //editTextDayS=findViewById(R.id.editTextDayS);
+        /*editTextDayS.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -100,11 +100,11 @@ public class AddSchedule extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 editTextDayS.setSelection(editTextDayS.getText().length());
             }
-        });
+        });*/
 
         //종료 달
-        editTextMonthE=findViewById(R.id.editTextMonthE);
-        editTextMonthE.addTextChangedListener(new TextWatcher() {
+        //editTextMonthE=findViewById(R.id.editTextMonthE);
+        /*editTextMonthE.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -135,11 +135,11 @@ public class AddSchedule extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 editTextMonthE.setSelection(editTextMonthE.getText().length());
             }
-        });
+        });*/
 
         //종료 일
-        editTextDayE=findViewById(R.id.editTextDayE);
-        editTextDayE.addTextChangedListener(new TextWatcher() {
+        //editTextDayE=findViewById(R.id.editTextDayE);
+        /*editTextDayE.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -170,7 +170,7 @@ public class AddSchedule extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 editTextDayE.setSelection(editTextDayE.getText().length());
             }
-        });
+        });*/
 
         editTextPlace=findViewById(R.id.editTextPlace);
         editTextComment=findViewById(R.id.editTextComment);
