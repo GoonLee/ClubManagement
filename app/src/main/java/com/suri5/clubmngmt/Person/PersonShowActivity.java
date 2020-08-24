@@ -20,7 +20,7 @@ public class PersonShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.person_show);
+        setContentView(R.layout.activity_person_show);
 
         recyclerView = findViewById(R.id.recyclerviewPerson);
 
@@ -38,7 +38,7 @@ public class PersonShowActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),PersonEditActivity.class);
+                Intent intent = new Intent(getApplicationContext(),PersonAddActivity.class);
                 startActivity(intent);
             }
         });

@@ -2,6 +2,7 @@ package com.suri5.clubmngmt.Person;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,17 +22,17 @@ import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
-public class PersonEditActivity extends AppCompatActivity {
+public class PersonAddActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
     ImageView imageView;
     EditText editText_Name,editText_IdNum,editText_Major,editText_Birthday,editText_Mobile,editText_Email;
     RadioGroup radioGroup_Sex;
-    Bitmap picture;
+    Bitmap picture;// = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
     PersonDB personDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person_edit);
+        setContentView(R.layout.activity_person_add);
         imageView = findViewById(R.id.imageView);
         editText_Email=findViewById(R.id.editPersonEmail);
         editText_Major=findViewById(R.id.editPersonMajor);
@@ -41,18 +42,8 @@ public class PersonEditActivity extends AppCompatActivity {
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        Intent intent = getIntent();
-        if(intent.getIntExtra("pk",-1)!=-1){
-            Person p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
-            imageView.setImageBitmap(p.getPicture());
-            editText_Email.setText(p.getEmail());
-            editText_Major.setText(p.getMajor());
-            editText_Mobile.setText(p.getMobile());
-            editText_Birthday.setText(p.getBirthday());
-            editText_Name.setText(p.getName());
-            editText_IdNum.setText(String.valueOf(p.getId_num()));
-        }
-        imageView.setOnClickListener(new View.OnClickListener() {
+        Button button_picture = findViewById(R.id.button_picture);
+        button_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -60,10 +51,18 @@ public class PersonEditActivity extends AppCompatActivity {
                 startActivityForResult(intent, Constant.REQUEST_CODE_GET_IMAGE);
             }
         });
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
+                imageView.setImageBitmap(picture);
+            }
+        });
+        Button button_save = findViewById(R.id.button_save);
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Todo : 빈 필드 확인해서 처리
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
                 //성별 라디오버튼에서 성별 string 에 저장
                 RadioButton radioButton=findViewById(id);
@@ -94,7 +93,7 @@ public class PersonEditActivity extends AppCompatActivity {
         if (requestCode == Constant.REQUEST_CODE_GET_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
             try {
-                //Todo: 빨간줄 무시 버전 체크하는 if문 넣을 예정
+                //Todo: 빨간줄 무시. 버전 체크하는 if문 넣을 예정
                 picture = ImageDecoder.decodeBitmap(ImageDecoder.createSource(getContentResolver(), selectedImageUri));
                 imageView.setImageBitmap(picture);
             } catch (Exception e) {}

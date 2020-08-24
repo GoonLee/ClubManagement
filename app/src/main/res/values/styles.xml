@@ -7,10 +7,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!-- 앱바 -->
+    <style name="AppTheme.Appbar">
+        <item name="titleTextColor">@android:color/black</item>
+
+        <item name="colorControlNormal">@android:color/black</item>
+    </style>
+
     <style name="SplashScreenTheme" parent = "Theme.AppCompat.NoActionBar">
-    <item name="android:windowBackground">
-        @drawable/splash_screen_background
-    </item>
-</style>
+        <item name="android:windowBackground">
+            @drawable/splash_screen_background
+        </item>
+    </style>
 
 </resources>

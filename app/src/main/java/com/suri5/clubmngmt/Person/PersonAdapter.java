@@ -22,7 +22,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View itemView=inflater.inflate(R.layout.person_item,parent,false);
+        View itemView=inflater.inflate(R.layout.item_person,parent,false);
         return new ViewHolder(itemView);
     }
 

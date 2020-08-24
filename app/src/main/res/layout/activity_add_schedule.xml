@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:orientation="vertical"
+    tools:context=".Schedule.AddSchedule">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/background_light"
+            android:orientation="vertical">
+
+            //일정
+
+            <EditText
+                android:id="@+id/editTextSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="일정 이름"
+                android:inputType="textPersonName"
+                android:textSize="25sp" />
+
+            //시작 날짜
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="5dp"
+                    android:text="시작"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/editTextMonthS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="월"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:textAlignment="textEnd"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/editTextDayS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="일"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:textAlignment="textEnd"
+                    android:textSize="25sp" />
+
+                <TimePicker
+                    android:id="@+id/timePickerS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
+
+            //종료 날짜
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="5dp"
+                    android:text="종료"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/editTextMonthE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:maxLength="2"
+                    android:hint="월"
+                    android:inputType="number"
+                    android:textAlignment="textEnd"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/editTextDayE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:maxLength="2"
+                    android:hint="일"
+                    android:inputType="number"
+                    android:textAlignment="textEnd"
+                    android:textSize="25sp" />
+
+                <TimePicker
+                    android:id="@+id/timePickerE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:timePickerMode="spinner" />
+            </LinearLayout>
+
+            //위치
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:text="위치"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/editTextPlace"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint=""
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+
+            //추가 comment
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="세부사항"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:minLines="4"
+                android:scrollbars="vertical"
+                android:textSize="15sp" />
+
+            //추가버튼
+            <Button
+                android:id="@+id/buttonAddSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="25sp"
+                android:text="추가"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
