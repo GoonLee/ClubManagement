@@ -81,4 +81,4 @@ University club management application for android
 #### 4. 예산
 객체단위 입/출력
 수입 / 지출 구분해서 추가하기
--> 추가해서 리사이클뷰로 띄워주기
+-> 추가해서 리사이클뷰로 띄워ㅁㄴㅇㄻ
