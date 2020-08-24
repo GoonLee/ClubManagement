@@ -22,11 +22,8 @@
         </activity>
 
         <activity android:name=".Person.PersonShowActivity">
-
         </activity>
-
         <activity android:name=".Person.PersonEditActivity">
-
         </activity>
 
         <activity android:name=".Person.PersonAddActivity"/>
@@ -36,5 +33,4 @@
         <activity android:name=".Schedule.AddSchedule"/>
         <activity android:name=".Schedule.SchedulePopUp"/>
     </application>
-
 </manifest>
