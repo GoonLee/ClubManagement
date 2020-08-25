@@ -136,6 +136,7 @@ public class GroupDB {
      */
     public void findGroupmemeber(String Groupname) {
         Group g;
+
         String query = "select " +  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK + ", "
                 + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME + ", "
                 + Constant.GROUP_TABLE_TITLE+"."+Constant.GROUP_COLUMN_NAME +
