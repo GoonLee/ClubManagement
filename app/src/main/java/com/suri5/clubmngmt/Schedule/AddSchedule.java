@@ -1,6 +1,7 @@
 package com.suri5.clubmngmt.Schedule;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,17 +13,29 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 
 public class AddSchedule extends AppCompatActivity {
-    EditText editTextSchedule, editTextMonthS, editTextDayS, editTextMonthE, editTextDayE, editTextPlace, editTextComment;
-    Button button;
+    EditText editTextSchedule, editTextMonthS, editTextDayS, editTextMonthE, editTextDayE, editTextComment;
+    Button button,button_setPlace;
     TimePicker timePickerS, timePickerE;
     String monthS, dayS, monthE, dayE;
     String hourS, minuteS, hourE, minuteE;
 
+    //구글맵 끝나면 주소 받아오기
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==101 && resultCode==RESULT_OK){
+            String str=data.getStringExtra("place");
+            Toast.makeText(getApplicationContext(),"됨",Toast.LENGTH_SHORT).show();
+            button_setPlace.setText(str);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,8 +185,18 @@ public class AddSchedule extends AppCompatActivity {
             }
         });
 
-        editTextPlace=findViewById(R.id.editTextPlace);
         editTextComment=findViewById(R.id.editTextComment);
+
+        //구글 맵 지도 키는 버튼
+        button_setPlace=findViewById(R.id.button_setPlace);
+        button_setPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent=new Intent(getApplicationContext(), GoogleMapActivity.class);
+                startActivityForResult(mapIntent,101);
+            }
+        });
+
 
         timePickerS=(TimePicker)findViewById(R.id.timePickerS);
         timePickerE=(TimePicker)findViewById(R.id.timePickerE);
@@ -235,7 +258,7 @@ public class AddSchedule extends AppCompatActivity {
                 ScheduleInfor[0]=editTextSchedule.getText().toString();
                 ScheduleInfor[1]=monthS+dayS;
                 ScheduleInfor[2]=monthE+dayE;
-                ScheduleInfor[3]=editTextPlace.getText().toString();
+                ScheduleInfor[3]=button_setPlace.getText().toString();
                 ScheduleInfor[4]=editTextComment.getText().toString();
                 Intent intent = new Intent();
                 intent.putExtra("ScheduleInfor",ScheduleInfor);
