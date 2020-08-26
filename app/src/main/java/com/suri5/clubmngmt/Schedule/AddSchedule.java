@@ -138,8 +138,6 @@ public class AddSchedule extends AppCompatActivity {
                 startDate=yearS+monthS+dayS+hourS+minuteS;
                 endDate=yearE+monthE+dayE+hourE+minuteE;
 
-                Toast.makeText(getApplicationContext(),startDate+"\n"+endDate,Toast.LENGTH_SHORT).show();
-
                 Schedule tempSchedule = new Schedule(0,
                         editTextSchedule.getText().toString(),
                         startDate,
