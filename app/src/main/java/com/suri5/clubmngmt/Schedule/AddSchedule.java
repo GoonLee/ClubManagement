@@ -140,7 +140,8 @@ public class AddSchedule extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),startDate+"\n"+endDate,Toast.LENGTH_SHORT).show();
 
-                Schedule tempSchedule = new Schedule(0,editTextSchedule.getText().toString(),
+                Schedule tempSchedule = new Schedule(0,
+                        editTextSchedule.getText().toString(),
                         startDate,
                         endDate,
                         editTextPlace.getText().toString(),
