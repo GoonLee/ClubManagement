@@ -138,12 +138,14 @@ public class AddSchedule extends AppCompatActivity {
                 startDate=yearS+monthS+dayS+hourS+minuteS;
                 endDate=yearE+monthE+dayE+hourE+minuteE;
 
-                Schedule tempSchedule = new Schedule(0,
+                Schedule tempSchedule = new Schedule(
+                        0,
                         editTextSchedule.getText().toString(),
                         startDate,
                         endDate,
                         editTextPlace.getText().toString(),
-                        editTextComment.getText().toString());
+                        editTextComment.getText().toString()
+                );
 
                 finish();
             }
