@@ -50,20 +50,25 @@
                 >
 
                 <DatePicker
+                    android:id="@+id/DatePickerS"
                     android:layout_width="wrap_content"
-                    android:layout_weight="50"
                     android:layout_height="150dp"
                     android:datePickerMode="spinner"
                     android:calendarViewShown="false"
-                    android:layout_marginRight="-15dp"
+                    android:scaleX="0.8"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-30dp"
+
                     />
 
                 <TimePicker
                     android:id="@+id/timePickerS"
                     android:layout_width="wrap_content"
-                    android:layout_weight="50"
                     android:layout_height="150dp"
                     android:timePickerMode="spinner"
+                    android:scaleX="0.8"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-30dp"
                     />
             </LinearLayout>
 
@@ -85,20 +90,24 @@
                 >
 
                 <DatePicker
+                    android:id="@+id/DatePickerE"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
-                    android:layout_weight="1"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
-                    android:layout_marginRight="-15dp"
+                    android:scaleX="0.8"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-30dp"
                     />
 
                 <TimePicker
                     android:id="@+id/timePickerE"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
-                    android:layout_weight="1"
                     android:timePickerMode="spinner"
+                    android:scaleX="0.8"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-30dp"
                     />
             </LinearLayout>
 
@@ -108,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+              
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:id="@+id/textView6"
@@ -135,6 +144,13 @@
                     android:textColor="@android:color/holo_green_light"
                     android:text="지도"
                     android:textSize="20sp" />
+              <Button
+                    android:id="@+id/button_setPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="모임 장소"
+                    android:textSize="24sp"/>
+              
             </LinearLayout>
 
             <!-- 추가 코멘트-->
