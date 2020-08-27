@@ -28,6 +28,7 @@ public class SchedulePopUp extends Activity {
         String date = intent.getStringExtra("date");
 
         scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
+        //20200807 형태의 string을 인자로 삼아서 그날이 포함된 스케쥴을 arraylist로 가져오는 함수
         ArrayList<Schedule> items = scheduleDB.getSchedule(date);
 
         TextView textView = findViewById(R.id.textView);

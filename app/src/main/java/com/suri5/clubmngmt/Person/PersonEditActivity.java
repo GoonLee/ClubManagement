@@ -28,6 +28,8 @@ public class PersonEditActivity extends AppCompatActivity {
     RadioGroup radioGroup_Sex;
     Bitmap picture;
     PersonDB personDB;
+    Person p;
+    int pk = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +44,10 @@ public class PersonEditActivity extends AppCompatActivity {
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         Intent intent = getIntent();
-        if(intent.getIntExtra("pk",-1)!=-1){
-            Person p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
+        pk = intent.getIntExtra("pk",-1);
+
+        if(pk!=-1){
+            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
             imageView.setImageBitmap(p.getPicture());
             editText_Email.setText(p.getEmail());
             editText_Major.setText(p.getMajor());
@@ -52,6 +56,10 @@ public class PersonEditActivity extends AppCompatActivity {
             editText_Name.setText(p.getName());
             editText_IdNum.setText(String.valueOf(p.getId_num()));
         }
+        else{
+            p = new Person();
+        }
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +77,6 @@ public class PersonEditActivity extends AppCompatActivity {
                 RadioButton radioButton=findViewById(id);
 
                 //추가한 person 객체를 넘겨줌
-                Person p = new Person();
                 p.setName(editText_Name.getText().toString());
                 p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
                 p.setMajor(editText_Major.getText().toString());
@@ -79,9 +86,14 @@ public class PersonEditActivity extends AppCompatActivity {
                 p.setGender(radioButton.getText().toString());
                 p.setPicture(picture);
                 p.setBirthday(editText_Birthday.getText().toString());
-
-                personDB.insertRecord(p);
-
+                //-1이아니 업데이트
+                if(pk != -1){
+                    personDB.updateRecord(p);
+                }
+                //-1이었으면 삽입
+                else{
+                    personDB.insertRecord(p);
+                }
                 Log.d("PersonManageActivity","onCL");
                 finish();
             }
