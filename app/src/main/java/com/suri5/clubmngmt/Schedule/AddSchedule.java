@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Person.PersonDB;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 
@@ -28,7 +30,8 @@ public class AddSchedule extends AppCompatActivity {
     String yearS, yearE;
     String monthS, dayS, monthE, dayE;
     String hourS, minuteS, hourE, minuteE;
-    String startDate, endDate;
+    String startDate, endDate, startTime, endTime;
+    ScheduleDB scheduleDB;
 
     //구글맵 끝나면 주소 받아오기
     @Override
@@ -44,7 +47,7 @@ public class AddSchedule extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
-
+        scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
         editTextSchedule=findViewById(R.id.editTextSchedule);
 
         //구글 맵 지도 키는 버튼
@@ -157,18 +160,23 @@ public class AddSchedule extends AppCompatActivity {
                         minuteE=timePickerE.getCurrentMinute()+"";
                     }
                 }
-                startDate=yearS+monthS+dayS+hourS+minuteS;
-                endDate=yearE+monthE+dayE+hourE+minuteE;
+                startDate=yearS+monthS+dayS;
+                startTime = hourS+minuteS;
+                endDate=yearE+monthE+dayE;
+                endTime = hourE+minuteE;
 
                 Schedule tempSchedule = new Schedule(
                         0,
                         editTextSchedule.getText().toString(),
                         startDate,
+                        startTime,
                         endDate,
+                        endTime,
                         button_setPlace.getText().toString(),
                         editTextComment.getText().toString()
                 );
-              
+
+                scheduleDB.insertRecord(tempSchedule);
                 finish();
             }
         });

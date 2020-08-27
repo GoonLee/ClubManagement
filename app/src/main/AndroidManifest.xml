@@ -33,28 +33,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
-        <activity android:name=".Person.PersonShowActivity">
-        </activity>
-        <activity android:name=".Person.PersonEditActivity">
-        </activity>
-
-        <activity android:name=".Person.PersonAddActivity"/>
-        <activity android:name=".Schedule.ScheduleActivity"/>
-        <activity android:name=".Group.addGroup_info"/>
-        <activity android:name=".Group.GroupManageActivity"/>
-        <activity android:name=".Schedule.AddSchedule"/>
-        <activity android:name=".Schedule.SchedulePopUp"/>
-=======
         <activity android:name=".Person.PersonShowActivity"></activity>
         <activity android:name=".Person.PersonEditActivity"></activity>
         <activity android:name=".Person.PersonAddActivity" />
         <activity android:name=".Schedule.ScheduleActivity" />
-        <activity android:name=".Group.addGroup_info" />
+        <activity android:name=".Group.addGroup_info" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".Group.GroupManageActivity" />
         <activity android:name=".Schedule.AddSchedule" />
-        <activity android:name=".Schedule.SchedulePopUp" />
->>>>>>> origin/HyunKu
+        <activity android:name=".Schedule.SchedulePopUp" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 </manifest>
