@@ -43,7 +43,7 @@ public class AddSchedule extends AppCompatActivity {
         timePickerS=(TimePicker)findViewById(R.id.timePickerS);
         timePickerE=(TimePicker)findViewById(R.id.timePickerE);
 
-        //빌드 버전에 따른 분 초기화
+        //빌드 버전에 따른 분 00으로 초기화
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             timePickerS.setMinute(0);
             timePickerE.setMinute(0);
