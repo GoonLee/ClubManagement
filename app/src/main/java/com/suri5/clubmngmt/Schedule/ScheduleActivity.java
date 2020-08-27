@@ -46,7 +46,7 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                 year =i;
-                month=i1;
+                month=i1+1;
                 day = i2;
                 Intent intent = new Intent(getApplicationContext(), SchedulePopUp.class);
                 intent.putExtra("month", month);
