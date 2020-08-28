@@ -3,6 +3,7 @@ package com.suri5.clubmngmt.Schedule;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +18,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View itemView=inflater.inflate(R.layout.activity_add_person_info,parent,false);
+        View itemView=inflater.inflate(R.layout.schedule_item,parent,false);
+
         return new ViewHolder(itemView);
     }
 
@@ -46,16 +48,23 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         scheduleItems.set(position,item);
     }
 
-    static  class ViewHolder extends RecyclerView.ViewHolder {
-        // Todo : declare view variables
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewScheduleTitle, textViewScheduleStartTime;
+        TextView textViewScheduleEnd;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Todo : assign views using findViewById()
+
+            textViewScheduleTitle=itemView.findViewById(R.id.textViewScheduleTitle);
+            textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
+            textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
+
         }
 
         public void setItem(Schedule item) {
-            //Todo : set value of views (ex) textView.setText())
+            textViewScheduleTitle.setText(item.title);
+            textViewScheduleStartTime.setText(item.startTime);
+            textViewScheduleEnd.setText("~"+item.endDate+" "+item.endTime);
         }
     }
 }
