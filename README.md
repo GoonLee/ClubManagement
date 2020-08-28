@@ -5,7 +5,7 @@ University club management application for android
 
 1. 현재 목표
 
-   검색 기능 추가
+   ~~검색 기능 추가~~ 프로토타입 완료
 
    사진 저장시 비트맵 크기 줄이기 
    
