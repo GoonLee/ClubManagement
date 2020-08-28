@@ -51,6 +51,19 @@ public class PersonEditActivity extends AppCompatActivity {
             editText_Birthday.setText(p.getBirthday());
             editText_Name.setText(p.getName());
             editText_IdNum.setText(String.valueOf(p.getId_num()));
+            /*
+            Case 1
+                for(그룹 개수만큼){
+                    텍스트뷰 세팅 (그룹 이름이 내용으로 가게)
+                    최상위 리니어 레이아웃에 addView
+                }
+            Case 2 - 이게 더 나울듯?
+                p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
+                for(String s : groups){
+                    TextView 만들어서 setText(s)
+                    최상위 리니어 레이아웃에 addView()
+                    보여주기만 할거면 여기서 끝
+             */
         }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
