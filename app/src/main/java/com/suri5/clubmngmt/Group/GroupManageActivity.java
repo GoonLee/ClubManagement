@@ -43,6 +43,9 @@ public class GroupManageActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_SAVE);
             }
         });
+        groupDB.lookupGroupmemeber();
+        groupDB.findGroupmemeber("aaaaaaaaa");
+
     }
 
     @Override
