@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class AddSchedule extends AppCompatActivity {
     String hourS, minuteS, hourE, minuteE;
     String startDate, endDate, startTime, endTime;
     ScheduleDB scheduleDB;
+    TextView textViewSetPlace;
 
     //구글맵 끝나면 주소 받아오기
     @Override
@@ -40,7 +42,8 @@ public class AddSchedule extends AppCompatActivity {
         if(requestCode==101 && resultCode==RESULT_OK){
             String str=data.getStringExtra("place");
             Toast.makeText(getApplicationContext(),"됨",Toast.LENGTH_SHORT).show();
-            button_setPlace.setText(str);
+            //button_setPlace.setText(str);
+            editTextPlace.setText(str);
         }
     }
     @Override
@@ -49,10 +52,12 @@ public class AddSchedule extends AppCompatActivity {
         setContentView(R.layout.activity_add_schedule);
         scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
         editTextSchedule=findViewById(R.id.editTextSchedule);
+        editTextPlace=findViewById(R.id.editTextPlace);
+        editTextComment=findViewById(R.id.editTextComment);
 
         //구글 맵 지도 키는 버튼
-        button_setPlace=findViewById(R.id.button_setPlace);
-        button_setPlace.setOnClickListener(new View.OnClickListener() {
+        textViewSetPlace=findViewById(R.id.textViewSetPlace);
+        textViewSetPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mapIntent=new Intent(getApplicationContext(), GoogleMapActivity.class);
@@ -60,16 +65,13 @@ public class AddSchedule extends AppCompatActivity {
             }
         });
 
-        editTextPlace=findViewById(R.id.editTextPlace);
-        editTextComment=findViewById(R.id.editTextComment);
-
         datePickerS=(DatePicker)findViewById(R.id.DatePickerS);
         datePickerE=(DatePicker)findViewById(R.id.DatePickerE);
 
         timePickerS=(TimePicker)findViewById(R.id.timePickerS);
         timePickerE=(TimePicker)findViewById(R.id.timePickerE);
 
-        //빌드 버전에 따른 분 초기화
+        //빌드 버전에 따른 분 00으로 초기화
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             timePickerS.setMinute(0);
             timePickerE.setMinute(0);
@@ -171,6 +173,7 @@ public class AddSchedule extends AppCompatActivity {
                         startDate,
                         startTime,
                         endDate,
+
                         endTime,
                         button_setPlace.getText().toString(),
                         editTextComment.getText().toString()
