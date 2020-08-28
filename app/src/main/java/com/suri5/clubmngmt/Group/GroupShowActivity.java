@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
-public class GroupManageActivity extends AppCompatActivity {
+public class GroupShowActivity extends AppCompatActivity {
     public static final int RESULT_SAVE = 102;
     RecyclerView recyclerView;
     GroupAdapter groupAdapter = new GroupAdapter();
@@ -34,6 +34,7 @@ public class GroupManageActivity extends AppCompatActivity {
         groupDB = new GroupDB(new DatabaseHelper(this));
         groupDB.createTable();
         groupAdapter.setItems(groupDB.lookupGroup());
+        groupAdapter.notifyDataSetChanged();
 
         Button button_addGroup = findViewById(R.id.button_addgroup);
         button_addGroup.setOnClickListener(new View.OnClickListener() {
@@ -43,15 +44,12 @@ public class GroupManageActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_SAVE);
             }
         });
-        groupDB.lookupGroupmemeber();
-        groupDB.findGroupmemeber("aaaaaaaaa");
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("PersonManageActivity", "onAc");
+        Log.d("GroupManageActivity", "onAc");
 
         if (requestCode == RESULT_SAVE && resultCode == RESULT_OK) {
 
@@ -62,7 +60,7 @@ public class GroupManageActivity extends AppCompatActivity {
             }*/
 
             groupAdapter.setItems(groupDB.lookupGroup());
-            recyclerView.setAdapter(groupAdapter);
+            groupAdapter.notifyDataSetChanged();
         }
     }
 }

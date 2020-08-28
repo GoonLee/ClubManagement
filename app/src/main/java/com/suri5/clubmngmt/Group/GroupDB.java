@@ -157,4 +157,22 @@ public class GroupDB {
             println("인원 키 : " + cursor.getInt(0) + " 인원 이름 : " +cursor.getString(1)+ " 그룹 이름 : " +cursor.getString(2));
         }
     }
+
+    public ArrayList<String> findGroupmember(int groupkey){
+        println(groupkey + " 찾기 시작");
+        ArrayList<String> membernames = new ArrayList<String>();
+
+        String query = "SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+                + " FROM " + Constant.PERSON_TABLE_TITLE + ", "
+                + Constant.GROUP_PERSON_TABLE_TITLE
+                + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY+ " = " + groupkey //여기에 키
+                + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY +" = "+  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK;
+        println(query);
+        Cursor cursor = database.rawQuery(query,null);
+        while (cursor.moveToNext()){
+            membernames.add(cursor.getString(0));
+            println(cursor.getString(0));
+        }
+        return membernames;
+    }
 }

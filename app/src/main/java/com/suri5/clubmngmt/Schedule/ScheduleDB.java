@@ -117,7 +117,7 @@ public class ScheduleDB {
 
     public ArrayList<Schedule> getSchedule(String date){
         ArrayList<Schedule> items = new ArrayList<>();
-        Schedule schedule = new Schedule();
+        Schedule schedule;
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_START_DATE +" <= "+ date
         + " AND " +SCHEDULE_END_DATE+" >= " + date;
@@ -125,6 +125,7 @@ public class ScheduleDB {
         println(query);
 
         while(cursor.moveToNext()){
+            schedule = new Schedule();
             schedule.setKey(cursor.getInt(0));
             schedule.setTitle(cursor.getString(1));
             schedule.setStartDate(cursor.getString(2));
