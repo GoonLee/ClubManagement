@@ -12,7 +12,27 @@ import com.suri5.clubmngmt.R;
 import java.util.ArrayList;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder>{
-    ArrayList<Schedule> scheduleItems=new ArrayList<>();
+    ArrayList<Schedule> scheduleItems=new ArrayList<Schedule>();
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewScheduleTitle, textViewScheduleStartTime;
+        TextView textViewScheduleEnd;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            textViewScheduleTitle=itemView.findViewById(R.id.textViewScheduleTitle);
+            textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
+            textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
+
+        }
+
+        public void setItem(Schedule item) {
+            textViewScheduleTitle.setText(item.title);
+            textViewScheduleStartTime.setText(item.startTime);
+            textViewScheduleEnd.setText("~"+item.endDate+" "+item.endTime);
+        }
+    }
 
     @NonNull
     @Override
@@ -48,23 +68,4 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         scheduleItems.set(position,item);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewScheduleTitle, textViewScheduleStartTime;
-        TextView textViewScheduleEnd;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            textViewScheduleTitle=itemView.findViewById(R.id.textViewScheduleTitle);
-            textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
-            textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
-
-        }
-
-        public void setItem(Schedule item) {
-            textViewScheduleTitle.setText(item.title);
-            textViewScheduleStartTime.setText(item.startTime);
-            textViewScheduleEnd.setText("~"+item.endDate+" "+item.endTime);
-        }
-    }
 }

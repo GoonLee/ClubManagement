@@ -179,6 +179,7 @@ public class AddSchedule extends AppCompatActivity {
                 );
 
                 scheduleDB.insertRecord(tempSchedule);
+
                 finish();
             }
         });
