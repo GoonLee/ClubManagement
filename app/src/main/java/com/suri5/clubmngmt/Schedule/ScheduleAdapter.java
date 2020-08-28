@@ -29,7 +29,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
         public void setItem(Schedule item) {
             textViewScheduleTitle.setText(item.title);
-            textViewScheduleStartTime.setText(item.startTime);
+            textViewScheduleStartTime.setText(item.startDate+" "+item.startTime);
             textViewScheduleEnd.setText("~"+item.endDate+" "+item.endTime);
         }
     }
