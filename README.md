@@ -11,7 +11,7 @@ University club management application for android
    
    ~~이미 사진이 저장되어 있는 애한테 -> 사진이 없애기, 기본사진으로~~ 완료
 
-   사람 추가할때 그룹 넣는 editText창만 넣어줘 (조회할때도 텍스트뷰로 확인만하게)
+   ~~사람 추가할때 그룹 넣는 editText창만 넣어줘~~ 여기까지  (조회할때도 텍스트뷰로 확인만하게)
 
    
 
