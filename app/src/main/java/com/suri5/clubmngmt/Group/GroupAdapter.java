@@ -1,5 +1,6 @@
 package com.suri5.clubmngmt.Group;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.suri5.clubmngmt.R;
 
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+
+import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     ArrayList<Group> groupItems = new ArrayList<Group>();
@@ -38,13 +42,25 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         this.groupItems=groupItems;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView_name, textView_number;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView_name = itemView.findViewById(R.id.textView_name);
             textView_number = itemView.findViewById(R.id.textView_number);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        Intent intent = new Intent(view.getContext(), GroupEditActivity.class);
+                        intent.putExtra("group", groupItems.get(pos)); //그룹 객체를 아예 넘겨줌
+                        view.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
         public void setItem(Group item){
             textView_number.setText("인원 수 : " + item.getTotalNum());
