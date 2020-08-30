@@ -12,7 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.suri5.clubmngmt.Group.GroupManageActivity;
+import com.suri5.clubmngmt.Group.GroupShowActivity;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 import com.suri5.clubmngmt.Schedule.ScheduleActivity;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(personIntent);
                         break;
                     case R.id.menu_first_2:
-                        Intent groupIntent = new Intent(getApplicationContext(), GroupManageActivity.class);
+                        Intent groupIntent = new Intent(getApplicationContext(), GroupShowActivity.class);
                         startActivity(groupIntent);
                     case R.id.menu_second:
                         break;

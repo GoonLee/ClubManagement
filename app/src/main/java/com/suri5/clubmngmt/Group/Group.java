@@ -57,6 +57,7 @@ public class Group implements Parcelable {
         }
     };
     public void readFromParcel(Parcel in){
+        Key = in.readInt();
         Name = in.readString();
         totalNum = in.readInt();
     }
@@ -67,6 +68,7 @@ public class Group implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(Key);
         parcel.writeString(Name);
         parcel.writeInt(totalNum);
     }
