@@ -1,5 +1,6 @@
 package com.suri5.clubmngmt.Schedule;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +14,48 @@ import java.util.ArrayList;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder>{
     ArrayList<Schedule> scheduleItems=new ArrayList<Schedule>();
+    private OnItemClickListener mListener = null;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewScheduleTitle, textViewScheduleStartTime;
         TextView textViewScheduleEnd;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             textViewScheduleTitle=itemView.findViewById(R.id.textViewScheduleTitle);
             textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
             textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos!=RecyclerView.NO_POSITION){
+                        Schedule item = scheduleItems.get(pos);
+                        Intent intent = new Intent(itemView.getContext(), SetSchedule.class);
+                        intent.putExtra("schedule",item);
+
+                        view.getContext().startActivity(intent);
+                    }
+                }
+            });
+
         }
 
         public void setItem(Schedule item) {
             textViewScheduleTitle.setText(item.title);
-            textViewScheduleStartTime.setText(item.startDate+" "+item.startTime);
-            textViewScheduleEnd.setText("~"+item.endDate+" "+item.endTime);
+            textViewScheduleStartTime.setText(item.startDate.substring(4,8)+" "+item.startTime.substring(0,2)+":"+item.startTime.substring(2,4));
+            textViewScheduleEnd.setText("~"+item.endDate.substring(4,8)+" "+item.endTime.substring(0,2)+":"+item.endTime.substring(2,4));
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int pos);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener=listener;
     }
 
     @NonNull

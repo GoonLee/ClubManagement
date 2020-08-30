@@ -1,6 +1,8 @@
 package com.suri5.clubmngmt.Schedule;
 
-public class Schedule {
+import java.io.Serializable;
+
+public class Schedule implements Serializable {
     int key;
     String title;
     String startDate;

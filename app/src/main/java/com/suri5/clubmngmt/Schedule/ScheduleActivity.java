@@ -2,7 +2,6 @@ package com.suri5.clubmngmt.Schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -39,7 +38,6 @@ public class ScheduleActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         calendarView=(CalendarView)findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -63,7 +61,7 @@ public class ScheduleActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),AddSchedule.class);
+                Intent intent = new Intent(getApplicationContext(), SetSchedule.class);
                 startActivityForResult(intent,RESULT_SCHEDULE_SAVE);
             }
         });
