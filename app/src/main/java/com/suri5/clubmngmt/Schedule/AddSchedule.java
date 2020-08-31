@@ -25,7 +25,7 @@ import com.suri5.clubmngmt.R;
 
 public class AddSchedule extends AppCompatActivity {
     EditText editTextSchedule,  editTextPlace, editTextComment;
-    Button button,button_setPlace;
+    Button button;
     DatePicker datePickerS,datePickerE;
     TimePicker timePickerS, timePickerE;
     String yearS, yearE;
@@ -42,10 +42,10 @@ public class AddSchedule extends AppCompatActivity {
         if(requestCode==101 && resultCode==RESULT_OK){
             String str=data.getStringExtra("place");
             Toast.makeText(getApplicationContext(),"됨",Toast.LENGTH_SHORT).show();
-            //button_setPlace.setText(str);
             editTextPlace.setText(str);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,13 +173,13 @@ public class AddSchedule extends AppCompatActivity {
                         startDate,
                         startTime,
                         endDate,
-
                         endTime,
-                        button_setPlace.getText().toString(),
+                        editTextPlace.getText().toString(),
                         editTextComment.getText().toString()
                 );
 
                 scheduleDB.insertRecord(tempSchedule);
+
                 finish();
             }
         });
