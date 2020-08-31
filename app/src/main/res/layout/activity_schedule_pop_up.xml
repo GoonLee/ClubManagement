@@ -6,7 +6,7 @@
     android:layout_height="400dp"
     android:background="@android:color/background_light"
     android:orientation="vertical"
-    tools:context=".SchedulePopUp">
+    tools:context=".Schedule.SchedulePopUp">
 
     <TextView
         android:id="@+id/textView"
@@ -16,11 +16,17 @@
         android:layout_marginTop="10dp"
 
         android:text="TextView"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>

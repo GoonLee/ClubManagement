@@ -69,6 +69,7 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
+    //인텐트 반응
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
