@@ -29,6 +29,7 @@ public class GroupEditActivity extends Activity {
     StringBuilder member = new StringBuilder();
     Group g;
     int pk = -1;
+    boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,10 @@ public class GroupEditActivity extends Activity {
 
         editText_name = findViewById(R.id.editText_name);
         editText_findperson = findViewById(R.id.editText_findPerson);
+
+        editText_findperson.setEnabled(isEdit); //첨엔 수정 못하게
+        editText_name.setEnabled(isEdit); //첨엔 수정 못하게
+
         textView_number = findViewById(R.id.textView_number);
         textView_namelist = findViewById(R.id.textView_namelist);
         groupDB = new GroupDB(new DatabaseHelper(this));
@@ -74,32 +79,42 @@ public class GroupEditActivity extends Activity {
         });
 
 
-        Button button_add = findViewById(R.id.button_addgroup);
+        final Button button_add = findViewById(R.id.button_addgroup);
         button_add.setText("수정");
+
         //totalNum은 인원 추가할때마다 하나씩 늘게
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                g.setName(editText_name.getText().toString());
-                println(editText_name.toString());
-                g.setTotalNum(totalNum);
+                if(isEdit == false){
+                    isEdit = true;
+                    button_add.setText("확인");
+                    editText_name.setEnabled(isEdit);
+                    editText_findperson.setEnabled(isEdit);
+                }
 
-                if(pk != -1){
-                    groupDB.updateRecord(g);
-                }
                 else{
-                    groupDB.insertRecord(g);
-                }
+                    g.setName(editText_name.getText().toString());
+                    println(editText_name.toString());
+                    g.setTotalNum(totalNum);
+
+                    if(pk != -1){
+                        groupDB.updateRecord(g);
+                    }
+                    else{
+                        groupDB.insertRecord(g);
+                    }
 
                 /*그리고 이 그룹에 추가한 인원들 넣기 시작
                 인원검색에서 이름, key 받아오기 -> 중간 DB에 하나씩 추가 (사람 KEY랑 그룹 KEY)
                 */
 
-                Intent intent=new Intent();
-                //intent.putExtra("group",g);
-                setResult(RESULT_OK,intent);
-                finish();
+                    Intent intent=new Intent();
+                    //intent.putExtra("group",g);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
             }
         });
 
