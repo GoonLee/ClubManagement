@@ -4,20 +4,24 @@ public class Schedule {
     int key;
     String title;
     String startDate;
+    String startTime;
     String endDate;
+    String endTime;
     String place;
     String comment;
 
-    public Schedule(int key, String title, String startDate, String endDate, String place, String comment) {
+    public Schedule(){
+    }
+
+    public Schedule(int key, String title, String startDate, String startTime, String endDate, String endTime, String place, String comment) {
         this.key = key;
         this.title = title;
         this.startDate = startDate;
+        this.startTime = startTime;
         this.endDate = endDate;
+        this.endTime = endTime;
         this.place = place;
         this.comment = comment;
-    }
-    public Schedule(){
-
     }
 
     public int getKey() {
@@ -66,5 +70,21 @@ public class Schedule {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

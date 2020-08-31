@@ -17,7 +17,9 @@ public class ScheduleDB {
     public static final String COLUMNS_ID = "_id";
     public static final String SCHEDULE_TITLE = "Title";
     public static final String SCHEDULE_START_DATE = "StartDate";
+    public static final String SCHEDULE_START_TIME = "StartTime";
     public static final String SCHEDULE_END_DATE = "EndDate";
+    public static final String SCHEDULE_END_TIME ="EndTime";
     public static final String SCHEDULE_PLACE = "Place";
     public static final String SCHEDULE_COMMENT = "Comment";
 
@@ -25,8 +27,10 @@ public class ScheduleDB {
             + TABLE_NAME + "("  + COLUMNS_ID +" integer PRIMARY KEY autoincrement, "
             + SCHEDULE_TITLE +" text, "
             + SCHEDULE_START_DATE+ " text, "
+            + SCHEDULE_START_TIME+ " text, "
             + SCHEDULE_END_DATE + " text, "
-            + SCHEDULE_PLACE + "text"
+            + SCHEDULE_END_TIME + " text, "
+            + SCHEDULE_PLACE + " text, "
             + SCHEDULE_COMMENT + " text)" ;
 
     private String[] projection = {};
@@ -57,7 +61,9 @@ public class ScheduleDB {
         ContentValues val = new ContentValues();
         val.put(SCHEDULE_TITLE, schedule.getTitle());
         val.put(SCHEDULE_START_DATE, schedule.getStartDate());
+        val.put(SCHEDULE_START_TIME, schedule.getStartTime());
         val.put(SCHEDULE_END_DATE, schedule.getEndDate());
+        val.put(SCHEDULE_END_TIME, schedule.getEndTime());
         val.put(SCHEDULE_PLACE, schedule.getPlace());
         val.put(SCHEDULE_COMMENT, schedule.getComment());
 
@@ -69,7 +75,9 @@ public class ScheduleDB {
 
         val.put(SCHEDULE_TITLE, schedule.getTitle());
         val.put(SCHEDULE_START_DATE, schedule.getStartDate());
+        val.put(SCHEDULE_START_TIME, schedule.getStartTime());
         val.put(SCHEDULE_END_DATE, schedule.getEndDate());
+        val.put(SCHEDULE_END_TIME, schedule.getEndTime());
         val.put(SCHEDULE_PLACE, schedule.getPlace());
         val.put(SCHEDULE_COMMENT, schedule.getComment());
 
@@ -96,10 +104,37 @@ public class ScheduleDB {
            schedule.setKey(cursor.getInt(0));
            schedule.setTitle(cursor.getString(1));
            schedule.setStartDate(cursor.getString(2));
-           schedule.setEndDate(cursor.getString(3));
-           schedule.setPlace(cursor.getString(4));
-           schedule.setComment(cursor.getString(5));
+           schedule.setStartTime(cursor.getString(3));
+           schedule.setEndDate(cursor.getString(4));
+           schedule.setEndTime(cursor.getString(5));
+           schedule.setPlace(cursor.getString(6));
+           schedule.setComment(cursor.getString(7));
            items.add(schedule);
+        }
+        cursor.close();
+        return items;
+    }
+
+    public ArrayList<Schedule> getSchedule(String date){
+        ArrayList<Schedule> items = new ArrayList<>();
+        Schedule schedule;
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_START_DATE +" <= "+ date
+        + " AND " +SCHEDULE_END_DATE+" >= " + date;
+        Cursor cursor = database.rawQuery(query,null);
+        println(query);
+
+        while(cursor.moveToNext()){
+            schedule = new Schedule();
+            schedule.setKey(cursor.getInt(0));
+            schedule.setTitle(cursor.getString(1));
+            schedule.setStartDate(cursor.getString(2));
+            schedule.setStartTime(cursor.getString(3));
+            schedule.setEndDate(cursor.getString(4));
+            schedule.setEndTime(cursor.getString(5));
+            schedule.setPlace(cursor.getString(6));
+            schedule.setComment(cursor.getString(7));
+            items.add(schedule);
         }
         cursor.close();
         return items;

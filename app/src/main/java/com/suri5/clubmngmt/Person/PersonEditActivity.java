@@ -29,6 +29,7 @@ public class PersonEditActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     Person p;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class PersonEditActivity extends AppCompatActivity {
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+
         Intent received_intent = getIntent();
         if(received_intent.getIntExtra("pk",-1)!=-1){
             p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(received_intent.getIntExtra("pk",0))).get(0);
@@ -67,6 +69,10 @@ public class PersonEditActivity extends AppCompatActivity {
                     그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
              */
         }
+        else{
+            p = new Person();
+        }
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +90,7 @@ public class PersonEditActivity extends AppCompatActivity {
                 RadioButton radioButton=findViewById(id);
 
                 //추가한 person 객체를 넘겨줌
+
                 Person new_p = new Person();
                 new_p.setPk(p.getPk());
                 new_p.setName(editText_Name.getText().toString());
@@ -97,6 +104,7 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
                 personDB.updateRecord(new_p);
+
 
                 Log.d("PersonManageActivity","onCL");
                 finish();

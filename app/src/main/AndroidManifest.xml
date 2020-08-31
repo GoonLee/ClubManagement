@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.suri5.clubmngmt">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,32 +10,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Common.MainActivity"
-            android:launchMode="singleTop">
-        </activity>
+        <activity android:name=".Schedule.GoogleMapActivity"></activity>
 
-        <activity android:name=".Common.SplashActivity"
+        <uses-library android:name="com.google.android.maps"/>
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCBk560ht8fxukjlScTvWWLd-OqYN2UN5A" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <activity
+            android:name=".Common.MainActivity"
+            android:launchMode="singleTop"></activity>
+        <activity
+            android:name=".Common.SplashActivity"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Person.PersonShowActivity">
-
-        </activity>
-
-        <activity android:name=".Person.PersonEditActivity">
-
-        </activity>
-
-        <activity android:name=".Person.PersonAddActivity"/>
-        <activity android:name=".Schedule.ScheduleActivity"/>
-        <activity android:name=".Group.addGroup_info"/>
-        <activity android:name=".Group.GroupManageActivity"/>
-        <activity android:name=".Schedule.AddSchedule"/>
-        <activity android:name=".Schedule.SchedulePopUp"/>
+        <activity android:name=".Person.PersonShowActivity"></activity>
+        <activity android:name=".Person.PersonEditActivity"></activity>
+        <activity android:name=".Person.PersonAddActivity" />
+        <activity android:name=".Schedule.ScheduleActivity" />
+        <activity android:name=".Group.addGroup_info" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
+        <activity android:name=".Group.GroupEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
+        <activity android:name=".Group.GroupShowActivity" />
+        <activity android:name=".Schedule.AddSchedule" />
+        <activity android:name=".Schedule.SchedulePopUp" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
-
 </manifest>
