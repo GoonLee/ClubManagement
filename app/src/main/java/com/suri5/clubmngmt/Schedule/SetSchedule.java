@@ -1,12 +1,8 @@
 package com.suri5.clubmngmt.Schedule;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,11 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.suri5.clubmngmt.Common.DatabaseHelper;
-import com.suri5.clubmngmt.Person.PersonDB;
-import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 
-public class AddSchedule extends AppCompatActivity {
+public class SetSchedule extends AppCompatActivity {
     EditText editTextSchedule,  editTextPlace, editTextComment;
     Button button;
     DatePicker datePickerS,datePickerE;
@@ -48,12 +42,14 @@ public class AddSchedule extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //      기본 구현
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_schedule);
+        setContentView(R.layout.activity_set_schedule);
         scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
         editTextSchedule=findViewById(R.id.editTextSchedule);
         editTextPlace=findViewById(R.id.editTextPlace);
         editTextComment=findViewById(R.id.editTextComment);
+        button=findViewById(R.id.buttonAddSchedule);
 
         //구글 맵 지도 키는 버튼
         textViewSetPlace=findViewById(R.id.textViewSetPlace);
@@ -80,7 +76,13 @@ public class AddSchedule extends AppCompatActivity {
             timePickerE.setCurrentMinute(0);
         }
 
-        button=findViewById(R.id.buttonAddSchedule);
+        //      수정하기 위해 넘어온 부분
+        Intent intent = getIntent();
+        if(intent.hasExtra("schedule")){
+            Schedule needChange = (Schedule) intent.getSerializableExtra("schedule");
+            setActivity(needChange);
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,5 +185,50 @@ public class AddSchedule extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    //수정 부분 기존 세팅
+    public void setActivity(Schedule needChange){
+        int startYear,startMonth, startDay, startHour, startMinute;
+        int endYear,endMonth, endDay, endHour, endMinute;
+        startDate=needChange.startDate;
+        startTime=needChange.startTime;
+        endDate=needChange.endDate;
+        endTime=needChange.endTime;
+
+        editTextSchedule.setText(needChange.title);
+        editTextPlace.setText(needChange.place);
+        editTextComment.setText(needChange.comment);
+
+        startYear=Integer.parseInt(startDate.substring(0,4));
+        startMonth=Integer.parseInt(startDate.substring(4,6));
+        startDay=Integer.parseInt(startDate.substring(6,8));
+        startHour=Integer.parseInt(startTime.substring(0,2));
+        startMinute=Integer.parseInt(startTime.substring(2,4));
+
+        endYear=Integer.parseInt(endDate.substring(0,4));
+        endMonth=Integer.parseInt(endDate.substring(4,6));
+        endDay=Integer.parseInt(endDate.substring(6,8));
+        endHour=Integer.parseInt(endTime.substring(0,2));
+        endMinute=Integer.parseInt(endTime.substring(2,4));
+
+        datePickerS.init(startYear,startMonth-1,startDay,null);
+        datePickerE.init(endYear,endMonth-1,endDay,null);
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            timePickerS.setHour(startHour);
+            timePickerS.setMinute(startMinute);
+
+            timePickerE.setHour(endHour);
+            timePickerE.setMinute(endMinute);
+        }else{
+            timePickerS.setCurrentHour(startHour);
+            timePickerS.setCurrentMinute(startMinute);
+
+            timePickerE.setCurrentHour(endHour);
+            timePickerE.setCurrentMinute(endMinute);
+        }
+
+        button.setText("수정");
     }
 }

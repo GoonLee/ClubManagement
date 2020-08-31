@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="10dp"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardUseCompatPadding="true"
         >
 
@@ -29,7 +29,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:textSize="25sp"
+                    android:ellipsize="end"
                     android:text="Title" />
 
                 <TextView
@@ -40,6 +42,7 @@
                     android:textSize="20sp"
                     android:gravity="end"
                     android:textAlignment="textEnd"
+                    android:maxLines="1"
                     android:text="startTime" />
             </LinearLayout>
 
@@ -49,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:gravity="end"
+                android:maxLines="1"
                 android:textAlignment="textEnd"
                 android:text="end" />
         </LinearLayout>
