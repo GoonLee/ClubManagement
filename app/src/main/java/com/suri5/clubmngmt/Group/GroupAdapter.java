@@ -1,5 +1,6 @@
 package com.suri5.clubmngmt.Group;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
     ArrayList<Group> groupItems = new ArrayList<Group>();
+    public static final int RESULT_SAVE = 102;
 
 
     public GroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,7 +59,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(view.getContext(), GroupEditActivity.class);
                         intent.putExtra("group", groupItems.get(pos)); //그룹 객체를 아예 넘겨줌
-                        view.getContext().startActivity(intent);
+                        ((Activity)view.getContext()).startActivityForResult(intent, RESULT_SAVE);
                     }
                 }
             });

@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +36,7 @@ public class GroupEditActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_group_pop_up);
+
         editText_name = findViewById(R.id.editText_name);
         editText_findperson = findViewById(R.id.editText_findPerson);
         textView_number = findViewById(R.id.textView_number);
@@ -73,6 +75,7 @@ public class GroupEditActivity extends Activity {
 
 
         Button button_add = findViewById(R.id.button_addgroup);
+        button_add.setText("수정");
         //totalNum은 인원 추가할때마다 하나씩 늘게
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +100,27 @@ public class GroupEditActivity extends Activity {
                 //intent.putExtra("group",g);
                 setResult(RESULT_OK,intent);
                 finish();
+            }
+        });
+
+        Button button_delete = findViewById(R.id.button_deletegroup);
+        button_delete.setVisibility(View.VISIBLE);
+        button_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pk != -1){
+                    groupDB.deleteRecord(g);
+                    Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다.",Toast.LENGTH_LONG).show();
+
+                    Intent intent=new Intent();
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
+                    finish();
+                }
+
             }
         });
 

@@ -26,6 +26,7 @@ public class addGroup_info extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_group_pop_up);
+
         editText_name = findViewById(R.id.editText_name);
         editText_findperson = findViewById(R.id.editText_findPerson);
         textView_number = findViewById(R.id.textView_number);
