@@ -58,13 +58,23 @@ public class PersonDB {
 
 
 
-    public void deleteRecord(Person person){
+    /*public void deleteRecord(Person person){
         if(database == null){
             DatabaseHelper.println("데이터베이스를 먼저 생성하세요.");
             return;
         }
         String selection = Constant.PERSON_COLUMN_PK + " LIKE ?";
         String[] selectionArgs = {Integer.toString(person.getPk())};
+        int deleteRows = database.delete(Constant.PERSON_TABLE_TITLE, selection, selectionArgs);
+    }*/
+
+    public void deletePerson(int pk){
+        if(database == null){
+            DatabaseHelper.println("Create DB first");
+            return;
+        }
+        String selection = Constant.PERSON_COLUMN_PK + " Like ?";
+        String[] selectionArgs = {Integer.toString(pk)};
         int deleteRows = database.delete(Constant.PERSON_TABLE_TITLE, selection, selectionArgs);
     }
 

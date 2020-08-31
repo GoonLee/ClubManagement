@@ -29,7 +29,7 @@ public class PersonEditActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     Person p;
-    int pk = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +43,10 @@ public class PersonEditActivity extends AppCompatActivity {
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        Intent intent = getIntent();
-        pk = intent.getIntExtra("pk",-1);
 
-        if(pk!=-1){
-            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
+        Intent received_intent = getIntent();
+        if(received_intent.getIntExtra("pk",-1)!=-1){
+            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(received_intent.getIntExtra("pk",0))).get(0);
             imageView.setImageBitmap(p.getPicture());
             editText_Email.setText(p.getEmail());
             editText_Major.setText(p.getMajor());
@@ -55,6 +54,20 @@ public class PersonEditActivity extends AppCompatActivity {
             editText_Birthday.setText(p.getBirthday());
             editText_Name.setText(p.getName());
             editText_IdNum.setText(String.valueOf(p.getId_num()));
+            /*
+            Case 1
+                for(그룹 개수만큼){
+                    텍스트뷰 세팅 (그룹 이름이 내용으로 가게)
+                    최상위 리니어 레이아웃에 addView
+                }
+            Case 2 - 이게 더 나울듯?
+                p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
+                for(String s : groups){
+                    TextView 만들어서 setText(s)
+                    최상위 (리니어) 레이아웃에 addView()
+                    보여주기만 할거면 여기서 끝
+                    그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
+             */
         }
         else{
             p = new Person();
@@ -77,25 +90,34 @@ public class PersonEditActivity extends AppCompatActivity {
                 RadioButton radioButton=findViewById(id);
 
                 //추가한 person 객체를 넘겨줌
-                p.setName(editText_Name.getText().toString());
-                p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
-                p.setMajor(editText_Major.getText().toString());
-                p.setEmail(editText_Email.getText().toString());
-                p.setMobile(editText_Mobile.getText().toString());
+
+                Person new_p = new Person();
+                new_p.setPk(p.getPk());
+                new_p.setName(editText_Name.getText().toString());
+                new_p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
+                new_p.setMajor(editText_Major.getText().toString());
+                new_p.setEmail(editText_Email.getText().toString());
+                new_p.setMobile(editText_Mobile.getText().toString());
                 // Todo: M/F로 구분하게 할 예정
-                p.setGender(radioButton.getText().toString());
-                p.setPicture(picture);
-                p.setBirthday(editText_Birthday.getText().toString());
-                //-1이아니 업데이트
-                if(pk != -1){
-                    personDB.updateRecord(p);
-                }
-                //-1이었으면 삽입
-                else{
-                    personDB.insertRecord(p);
-                }
+                new_p.setGender(radioButton.getText().toString());
+                new_p.setPicture(picture);
+                new_p.setBirthday(editText_Birthday.getText().toString());
+
+                personDB.updateRecord(new_p);
+
+
                 Log.d("PersonManageActivity","onCL");
                 finish();
+            }
+        });
+        Button button_delete = findViewById(R.id.button5);
+        button_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personDB.deletePerson(p.getPk());
+                Intent intent = new Intent(getApplicationContext(),PersonShowActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }

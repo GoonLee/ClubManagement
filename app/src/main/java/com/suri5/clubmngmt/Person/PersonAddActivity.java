@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -22,13 +24,17 @@ import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
+import java.util.ArrayList;
+
 public class PersonAddActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
+    LinearLayout container;
     ImageView imageView;
     EditText editText_Name,editText_IdNum,editText_Major,editText_Birthday,editText_Mobile,editText_Email;
     RadioGroup radioGroup_Sex;
-    Bitmap picture;// = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
+    Bitmap picture;
     PersonDB personDB;
+    ArrayList<EditText> groups = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +47,9 @@ public class PersonAddActivity extends AppCompatActivity {
         editText_Birthday=findViewById(R.id.editPersonDate);
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
+        container = findViewById(R.id.container);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+        picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
         Button button_picture = findViewById(R.id.button_picture);
         button_picture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +70,10 @@ public class PersonAddActivity extends AppCompatActivity {
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Todo : Group 처리
+                for(EditText et : groups){
+                    //여기서 그룹 DB 처리
+                }
                 //Todo : 빈 필드 확인해서 처리
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
                 //성별 라디오버튼에서 성별 string 에 저장
@@ -83,6 +95,19 @@ public class PersonAddActivity extends AppCompatActivity {
 
                 Log.d("PersonManageActivity","onCL");
                 finish();
+            }
+        });
+        Button button_add_group = findViewById(R.id.button4);
+        button_add_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText et = new EditText(getApplicationContext());
+                et.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                ));
+                groups.add(et);
+                container.addView(et, container.getChildCount()-2);
             }
         });
     }
