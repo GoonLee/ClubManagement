@@ -28,6 +28,7 @@ public class PersonEditActivity extends AppCompatActivity {
     RadioGroup radioGroup_Sex;
     Bitmap picture;
     PersonDB personDB;
+    Person p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,9 @@ public class PersonEditActivity extends AppCompatActivity {
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        Intent intent = getIntent();
-        if(intent.getIntExtra("pk",-1)!=-1){
-            Person p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(intent.getIntExtra("pk",0))).get(0);
+        Intent received_intent = getIntent();
+        if(received_intent.getIntExtra("pk",-1)!=-1){
+            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(received_intent.getIntExtra("pk",0))).get(0);
             imageView.setImageBitmap(p.getPicture());
             editText_Email.setText(p.getEmail());
             editText_Major.setText(p.getMajor());
@@ -61,8 +62,9 @@ public class PersonEditActivity extends AppCompatActivity {
                 p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
                 for(String s : groups){
                     TextView 만들어서 setText(s)
-                    최상위 리니어 레이아웃에 addView()
+                    최상위 (리니어) 레이아웃에 addView()
                     보여주기만 할거면 여기서 끝
+                    그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
              */
         }
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +99,16 @@ public class PersonEditActivity extends AppCompatActivity {
 
                 Log.d("PersonManageActivity","onCL");
                 finish();
+            }
+        });
+        Button button_delete = findViewById(R.id.button5);
+        button_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personDB.deletePerson(p.getPk());
+                Intent intent = new Intent(getApplicationContext(),PersonShowActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
