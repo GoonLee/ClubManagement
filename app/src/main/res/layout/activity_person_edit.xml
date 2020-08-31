@@ -118,4 +118,10 @@
         android:layout_height="wrap_content"
         android:text="저장" />
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 삭제" />
+
 </LinearLayout>
