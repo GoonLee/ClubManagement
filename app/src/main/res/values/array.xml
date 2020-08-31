@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="person_cat">
+        <item>
+            이름
+        </item>
+        <item>
+            학번
+        </item>
+        <item>
+            전공
+        </item>
+    </string-array>
+</resources>
