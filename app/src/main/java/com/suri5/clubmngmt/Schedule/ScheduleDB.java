@@ -120,7 +120,7 @@ public class ScheduleDB {
         Schedule schedule;
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + SCHEDULE_START_DATE +" <= "+ date
-        + " AND " +SCHEDULE_END_DATE+" >= " + date;
+        + " AND " +SCHEDULE_END_DATE+" >= " + date + " ORDER by " + SCHEDULE_START_TIME + " ASC";
         Cursor cursor = database.rawQuery(query,null);
         println(query);
 
