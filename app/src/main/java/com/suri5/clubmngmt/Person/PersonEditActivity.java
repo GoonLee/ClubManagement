@@ -84,18 +84,19 @@ public class PersonEditActivity extends AppCompatActivity {
                 RadioButton radioButton=findViewById(id);
 
                 //추가한 person 객체를 넘겨줌
-                Person p = new Person();
-                p.setName(editText_Name.getText().toString());
-                p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
-                p.setMajor(editText_Major.getText().toString());
-                p.setEmail(editText_Email.getText().toString());
-                p.setMobile(editText_Mobile.getText().toString());
+                Person new_p = new Person();
+                new_p.setPk(p.getPk());
+                new_p.setName(editText_Name.getText().toString());
+                new_p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
+                new_p.setMajor(editText_Major.getText().toString());
+                new_p.setEmail(editText_Email.getText().toString());
+                new_p.setMobile(editText_Mobile.getText().toString());
                 // Todo: M/F로 구분하게 할 예정
-                p.setGender(radioButton.getText().toString());
-                p.setPicture(picture);
-                p.setBirthday(editText_Birthday.getText().toString());
+                new_p.setGender(radioButton.getText().toString());
+                new_p.setPicture(picture);
+                new_p.setBirthday(editText_Birthday.getText().toString());
 
-                personDB.insertRecord(p);
+                personDB.updateRecord(new_p);
 
                 Log.d("PersonManageActivity","onCL");
                 finish();

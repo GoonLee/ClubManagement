@@ -95,9 +95,10 @@ public class PersonDB {
         val.put(Constant.PERSON_COLUMN_EMAIL, person.getEmail());
         val.put(Constant.PERSON_COLUMN_PICTURE, getByteArrayFromDrawable(person.getPicture()));
 
-        String selection = Constant.PERSON_COLUMN_PK + " LIKE ?";
+        String selection = Constant.PERSON_COLUMN_PK + " =";
         String[] selectionArgs = {String.valueOf(person.getPk())};
-        int count = database.update(Constant.PERSON_TABLE_TITLE, val, selection, selectionArgs);
+        int count = database.update(Constant.PERSON_TABLE_TITLE, val, Constant.PERSON_COLUMN_PK+"="+person.getPk(),null);
+        DatabaseHelper.println("업데이트 : " + person.getPk() + " 이름 : " + person.getName());
     }
 
     //해당하는 사람들을 담은 ArrayList를 넘겨주는 findMember;
