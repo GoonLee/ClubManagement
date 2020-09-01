@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ import com.suri5.clubmngmt.R;
 
 public class SetSchedule extends AppCompatActivity {
     EditText editTextSchedule,  editTextPlace, editTextComment;
-    Button button;
+    Button button,buttonDeleteSchedule;
     DatePicker datePickerS,datePickerE;
     TimePicker timePickerS, timePickerE;
     String yearS, yearE;
@@ -28,6 +29,7 @@ public class SetSchedule extends AppCompatActivity {
     String startDate, endDate, startTime, endTime;
     ScheduleDB scheduleDB;
     TextView textViewSetPlace;
+    LinearLayout buttonDeleteScheduleLayout;
     boolean isEdit = false;
     int pk = 0;
 
@@ -52,6 +54,7 @@ public class SetSchedule extends AppCompatActivity {
         editTextPlace=findViewById(R.id.editTextPlace);
         editTextComment=findViewById(R.id.editTextComment);
         button=findViewById(R.id.buttonAddSchedule);
+        buttonDeleteSchedule=findViewById(R.id.buttonDeleteSchedule);
 
         //구글 맵 지도 키는 버튼
         textViewSetPlace=findViewById(R.id.textViewSetPlace);
@@ -84,7 +87,6 @@ public class SetSchedule extends AppCompatActivity {
             Schedule needChange = (Schedule) intent.getParcelableExtra("schedule");
             isEdit = true;
             setActivity(needChange);
-
         }
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -174,30 +176,36 @@ public class SetSchedule extends AppCompatActivity {
                 endDate=yearE+monthE+dayE;
                 endTime = hourE+minuteE;
 
-                Schedule tempSchedule = new Schedule(
-                        pk,
-                        editTextSchedule.getText().toString(),
-                        startDate,
-                        startTime,
-                        endDate,
-                        endTime,
-                        editTextPlace.getText().toString(),
-                        editTextComment.getText().toString()
-                );
+                if(Integer.parseInt(startDate)<=Integer.parseInt(endDate)&&Integer.parseInt(startTime)<=Integer.parseInt(endTime)){
+                    Schedule tempSchedule = new Schedule(
+                            pk,
+                            editTextSchedule.getText().toString(),
+                            startDate,
+                            startTime,
+                            endDate,
+                            endTime,
+                            editTextPlace.getText().toString(),
+                            editTextComment.getText().toString()
+                    );
 
-                if(isEdit = false){
-                    scheduleDB.insertRecord(tempSchedule);
+                    if(isEdit == false){
+                        scheduleDB.insertRecord(tempSchedule);
+                    }
+                    else{
+                        scheduleDB.updateRecord(tempSchedule);
+                    }
+                    finish();
                 }
                 else{
-                    scheduleDB.updateRecord(tempSchedule);
+                    Toast.makeText(getApplicationContext(),"시간이 올바르지 않습니다",Toast.LENGTH_SHORT).show();
                 }
-                finish();
+
             }
         });
     }
 
     //수정 부분 기존 세팅
-    public void setActivity(Schedule needChange){
+    public void setActivity(final Schedule needChange){
         int startYear,startMonth, startDay, startHour, startMinute;
         int endYear,endMonth, endDay, endHour, endMinute;
         pk = needChange.getKey();
@@ -205,6 +213,9 @@ public class SetSchedule extends AppCompatActivity {
         startTime=needChange.startTime;
         endDate=needChange.endDate;
         endTime=needChange.endTime;
+
+        buttonDeleteScheduleLayout=findViewById(R.id.buttonDeleteScheduleLayout);
+        buttonDeleteScheduleLayout.setVisibility(View.VISIBLE);
 
         editTextSchedule.setText(needChange.title);
         editTextPlace.setText(needChange.place);
@@ -238,6 +249,15 @@ public class SetSchedule extends AppCompatActivity {
             timePickerE.setCurrentHour(endHour);
             timePickerE.setCurrentMinute(endMinute);
         }
+
+        //삭제 버튼 구현
+        buttonDeleteSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scheduleDB.deleteRecord(needChange);
+                finish();
+            }
+        });
 
         button.setText("수정");
     }
