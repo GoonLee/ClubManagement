@@ -28,6 +28,8 @@ public class SetSchedule extends AppCompatActivity {
     String startDate, endDate, startTime, endTime;
     ScheduleDB scheduleDB;
     TextView textViewSetPlace;
+    boolean isEdit = false;
+    int pk = 0;
 
     //구글맵 끝나면 주소 받아오기
     @Override
@@ -79,13 +81,16 @@ public class SetSchedule extends AppCompatActivity {
         //      수정하기 위해 넘어온 부분
         Intent intent = getIntent();
         if(intent.hasExtra("schedule")){
-            Schedule needChange = (Schedule) intent.getSerializableExtra("schedule");
+            Schedule needChange = (Schedule) intent.getParcelableExtra("schedule");
+            isEdit = true;
             setActivity(needChange);
+
         }
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //년도 가져오기
                 yearS=String.valueOf(datePickerS.getYear());
                 yearE=String.valueOf(datePickerE.getYear());
@@ -170,7 +175,7 @@ public class SetSchedule extends AppCompatActivity {
                 endTime = hourE+minuteE;
 
                 Schedule tempSchedule = new Schedule(
-                        0,
+                        pk,
                         editTextSchedule.getText().toString(),
                         startDate,
                         startTime,
@@ -180,8 +185,12 @@ public class SetSchedule extends AppCompatActivity {
                         editTextComment.getText().toString()
                 );
 
-                scheduleDB.insertRecord(tempSchedule);
-
+                if(isEdit = false){
+                    scheduleDB.insertRecord(tempSchedule);
+                }
+                else{
+                    scheduleDB.updateRecord(tempSchedule);
+                }
                 finish();
             }
         });
@@ -191,6 +200,7 @@ public class SetSchedule extends AppCompatActivity {
     public void setActivity(Schedule needChange){
         int startYear,startMonth, startDay, startHour, startMinute;
         int endYear,endMonth, endDay, endHour, endMinute;
+        pk = needChange.getKey();
         startDate=needChange.startDate;
         startTime=needChange.startTime;
         endDate=needChange.endDate;

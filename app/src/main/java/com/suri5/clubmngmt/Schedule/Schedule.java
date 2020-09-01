@@ -1,8 +1,13 @@
 package com.suri5.clubmngmt.Schedule;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.suri5.clubmngmt.Group.Group;
+
 import java.io.Serializable;
 
-public class Schedule implements Serializable {
+public class Schedule implements Parcelable {
     int key;
     String title;
     String startDate;
@@ -13,6 +18,10 @@ public class Schedule implements Serializable {
     String comment;
 
     public Schedule(){
+    }
+
+    public Schedule(Parcel in){
+        readFromParcel(in);
     }
 
     public Schedule(int key, String title, String startDate, String startTime, String endDate, String endTime, String place, String comment) {
@@ -88,5 +97,45 @@ public class Schedule implements Serializable {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public static final Parcelable.Creator<Schedule> CREATOR = new Parcelable.Creator<Schedule>(){
+        public Schedule createFromParcel(Parcel in){
+            return new Schedule(in);
+        }
+
+        @Override
+        public Schedule[] newArray(int i) {
+            return new Schedule[i];
+        }
+    };
+
+    public void readFromParcel(Parcel parcel){
+        key = parcel.readInt();
+        title = parcel.readString();
+        startDate = parcel.readString();
+        startTime = parcel.readString();
+        endDate = parcel.readString();
+        endTime = parcel.readString();
+        place = parcel.readString();
+        comment = parcel.readString();
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(key);
+        parcel.writeString(title);
+        parcel.writeString(startDate);
+        parcel.writeString(startTime);
+        parcel.writeString(endDate);
+        parcel.writeString(endTime);
+        parcel.writeString(place);
+        parcel.writeString(comment);
+
+
     }
 }

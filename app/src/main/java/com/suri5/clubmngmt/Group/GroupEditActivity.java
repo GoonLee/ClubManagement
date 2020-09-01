@@ -78,7 +78,6 @@ public class GroupEditActivity extends Activity {
             }
         });
 
-
         final Button button_add = findViewById(R.id.button_addgroup);
         button_add.setText("수정");
 
