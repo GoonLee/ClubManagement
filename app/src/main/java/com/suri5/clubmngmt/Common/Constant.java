@@ -4,6 +4,8 @@ public class Constant {
     private Constant(){}
 
     public static final int REQUEST_CODE_GET_IMAGE = 101;
+    public static final int RESULT_SAVE = 102;
+    public static final int RESULT_OK_FROM_GROUPMEMBEREDITACTIVITY = 111;
 
     public static final String DATABASE_NAME = "ClubManagementDB";
 
@@ -57,6 +59,7 @@ public class Constant {
             + " references " + GROUP_TABLE_TITLE +"(" + GROUP_COLUMN_PK + ")"
             + " on delete cascade"
             +")";
+
 
     public static final String SCHEDULE_TABLE_TITLE = "Schedule";
     public static final String BUDGET_TABLE_TITLE = "Budget";

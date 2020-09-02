@@ -3,6 +3,7 @@ package com.suri5.clubmngmt.Group;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,9 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Person.Person;
+import com.suri5.clubmngmt.Person.PersonAdapter_short;
 import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
@@ -20,13 +26,18 @@ import java.util.ArrayList;
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class GroupEditActivity extends Activity {
-    EditText editText_name, editText_findperson;
-    TextView textView_number,textView_namelist;
+
+    EditText editText_name;
+    TextView textView_number;
+    RecyclerView recyclerView;
+    PersonAdapter_short personAdapter_short = new PersonAdapter_short();
+    ArrayList<Person> personlist_short;
+    ArrayList<Person> personlist_short_n;
     int totalNum = 0;
     GroupDB groupDB;
-    //해당 그룹원 이름 출력용
-    ArrayList<String> members;
+
     StringBuilder member = new StringBuilder();
+
     Group g;
     int pk = -1;
     boolean isEdit = false;
@@ -34,47 +45,55 @@ public class GroupEditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_add_group_pop_up);
+        setContentView(R.layout.activity_add_group);
 
         editText_name = findViewById(R.id.editText_name);
-        editText_findperson = findViewById(R.id.editText_findPerson);
-
-        editText_findperson.setEnabled(isEdit); //첨엔 수정 못하게
         editText_name.setEnabled(isEdit); //첨엔 수정 못하게
 
+        //인원목록 나타낼 리사이클러뷰 생성
+        recyclerView = findViewById(R.id.recyclerView_person_summary);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(personAdapter_short);
+
         textView_number = findViewById(R.id.textView_number);
-        textView_namelist = findViewById(R.id.textView_namelist);
         groupDB = new GroupDB(new DatabaseHelper(this));
 
         g = getIntent().getParcelableExtra("group");
+        totalNum = g.getTotalNum();
         pk = g.getKey();
 
         //정상적으로 옴
         if(pk != -1){
             editText_name.setText(g.getName());
 
+            personlist_short = groupDB.findGroupmember(pk);
+            personlist_short_n = groupDB.lookUpMemberExcept(pk);
 
-            members = groupDB.findGroupmember(g.getKey());
-            for(int i=0; i<members.size(); i++){
-                member.append(members.get(i) + " ");
-            }
-            textView_namelist.setText(member);
-            totalNum = members.size();
+            personAdapter_short.setItems(personlist_short);
+            personAdapter_short.notifyDataSetChanged();
             textView_number.setText(Integer.toString(totalNum));
         }
+
         else if(g != null){
             g = new Group();
         }
 
-        //그룹에 사람 추가하는법 구현해야함
-        Button button_addPerson = findViewById(R.id.button_addPerson);
+        //그룹에 사람 추가하는법
+        final Button button_addPerson = findViewById(R.id.button_addPerson);
+        button_addPerson.setEnabled(isEdit);
+
         button_addPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalNum++;
-                textView_number.setText(Integer.toString(totalNum));
+                Intent intent = new Intent(getApplicationContext(), GroupMemberEditActivity.class);
+                intent.putExtra("pk", pk);
+
+                intent.putParcelableArrayListExtra("pastList", personlist_short);
+                intent.putParcelableArrayListExtra("pastList_n", personlist_short_n);
+
+                startActivityForResult(intent, Constant.RESULT_SAVE);
             }
         });
 
@@ -90,7 +109,7 @@ public class GroupEditActivity extends Activity {
                     isEdit = true;
                     button_add.setText("확인");
                     editText_name.setEnabled(isEdit);
-                    editText_findperson.setEnabled(isEdit);
+                    button_addPerson.setEnabled(isEdit);
                 }
 
                 else{
@@ -105,9 +124,14 @@ public class GroupEditActivity extends Activity {
                         groupDB.insertRecord(g);
                     }
 
-                /*그리고 이 그룹에 추가한 인원들 넣기 시작
-                인원검색에서 이름, key 받아오기 -> 중간 DB에 하나씩 추가 (사람 KEY랑 그룹 KEY)
-                */
+                    //비우고 새로 다 집어넣기
+                    groupDB.deleteMemberAllGroup(pk);
+
+                    for (Person p: personlist_short) {
+                        println(p.getName());
+                        groupDB.insertMemberFromGroup(p.getPk(), pk);
+                    }
+
 
                     Intent intent=new Intent();
                     //intent.putExtra("group",g);
@@ -117,6 +141,7 @@ public class GroupEditActivity extends Activity {
             }
         });
 
+        //삭제
         Button button_delete = findViewById(R.id.button_deletegroup);
         button_delete.setVisibility(View.VISIBLE);
         button_delete.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +163,23 @@ public class GroupEditActivity extends Activity {
             }
         });
 
+    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("GroupEditActivity", "Result");
+
+        if (requestCode == Constant.RESULT_SAVE && resultCode == Constant.RESULT_OK_FROM_GROUPMEMBEREDITACTIVITY) {
+
+            personlist_short = data.getParcelableArrayListExtra("newList");
+            personlist_short_n = data.getParcelableArrayListExtra("newList_n");
+            personAdapter_short.setItems(personlist_short);
+            totalNum = personlist_short.size();
+            textView_number.setText(Integer.toString(totalNum));
+
+            personAdapter_short.setIndex(0);
+
+            personAdapter_short.notifyDataSetChanged();
+        }
     }
 
 }
