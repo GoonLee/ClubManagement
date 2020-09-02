@@ -27,6 +27,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
             textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
 
+            //아이템 클릭 리스너
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -35,7 +36,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                         Schedule item = scheduleItems.get(pos);
                         Intent intent = new Intent(itemView.getContext(), SetSchedule.class);
                         intent.putExtra("schedule",item);
-
                         view.getContext().startActivity(intent);
                     }
                 }
