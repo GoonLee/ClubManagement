@@ -2,19 +2,24 @@ package com.suri5.clubmngmt.Person;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Group.GroupShowActivity;
 import com.suri5.clubmngmt.R;
 
 public class PersonShowActivity extends AppCompatActivity {
@@ -23,6 +28,7 @@ public class PersonShowActivity extends AppCompatActivity {
     EditText editText;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDB personDB;
+    BottomNavigationView bottomNavigationViewPerson;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +85,24 @@ public class PersonShowActivity extends AppCompatActivity {
                     }
                 }
                 personAdapter.notifyDataSetChanged();
+            }
+        });
+
+        bottomNavigationViewPerson=(BottomNavigationView)findViewById(R.id.bottomNavigationViewPerson);
+        bottomNavigationViewPerson.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.person:
+                        //Intent personIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
+                        //startActivity(personIntent);
+                        break;
+                    case R.id.group:
+                        Intent groupIntent = new Intent(getApplicationContext(), GroupShowActivity.class);
+                        startActivity(groupIntent);
+                        break;
+                }
+                return false;
             }
         });
     }
