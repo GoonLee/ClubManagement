@@ -4,33 +4,49 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Person.PersonAdapter_short;
 import com.suri5.clubmngmt.R;
 
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class addGroup_info extends Activity {
+
     EditText editText_name, editText_findperson;
     TextView textView_number;
+    RecyclerView recyclerView;
+    PersonAdapter_short personAdapter_short = new PersonAdapter_short();
+
     int totalNum = 0;
     GroupDB groupDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_add_group_pop_up);
+        setContentView(R.layout.activity_add_group);
 
         editText_name = findViewById(R.id.editText_name);
         editText_findperson = findViewById(R.id.editText_findPerson);
         textView_number = findViewById(R.id.textView_number);
+
         groupDB = new GroupDB(new DatabaseHelper(this));
+
+        //인원목록 나타낼 리사이클러뷰 생성
+        recyclerView = findViewById(R.id.recyclerView_person_summary);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(personAdapter_short);
+
+        textView_number = findViewById(R.id.textView_number);
+        groupDB = new GroupDB(new DatabaseHelper(this));
+
 
         //인원 검색해서 그룹에 넣을거에 추가하기. ArrayList에 미리 PersonKey + 그룹Key를 넣어야 할까
         Button button_addPerson = findViewById(R.id.button_addPerson);

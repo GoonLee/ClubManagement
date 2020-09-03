@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder>{
     //회원 프로필 저장 배열
-    ArrayList<Person> personItems=new ArrayList<>();
+    static ArrayList<Person> personItems=new ArrayList<>();
 
     @NonNull
     @Override
@@ -51,7 +51,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         personItems.set(position,item);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView_Name, textView_Birth,textView_Sex,textView_Mobile,textView_Email,textView_Major;
         ImageView imageView_profile;
 

@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import java.util.ArrayList;
-
 import com.suri5.clubmngmt.Common.Constant;
+import com.suri5.clubmngmt.Person.Person;
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class GroupDB {
@@ -134,6 +134,7 @@ public class GroupDB {
     /*Group에서 Groups.name = groupname 이면서 GROUP_COLUMN_PK = GROUP_PERSON_COLUMN_GROUPKEY 로 줄이고, 이 교집합 중에서
      GROUP_PERSON_COLUMN_PERSONKEY = PERSON_COLUMN_PK 인 애 찾기 (순서가 탐색에서 중요하다고 해서 일부러 이 순서대로 함 확실하진않음)
      */
+
     public void findGroupmemeber(String Groupname) {
         Group g;
 
@@ -158,21 +159,118 @@ public class GroupDB {
         }
     }
 
-    public ArrayList<String> findGroupmember(int groupkey){
+    //현재 그룹에 해당하는 사람들
+    public ArrayList<Person> findGroupmember(int groupkey){
         println(groupkey + " 찾기 시작");
-        ArrayList<String> membernames = new ArrayList<String>();
+        ArrayList<Person> brif_member = new ArrayList<Person>();
+        Person p;
 
-        String query = "SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+        String query = "SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_IDNUM
                 + " FROM " + Constant.PERSON_TABLE_TITLE + ", "
                 + Constant.GROUP_PERSON_TABLE_TITLE
                 + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY+ " = " + groupkey //여기에 키
                 + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY +" = "+  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK;
         println(query);
         Cursor cursor = database.rawQuery(query,null);
+
         while (cursor.moveToNext()){
-            membernames.add(cursor.getString(0));
-            println(cursor.getString(0));
+
+            p = new Person();
+            p.setPk(cursor.getInt(0));
+            p.setName(cursor.getString(1));
+            p.setId_num(cursor.getInt(2));
+            println(cursor.getString(1) + " " + cursor.getInt(2));
+            brif_member.add(p);
+
         }
-        return membernames;
+        return brif_member;
+    }
+
+    //현재 그룹 뺀 나머지 사람들
+    public ArrayList<Person> lookUpMemberExcept(int groupkey){
+        DatabaseHelper.println("lookUpMemberExcept 호출됨");
+        ArrayList<Person> members= new ArrayList<Person>();
+
+        String query =
+                "SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_IDNUM
+                + " FROM " + Constant.PERSON_TABLE_TITLE
+                + " EXCEPT "
+                +" SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+                + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_IDNUM
+                + " FROM " + Constant.PERSON_TABLE_TITLE + ", "
+                + Constant.GROUP_PERSON_TABLE_TITLE
+                + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY+ " = " + groupkey //여기에 키
+                + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY +" = "+  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK;
+
+        println(query);
+        Cursor cursor = database.rawQuery(query,null);
+
+        while (cursor.moveToNext()){
+
+            Person p = new Person();
+            p.setPk(cursor.getInt(0));
+            p.setName(cursor.getString(1));
+            p.setId_num(cursor.getInt(2));
+
+            members.add(p);
+            DatabaseHelper.println("레코드 : " + p.getName() + " " + p.getPk());
+        }
+        cursor.close();
+        return members;
+    }
+
+    public ArrayList<Person> lookUpMember(){
+        DatabaseHelper.println("lookUpMember 호출됨");
+        ArrayList<Person> members= new ArrayList<Person>();
+
+        String query =
+                "SELECT " + Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK
+                        + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_NAME
+                        + ", "+Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_IDNUM
+                        + " FROM " + Constant.PERSON_TABLE_TITLE;
+
+        println(query);
+        Cursor cursor = database.rawQuery(query,null);
+
+        while (cursor.moveToNext()){
+
+            Person p = new Person();
+            p.setPk(cursor.getInt(0));
+            p.setName(cursor.getString(1));
+            p.setId_num(cursor.getInt(2));
+
+            members.add(p);
+            DatabaseHelper.println("레코드 : " + p.getName() + " " + p.getPk());
+        }
+        cursor.close();
+        return members;
+    }
+
+    //그룹에서 인원 추가
+    public void deleteMemberFromGroup(int groupkey, int personkey){
+        String sql =  "delete from "
+                +Constant.GROUP_PERSON_TABLE_TITLE
+                +" WHERE " + Constant.GROUP_PERSON_COLUMN_GROUPKEY + " = " + groupkey
+                +" AND " + Constant.GROUP_PERSON_COLUMN_PERSONKEY + " = " + personkey;
+        database.rawQuery(sql, null);
+    }
+    //그룹에서 인원 삭제
+    public void insertMemberFromGroup(int personkey, int groupkey){
+        ContentValues val = new ContentValues();
+        val.put(Constant.GROUP_PERSON_COLUMN_PERSONKEY, personkey);
+        val.put(Constant.GROUP_PERSON_COLUMN_GROUPKEY, groupkey);
+        //insert시 Primary key return
+        database.insert(Constant.GROUP_PERSON_TABLE_TITLE, null, val);
+    }
+    public void deleteMemberAllGroup(int groupkey){
+        String selection = Constant.GROUP_PERSON_COLUMN_GROUPKEY + " LIKE ?";
+        String[] selectionArgs = {Integer.toString(groupkey)};
+        int deleteRows = database.delete(Constant.GROUP_PERSON_TABLE_TITLE, selection, selectionArgs);
+        println("삭제 성공 ");
     }
 }
