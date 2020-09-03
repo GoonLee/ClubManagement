@@ -37,11 +37,12 @@ public class GroupShowActivity extends AppCompatActivity {
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
 
+        //인원 추가 버튼
         Button button_addGroup = findViewById(R.id.button_addgroup);
         button_addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), addGroup_info.class);
+                Intent intent = new Intent(getApplicationContext(), GroupEditActivity.class);
                 startActivityForResult(intent, RESULT_SAVE);
             }
         });

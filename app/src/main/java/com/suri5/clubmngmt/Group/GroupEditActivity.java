@@ -49,7 +49,7 @@ public class GroupEditActivity extends Activity {
         setContentView(R.layout.activity_add_group);
 
         editText_name = findViewById(R.id.editText_name);
-        editText_name.setEnabled(isEdit); //첨엔 수정 못하게
+
 
         //인원목록 나타낼 리사이클러뷰 생성
         recyclerView = findViewById(R.id.recyclerView_person_summary);
@@ -59,31 +59,57 @@ public class GroupEditActivity extends Activity {
 
         textView_number = findViewById(R.id.textView_number);
         groupDB = new GroupDB(new DatabaseHelper(this));
-
         g = getIntent().getParcelableExtra("group");
-        totalNum = g.getTotalNum();
-        pk = g.getKey();
 
-        //정상적으로 옴
-        if(pk != -1){
-            editText_name.setText(g.getName());
 
-            personlist_short = groupDB.findGroupmember(pk);
-            personlist_short_n = groupDB.lookUpMemberExcept(pk);
-
-            personAdapter_short.setItems(personlist_short);
-            personAdapter_short.notifyDataSetChanged();
-            textView_number.setText(Integer.toString(totalNum));
-        }
-
-        else if(g != null){
-            g = new Group();
-        }
-
-        //그룹에 사람 추가하는법
+        //사람 추가 버튼
         final Button button_addPerson = findViewById(R.id.button_addPerson);
-        button_addPerson.setEnabled(isEdit);
 
+        // 확인 버튼
+        final Button button_add = findViewById(R.id.button_addgroup);
+
+        //삭제 버튼
+        final Button button_delete = findViewById(R.id.button_deletegroup);
+
+
+        try{
+            //인원 추가
+            if(g == null){
+                isEdit = true;
+                g = new Group();
+                personlist_short = new ArrayList<>();
+                personlist_short_n = groupDB.lookUpMember();
+            }
+
+            //인원 수정
+            else {
+                pk = g.getKey();
+                if (pk != -1) {
+
+                     //첨엔 수정 못하게
+                    button_addPerson.setEnabled(isEdit);
+                    button_add.setText("수정");
+                    editText_name.setEnabled(isEdit);
+                    button_delete.setVisibility(View.VISIBLE);
+
+                    editText_name.setText(g.getName());
+
+                    personlist_short = groupDB.findGroupmember(pk);
+                    personlist_short_n = groupDB.lookUpMemberExcept(pk);
+
+                    personAdapter_short.setItems(personlist_short);
+                    personAdapter_short.notifyDataSetChanged();
+                    totalNum = g.getTotalNum();
+                    textView_number.setText(Integer.toString(totalNum));
+                }
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"그룹을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+
+    //사람 추가하기
         button_addPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,22 +118,17 @@ public class GroupEditActivity extends Activity {
 
                 intent.putParcelableArrayListExtra("pastList", personlist_short);
                 intent.putParcelableArrayListExtra("pastList_n", personlist_short_n);
-
                 startActivityForResult(intent, Constant.RESULT_SAVE);
             }
         });
 
-        final Button button_add = findViewById(R.id.button_addgroup);
-        button_add.setText("수정");
-
-        //totalNum은 인원 추가할때마다 하나씩 늘게
+        //확인 하기
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(isEdit == false){
                     isEdit = true;
-                    button_add.setText("확인");
                     editText_name.setEnabled(isEdit);
                     button_addPerson.setEnabled(isEdit);
                 }
@@ -119,19 +140,19 @@ public class GroupEditActivity extends Activity {
 
                     if(pk != -1){
                         groupDB.updateRecord(g);
+                        //비우기
+                        groupDB.deleteMemberAllGroup(pk);
+
                     }
                     else{
-                        groupDB.insertRecord(g);
+                       pk =  groupDB.insertRecord(g);
                     }
 
-                    //비우고 새로 다 집어넣기
-                    groupDB.deleteMemberAllGroup(pk);
-
+                    //새로 넣기
                     for (Person p: personlist_short) {
                         println(p.getName());
                         groupDB.insertMemberFromGroup(p.getPk(), pk);
                     }
-
 
                     Intent intent=new Intent();
                     //intent.putExtra("group",g);
@@ -141,9 +162,7 @@ public class GroupEditActivity extends Activity {
             }
         });
 
-        //삭제
-        Button button_delete = findViewById(R.id.button_deletegroup);
-        button_delete.setVisibility(View.VISIBLE);
+    //삭제
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

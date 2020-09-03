@@ -35,12 +35,12 @@ public class GroupDB {
         database.execSQL(Constant.GROUP_CREATE_TABLE);
         database.execSQL(Constant.GROUP_PERSON_CREATE_TABLE);
     }
-    public void insertRecord(Group group){
+    public int insertRecord(Group group){
         ContentValues val = new ContentValues();
         val.put(Constant.GROUP_COLUMN_NAME, group.getName());
         val.put(Constant.GROUP_COLUMN_TOTAL, group.getTotalNum());
         //insert시 Primary key return
-        database.insert(Constant.GROUP_TABLE_TITLE, null, val);
+        return (int)database.insert(Constant.GROUP_TABLE_TITLE, null, val);
     }
 
     public void deleteRecord(Group group){
@@ -251,7 +251,7 @@ public class GroupDB {
         return members;
     }
 
-    //그룹에서 인원 추가
+    //그룹에서 인원 삭제
     public void deleteMemberFromGroup(int groupkey, int personkey){
         String sql =  "delete from "
                 +Constant.GROUP_PERSON_TABLE_TITLE
@@ -267,6 +267,7 @@ public class GroupDB {
         //insert시 Primary key return
         database.insert(Constant.GROUP_PERSON_TABLE_TITLE, null, val);
     }
+    //그룹에서 인원 전체 삭제
     public void deleteMemberAllGroup(int groupkey){
         String selection = Constant.GROUP_PERSON_COLUMN_GROUPKEY + " LIKE ?";
         String[] selectionArgs = {Integer.toString(groupkey)};

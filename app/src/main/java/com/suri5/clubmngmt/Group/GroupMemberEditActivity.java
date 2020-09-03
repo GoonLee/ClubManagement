@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,28 +37,28 @@ public class GroupMemberEditActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_group_editperson_pop_up);
 
         //DB
         groupDB = new GroupDB(new DatabaseHelper(this));
         pk = getIntent().getIntExtra("pk", -1);
 
-        if (pk != -1) {
+        try{
             personlist = getIntent().getParcelableArrayListExtra("pastList");
             for(Person p : personlist){
                 p.setChecked(true);
             }
             personlist_n = getIntent().getParcelableArrayListExtra("pastList_n");
-
             personAdapter_check.setLists(personlist,personlist_n);
             newList.addAll(personlist); //단지 보여주기용
             newList.addAll(personlist_n);
         }
-
-        else{
+        catch (Exception e){
             Toast.makeText(getApplicationContext(),"그룹 인원을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
             finish();
         }
+
 
         //리사이클러뷰 생성
         recyclerView = findViewById(R.id.recyclerView_editmember);

@@ -20,7 +20,6 @@ import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 public class PersonAdapter_check extends RecyclerView.Adapter<PersonAdapter_check.ViewHolder>{
     //회원 프로필 저장 배열
     ArrayList<Person> personItems;
-
     ArrayList<Person> personlist;
     ArrayList<Person> personlist_n;
 

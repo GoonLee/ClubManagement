@@ -37,7 +37,6 @@
         <activity android:name=".Person.PersonEditActivity"></activity>
         <activity android:name=".Person.PersonAddActivity" />
         <activity android:name=".Schedule.ScheduleActivity" />
-        <activity android:name=".Group.addGroup_info"/>
         <activity android:name=".Group.GroupEditActivity"/>
         <activity android:name=".Group.GroupShowActivity" />
         <activity android:name=".Group.GroupMemberEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
