@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
@@ -43,6 +44,15 @@ public class PersonShowActivity extends AppCompatActivity {
 
         Button button_add = findViewById(R.id.button);
         button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),PersonAddActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton floatingActionButtonPerson=findViewById(R.id.floatingActionButtonPerson);
+        floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),PersonAddActivity.class);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,7 +30,16 @@ public class MainActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigationView = findViewById(R.id.sideMenu);
+        navigationView = (NavigationView)findViewById(R.id.sideMenu);
+        View headerView = navigationView.getHeaderView(0);
+
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ClubActivity.class);
+                startActivity(intent);
+            }
+        });
 
         drawerLayout=findViewById(R.id.drawer);
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
