@@ -20,6 +20,7 @@ public class GroupShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     GroupAdapter groupAdapter = new GroupAdapter();
     GroupDB groupDB;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_manage);
@@ -37,13 +38,8 @@ public class GroupShowActivity extends AppCompatActivity {
 
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
-
-<<<<<<< HEAD
         //인원 추가 버튼
-        Button button_addGroup = findViewById(R.id.button_addgroup);
-=======
         FloatingActionButton button_addGroup = findViewById(R.id.button_addgroup);
->>>>>>> origin/HyunKu
         button_addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
