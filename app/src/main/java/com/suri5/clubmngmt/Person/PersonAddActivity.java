@@ -7,6 +7,8 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +38,10 @@ public class PersonAddActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     ArrayList<EditText> groups = new ArrayList<>();
+
+    String emailPattern="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    boolean emailCheck =false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,8 @@ public class PersonAddActivity extends AppCompatActivity {
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         container = findViewById(R.id.container);
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+
+
         picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
         Button button_picture = findViewById(R.id.button_picture);
         button_picture.setOnClickListener(new View.OnClickListener() {
@@ -84,17 +93,33 @@ public class PersonAddActivity extends AppCompatActivity {
                 p.setName(editText_Name.getText().toString());
                 p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
                 p.setMajor(editText_Major.getText().toString());
-                p.setEmail(editText_Email.getText().toString());
+
+                //이메일 형식 확인 표현
+                String input = editText_Email.getText().toString().trim();
+                if(input.matches(emailPattern)&& toString().length()>0){
+                    emailCheck=true;
+
+                }else{
+                    emailCheck=false;
+                }
+
                 p.setMobile(editText_Mobile.getText().toString());
                 // Todo: M/F로 구분하게 할 예정
                 p.setGender(radioButton.getText().toString());
                 p.setPicture(picture);
                 p.setBirthday(editText_Birthday.getText().toString());
 
-                personDB.insertRecord(p);
+                //이메일 형식에 따른 결과
+                if(emailCheck==true){
+                    p.setEmail(editText_Email.getText().toString());
 
-                Log.d("PersonManageActivity","onCL");
-                finish();
+                    personDB.insertRecord(p);
+                    Log.d("PersonManageActivity","onCL");
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"잘못된 이메일입니다",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         Button button_add_group = findViewById(R.id.button4);
