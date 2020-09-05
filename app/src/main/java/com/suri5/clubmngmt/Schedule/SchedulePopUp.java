@@ -17,10 +17,9 @@ import java.util.ArrayList;
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class SchedulePopUp extends Activity {
-
     ScheduleDB scheduleDB;
-    StringBuilder message = new StringBuilder();
     RecyclerView recyclerViewSchedule;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class SchedulePopUp extends Activity {
         ScheduleAdapter adapter = new ScheduleAdapter();
 
         Intent intent = getIntent();
-        String date = intent.getStringExtra("date");
+        date = intent.getStringExtra("date");
 
         scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
         //20200807 형태의 string을 인자로 삼아서 그날이 포함된 스케쥴을 arraylist로 가져오는 함수
@@ -44,6 +43,23 @@ public class SchedulePopUp extends Activity {
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(date+"의 일정");
+
+        if(items != null){
+            for(int i=0; i<items.size(); i++){
+                adapter.addItem(items.get(i));
+            }
+        }
+        recyclerViewSchedule.setAdapter(adapter);
+    }
+
+    //수정, 추가 후 다시 어댑터 만들어 새로고침
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ScheduleAdapter adapter = new ScheduleAdapter();
+        scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
+        ArrayList<Schedule> items = scheduleDB.getSchedule(date);
 
         if(items != null){
             for(int i=0; i<items.size(); i++){

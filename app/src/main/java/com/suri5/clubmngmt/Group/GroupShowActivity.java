@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
@@ -37,8 +38,12 @@ public class GroupShowActivity extends AppCompatActivity {
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
 
+<<<<<<< HEAD
         //인원 추가 버튼
         Button button_addGroup = findViewById(R.id.button_addgroup);
+=======
+        FloatingActionButton button_addGroup = findViewById(R.id.button_addgroup);
+>>>>>>> origin/HyunKu
         button_addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

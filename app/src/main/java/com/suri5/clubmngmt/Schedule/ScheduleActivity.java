@@ -34,22 +34,21 @@ public class ScheduleActivity extends AppCompatActivity {
         scheduleDB = new ScheduleDB(new DatabaseHelper(this));
         scheduleDB.createTable();
 
-
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         calendarView=(CalendarView)findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                year =Integer.toString(i);
-                month= Integer.toString(i1+1);
-                if(month.length() < 2){
-                    month = "0"+month;
-                }
-                day = Integer.toString(i2);
-                if(day.length()<2){
-                    day = "0"+day;
+                    public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                        year =Integer.toString(i);
+                        month= Integer.toString(i1+1);
+                        if(month.length() < 2){
+                            month = "0"+month;
+                        }
+                        day = Integer.toString(i2);
+                        if(day.length()<2){
+                            day = "0"+day;
                 }
                 Intent intent = new Intent(getApplicationContext(), SchedulePopUp.class);
                 intent.putExtra("date",year+month+day);
