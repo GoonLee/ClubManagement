@@ -31,7 +31,9 @@ public class SetSchedule extends AppCompatActivity {
     boolean isEdit = false;
     int pk = 0;
 
-    //구글맵 끝나면 주소 받아오기
+    /**
+     * 구글맵 끝나면 주소 받아오기
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

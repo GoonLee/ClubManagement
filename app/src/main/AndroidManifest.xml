@@ -41,6 +41,5 @@
         <activity android:name=".Group.GroupEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".Group.GroupShowActivity" />
         <activity android:name=".Schedule.SetSchedule" />
-        <activity android:name=".Schedule.SchedulePopUp" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 </manifest>
