@@ -34,7 +34,6 @@ public class GroupShowActivity extends AppCompatActivity {
 
         //Insert into DB
         groupDB = new GroupDB(new DatabaseHelper(this));
-        groupDB.createTable();
 
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();

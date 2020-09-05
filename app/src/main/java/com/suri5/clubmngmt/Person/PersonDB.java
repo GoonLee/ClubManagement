@@ -35,6 +35,9 @@ public class PersonDB {
             return;
         }
         database.execSQL(Constant.PERSON_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_PERSON_CREATE_TABLE);
+        database.execSQL(Constant.SCHEDULE_CREATE_TABLE);
     }
 
     public void insertRecord(Person person){
@@ -58,7 +61,7 @@ public class PersonDB {
 
 
 
-    /*public void deleteRecord(Person person){
+    public void deleteRecord(Person person){
         if(database == null){
             DatabaseHelper.println("데이터베이스를 먼저 생성하세요.");
             return;
@@ -66,7 +69,7 @@ public class PersonDB {
         String selection = Constant.PERSON_COLUMN_PK + " LIKE ?";
         String[] selectionArgs = {Integer.toString(person.getPk())};
         int deleteRows = database.delete(Constant.PERSON_TABLE_TITLE, selection, selectionArgs);
-    }*/
+    }
 
     public void deletePerson(int pk){
         if(database == null){

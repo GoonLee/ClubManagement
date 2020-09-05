@@ -36,7 +36,6 @@ public class PersonShowActivity extends AppCompatActivity {
         recyclerView.setAdapter(personAdapter);
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        personDB.createTable();
 
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();

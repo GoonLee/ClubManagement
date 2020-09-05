@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.suri5.clubmngmt.Person.PersonDB;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = Constant.PERSON_TABLE_TITLE;
     //String[] TABLENAME = {"PersonRecords","Groups","ScheduleRecords","AccountRecords"};

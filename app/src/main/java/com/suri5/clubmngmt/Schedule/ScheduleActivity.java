@@ -46,31 +46,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         textView = findViewById(R.id.textView);
 
         scheduleDB = new ScheduleDB(new DatabaseHelper(this));
-        scheduleDB.createTable();
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-<<<<<<< HEAD
-        calendarView=(CalendarView)findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-                    public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                        year =Integer.toString(i);
-                        month= Integer.toString(i1+1);
-                        if(month.length() < 2){
-                            month = "0"+month;
-                        }
-                        day = Integer.toString(i2);
-                        if(day.length()<2){
-                            day = "0"+day;
-                }
-                Intent intent = new Intent(getApplicationContext(), SchedulePopUp.class);
-                intent.putExtra("date",year+month+day);
-                startActivity(intent);
-            }
-        });
-=======
         /**
          * 캘린더 기본 설정
          */
@@ -94,7 +72,6 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerViewSchedule.setLayoutManager(layoutManager);
         adapter = new ScheduleAdapter();
->>>>>>> master
 
         FloatingActionButton button = findViewById(R.id.floatingActionButton);
         button.setOnClickListener(new View.OnClickListener() {
