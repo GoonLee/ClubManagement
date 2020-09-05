@@ -84,7 +84,7 @@
         android:id="@+id/editPersonDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="생년월일"
+        android:hint="생년월일(ex.20001231)"
         android:inputType="date" />
 
     <TextView
