@@ -69,6 +69,7 @@ public class PersonEditActivity extends AppCompatActivity {
         final Button button_save = findViewById(R.id.button_OK);
         final Button button_delete = findViewById(R.id.button_delete);
 
+<<<<<<< HEAD
         try{
             Intent received_intent = getIntent();
             pk = received_intent.getIntExtra("pk",-1);
@@ -104,6 +105,48 @@ public class PersonEditActivity extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"사람을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
             finish();
+=======
+        Intent received_intent = getIntent();
+        if(received_intent.getIntExtra("pk",-1)!=-1){
+            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(received_intent.getIntExtra("pk",0))).get(0);
+            picture = p.getPicture();
+            imageView.setImageBitmap(picture);
+            editText_Email.setText(p.getEmail());
+            editText_Major.setText(p.getMajor());
+            editText_Mobile.setText(p.getMobile());
+            editText_Birthday.setText(p.getBirthday());
+            editText_Name.setText(p.getName());
+            editText_IdNum.setText(String.valueOf(p.getId_num()));
+            if(p.getGender().equals("남성")){
+                RadioButton radioButton = findViewById(R.id.radioButton_Male);
+                radioButton.setChecked(true);
+            }
+            else if(p.getGender().equals("여성")){
+                RadioButton radioButton = findViewById(R.id.radioButton_Female);
+                radioButton.setChecked(true);
+            }
+            else{
+                RadioButton radioButton = findViewById(R.id.radioButton_Unknown);
+                radioButton.setChecked(true);
+            }
+            /*
+            Case 1
+                for(그룹 개수만큼){
+                    텍스트뷰 세팅 (그룹 이름이 내용으로 가게)
+                    최상위 리니어 레이아웃에 addView
+                }
+            Case 2 - 이게 더 나울듯?
+                p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
+                for(String s : groups){
+                    TextView 만들어서 setText(s)
+                    최상위 (리니어) 레이아웃에 addView()
+                    보여주기만 할거면 여기서 끝
+                    그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
+             */
+        }
+        else{
+            p = new Person();
+>>>>>>> 7061e0e8d651a9fbcd0ec04f6713d5c1a4ee867e
         }
 
         Button button_picture = findViewById(R.id.button_picture);
@@ -115,7 +158,10 @@ public class PersonEditActivity extends AppCompatActivity {
                 startActivityForResult(intent, Constant.REQUEST_CODE_GET_IMAGE);
             }
         });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7061e0e8d651a9fbcd0ec04f6713d5c1a4ee867e
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,8 +169,13 @@ public class PersonEditActivity extends AppCompatActivity {
                 imageView.setImageBitmap(picture);
             }
         });
+<<<<<<< HEAD
 
         button_save.setOnClickListener(new View.OnClickListener() {
+=======
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+>>>>>>> 7061e0e8d651a9fbcd0ec04f6713d5c1a4ee867e
             @Override
             public void onClick(View view) {
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
@@ -162,7 +213,9 @@ public class PersonEditActivity extends AppCompatActivity {
                 //intent.putExtra("group",g);
                 setResult(RESULT_OK,intent);
                 Log.d("PersonManageActivity","onCL");
-                finish();
+                Intent intent = new Intent(getApplicationContext(),PersonShowActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
