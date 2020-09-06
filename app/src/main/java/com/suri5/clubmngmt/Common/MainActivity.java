@@ -1,10 +1,10 @@
 package com.suri5.clubmngmt.Common;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.suri5.clubmngmt.Group.GroupShowActivity;
+import com.suri5.clubmngmt.Person.PersonDB;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 import com.suri5.clubmngmt.Schedule.ScheduleActivity;
@@ -30,16 +31,10 @@ public class MainActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigationView = (NavigationView)findViewById(R.id.sideMenu);
-        View headerView = navigationView.getHeaderView(0);
-
-        headerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ClubActivity.class);
-                startActivity(intent);
-            }
-        });
+        navigationView = findViewById(R.id.sideMenu);
+        //테이블 미리 다 만들어놓기
+        PersonDB pd = new PersonDB(new DatabaseHelper(getApplicationContext()));
+        pd.createTable();
 
         drawerLayout=findViewById(R.id.drawer);
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);

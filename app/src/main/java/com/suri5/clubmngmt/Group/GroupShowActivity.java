@@ -20,6 +20,7 @@ public class GroupShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     GroupAdapter groupAdapter = new GroupAdapter();
     GroupDB groupDB;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_manage);
@@ -33,16 +34,15 @@ public class GroupShowActivity extends AppCompatActivity {
 
         //Insert into DB
         groupDB = new GroupDB(new DatabaseHelper(this));
-        groupDB.createTable();
 
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
-
+        //인원 추가 버튼
         FloatingActionButton button_addGroup = findViewById(R.id.button_addgroup);
         button_addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), addGroup_info.class);
+                Intent intent = new Intent(getApplicationContext(), GroupEditActivity.class);
                 startActivityForResult(intent, RESULT_SAVE);
             }
         });

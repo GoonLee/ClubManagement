@@ -8,9 +8,12 @@ import android.graphics.BitmapFactory;
 
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Group.Group;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+
+import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class PersonDB {
     // 무슨 속성 가져올건지 -> 다가져올꺼면 null
@@ -35,6 +38,9 @@ public class PersonDB {
             return;
         }
         database.execSQL(Constant.PERSON_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_PERSON_CREATE_TABLE);
+        database.execSQL(Constant.SCHEDULE_CREATE_TABLE);
     }
 
     public void insertRecord(Person person){
@@ -58,7 +64,7 @@ public class PersonDB {
 
 
 
-    /*public void deleteRecord(Person person){
+    public void deleteRecord(Person person){
         if(database == null){
             DatabaseHelper.println("데이터베이스를 먼저 생성하세요.");
             return;
@@ -66,7 +72,7 @@ public class PersonDB {
         String selection = Constant.PERSON_COLUMN_PK + " LIKE ?";
         String[] selectionArgs = {Integer.toString(person.getPk())};
         int deleteRows = database.delete(Constant.PERSON_TABLE_TITLE, selection, selectionArgs);
-    }*/
+    }
 
     public void deletePerson(int pk){
         if(database == null){
@@ -141,6 +147,7 @@ public class PersonDB {
         return cursor.getCount();
     }
 
+    //전체 인원
     public ArrayList<Person> lookUpMember(){
         DatabaseHelper.println("lookUpMember 호출됨");
         ArrayList<Person> members= new ArrayList<Person>();
@@ -168,6 +175,56 @@ public class PersonDB {
         return members;
     }
 
+    //해당 인원이 속해있는 그룹 모두 받아오기
+    public ArrayList<Group> lookupGroup(int pk){
+        println(pk + " 찾기 시작");
+        ArrayList<Group> groups = new ArrayList<Group>();
+        Group g;
+
+        String query = "SELECT " + Constant.GROUP_TABLE_TITLE+"."+Constant.GROUP_COLUMN_PK
+                + ", "+Constant.GROUP_TABLE_TITLE+"."+Constant.GROUP_COLUMN_NAME
+                + ", "+Constant.GROUP_TABLE_TITLE+"."+Constant.GROUP_COLUMN_TOTAL
+                + " FROM " + Constant.GROUP_TABLE_TITLE + ", "
+                + Constant.GROUP_PERSON_TABLE_TITLE
+                + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY+ " = " + pk //여기에 키
+                + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY +" = "+  Constant.GROUP_TABLE_TITLE+"."+Constant.GROUP_COLUMN_PK;
+        println(query);
+
+        Cursor cursor = database.rawQuery(query,null);
+
+        while (cursor.moveToNext()){
+            g = new Group();
+            g.setKey(cursor.getInt(0));
+            g.setName(cursor.getString(1));
+            g.setTotalNum(cursor.getInt(2));
+            groups.add(g);
+        }
+        return groups;
+    }
+
+    //인원에서 그룹 삭제
+    public void deleteGroupFromMember(int personkey, int groupkey){
+        String sql =  "delete from "
+                +Constant.GROUP_PERSON_TABLE_TITLE
+                +" WHERE " + Constant.GROUP_PERSON_COLUMN_GROUPKEY + " = " + groupkey
+                +" AND " + Constant.GROUP_PERSON_COLUMN_PERSONKEY + " = " + personkey;
+        database.rawQuery(sql, null);
+    }
+    //인원에서 그룹 삽입
+    public void insertGroupFromMember(int personkey, int groupkey){
+        ContentValues val = new ContentValues();
+        val.put(Constant.GROUP_PERSON_COLUMN_PERSONKEY, personkey);
+        val.put(Constant.GROUP_PERSON_COLUMN_GROUPKEY, groupkey);
+        //insert시 Primary key return
+        database.insert(Constant.GROUP_PERSON_TABLE_TITLE, null, val);
+    }
+    //인원에서 그룹 전체 삭제
+    public void deleteGroupALLFromMember(int personkey){
+        String selection = Constant.GROUP_PERSON_COLUMN_PERSONKEY + " LIKE ?";
+        String[] selectionArgs = {Integer.toString(personkey)};
+        int deleteRows = database.delete(Constant.GROUP_PERSON_TABLE_TITLE, selection, selectionArgs);
+        println("삭제 성공 ");
+    }
 
 
     public Bitmap getBitmapFromByteArray(byte[] bytes){

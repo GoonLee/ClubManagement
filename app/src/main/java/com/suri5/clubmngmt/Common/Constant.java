@@ -1,5 +1,8 @@
 package com.suri5.clubmngmt.Common;
 
+import static com.suri5.clubmngmt.Budget.BudgetDB.COLUMNS_ID;
+import static com.suri5.clubmngmt.Common.DatabaseHelper.TABLE_NAME;
+
 public class Constant {
     private Constant(){}
 
@@ -29,6 +32,16 @@ public class Constant {
     public static final String GROUP_COLUMN_PK = "_id";
     public static final String GROUP_COLUMN_NAME = "Name";
     public static final String GROUP_COLUMN_TOTAL = "TotalNum";
+
+    public static final String SCHEDULE_TABLE_TITLE = "Schedule";
+    public static final String SCHEDULE_COLUMN_PK = "_id";
+    public static final String SCHEDULE_COLUMN_TITLE = "Title";
+    public static final String SCHEDULE_COLUMN_START_DATE = "StartDate";
+    public static final String SCHEDULE_COLUMN_START_TIME = "StartTime";
+    public static final String SCHEDULE_COLUMN_END_DATE = "EndDate";
+    public static final String SCHEDULE_COLUMN_END_TIME ="EndTime";
+    public static final String SCHEDULE_COLUMN_PLACE = "Place";
+    public static final String SCHEDULE_COLUMN_COMMENT = "Comment";
 
 
 
@@ -60,7 +73,16 @@ public class Constant {
             + " on delete cascade"
             +")";
 
+    public static String SCHEDULE_CREATE_TABLE = "create table if not exists "
+            + SCHEDULE_TABLE_TITLE + "("  + SCHEDULE_COLUMN_PK +" integer PRIMARY KEY autoincrement, "
+            + SCHEDULE_COLUMN_TITLE +" text, "
+            + SCHEDULE_COLUMN_START_DATE+ " text, "
+            + SCHEDULE_COLUMN_START_TIME+ " text, "
+            + SCHEDULE_COLUMN_END_DATE + " text, "
+            + SCHEDULE_COLUMN_END_TIME + " text, "
+            + SCHEDULE_COLUMN_PLACE + " text, "
+            + SCHEDULE_COLUMN_COMMENT + " text)" ;
 
-    public static final String SCHEDULE_TABLE_TITLE = "Schedule";
+
     public static final String BUDGET_TABLE_TITLE = "Budget";
 }
