@@ -20,6 +20,8 @@ import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
+import java.util.ArrayList;
+
 import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 
 public class PersonShowActivity extends AppCompatActivity {
@@ -28,6 +30,9 @@ public class PersonShowActivity extends AppCompatActivity {
     AutoCompleteTextView editText;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDB personDB;
+    ArrayList<String> names;
+    ArrayList<String> idNums;
+    ArrayList<String> majors;
     FloatingActionButton floatingActionButtonPerson;
 
     @Override
@@ -44,21 +49,24 @@ public class PersonShowActivity extends AppCompatActivity {
         recyclerView.setAdapter(personAdapter);
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+        names = personDB.getAllMembersName();
+        idNums = personDB.getAllMembersIdNum();
+        majors = personDB.getAllMembersMajor();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersName()));
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, names));
                         break;
                     }
                     case 1:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersIdNum()));
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, idNums));
                         break;
                     }
                     case 2:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersMajor()));
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, majors));
                         break;
                     }
                 }

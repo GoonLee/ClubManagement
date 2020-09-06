@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.suri5.clubmngmt.Common.DatabaseHelper;
-import java.util.ArrayList;
 import com.suri5.clubmngmt.Common.Constant;
+import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.Person.Person;
+
+import java.util.ArrayList;
+
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
 public class GroupDB {
@@ -250,6 +252,21 @@ public class GroupDB {
         }
         cursor.close();
         return members;
+    }
+
+    public ArrayList<String> getAllMembersName(){
+        DatabaseHelper.println("lookUpMember 호출됨");
+        ArrayList<String> names= new ArrayList<>();
+        String[] columns = {Constant.PERSON_COLUMN_NAME};
+        Cursor cursor = database.query(true,Constant.PERSON_TABLE_TITLE, columns, null, null, null, null, sortOrder,null);
+        int recordCount = cursor.getCount();
+        DatabaseHelper.println("레코드 갯수 : " + recordCount);
+
+        while (cursor.moveToNext()){
+            names.add(cursor.getString(0));
+        }
+        cursor.close();
+        return names;
     }
 
     //그룹에서 인원 삭제
