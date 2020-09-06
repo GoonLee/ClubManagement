@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -23,7 +25,7 @@ import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 public class PersonShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Spinner spinner;
-    EditText editText;
+    AutoCompleteTextView editText;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDB personDB;
     FloatingActionButton floatingActionButtonPerson;
@@ -42,6 +44,31 @@ public class PersonShowActivity extends AppCompatActivity {
         recyclerView.setAdapter(personAdapter);
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:{
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersName()));
+                        break;
+                    }
+                    case 1:{
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersIdNum()));
+                        break;
+                    }
+                    case 2:{
+                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, personDB.getAllMembersMajor()));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();

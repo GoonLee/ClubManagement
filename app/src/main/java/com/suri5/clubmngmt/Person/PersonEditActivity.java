@@ -82,8 +82,7 @@ public class PersonEditActivity extends AppCompatActivity {
             if(pk !=-1) {
                 button_save.setText("수정");
 
-
-                p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(received_intent.getIntExtra("pk", 0))).get(0);
+                p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
                 picture = p.getPicture();
                 editText_Email.setText(p.getEmail());
                 editText_Major.setText(p.getMajor());
@@ -91,6 +90,16 @@ public class PersonEditActivity extends AppCompatActivity {
                 editText_Birthday.setText(p.getBirthday());
                 editText_Name.setText(p.getName());
                 editText_IdNum.setText(String.valueOf(p.getId_num()));
+                if(p.getGender().equals("남성")){
+                    RadioButton radioButton = findViewById(R.id.radioButton_Male);
+                    radioButton.setChecked(true);
+                } else if(p.getGender().equals("여성")){
+                    RadioButton radioButton = findViewById(R.id.radioButton_Female);
+                    radioButton.setChecked(true);
+                } else{
+                    RadioButton radioButton = findViewById(R.id.radioButton_Unknown);
+                    radioButton.setChecked(true);
+                }
 
                 groups = personDB.lookupGroup(p.getPk());
                 groupAdapter_short.setItems(groups);
@@ -174,11 +183,13 @@ public class PersonEditActivity extends AppCompatActivity {
                         personDB.insertGroupFromMember(g.getKey(),pk);
                     }
 
-                    Intent intent=new Intent();
+                    Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     //intent.putExtra("group",g);
-                    setResult(RESULT_OK,intent);
+                    //setResult(RESULT_OK,intent);
                     Log.d("PersonManageActivity","onCL");
-                    finish();
+                    //finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"잘못된 이메일입니다",Toast.LENGTH_SHORT).show();
                 }
@@ -192,14 +203,17 @@ public class PersonEditActivity extends AppCompatActivity {
                 if(pk != -1){
                     personDB.deletePerson(pk);
                     Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다.",Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent();
-                    setResult(RESULT_OK,intent);
-                    finish();
-
+                    //Intent intent=new Intent();
+                    //setResult(RESULT_OK,intent);
+                    Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
-                    finish();
+                    Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
             }
         });

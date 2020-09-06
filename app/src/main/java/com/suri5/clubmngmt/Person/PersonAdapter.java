@@ -65,14 +65,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(view.getContext(),PersonEditActivity.class);
                         intent.putExtra("pk",personItems.get(pos).getPk());
-                        intent.putExtra("name",personItems.get(pos).getName());
-                        intent.putExtra("id_num",personItems.get(pos).getId_num());
-                        intent.putExtra("major",personItems.get(pos).getMajor());
-                        //intent.putExtra("email",personItems.get(pos).getEmail());
-                        //intent.putExtra("birthday",personItems.get(pos).getBirthday());
-                        intent.putExtra("mobile",personItems.get(pos).getMobile());
-                        intent.putExtra("gender",personItems.get(pos).getGender());
-                        //intent.putExtra("picture",personItems.get(pos).getPicture());
                         view.getContext().startActivity(intent);
                     }
                 }
