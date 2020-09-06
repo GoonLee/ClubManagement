@@ -66,8 +66,6 @@ public class PersonEditActivity extends AppCompatActivity {
         recyclerView.setAdapter(groupAdapter_short);
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-
-
         final Button button_save = findViewById(R.id.button_OK);
         final Button button_delete = findViewById(R.id.button_delete);
 
@@ -108,7 +106,8 @@ public class PersonEditActivity extends AppCompatActivity {
             finish();
         }
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        Button button_picture = findViewById(R.id.button_picture);
+        button_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -117,17 +116,22 @@ public class PersonEditActivity extends AppCompatActivity {
             }
         });
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
+                imageView.setImageBitmap(picture);
+            }
+        });
 
-
-        //확인하고 저장할거
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
-                //성별 라디오버튼에서 성별 string 에 저장
-                RadioButton radioButton=findViewById(id);
-
-                //추가한 person 객체를 넘겨줌
+                if(id==-1){
+                    Toast.makeText(getApplicationContext(),"성별을 선택해주세요",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Person new_p = new Person();
                 new_p.setPk(p.getPk());
@@ -136,8 +140,9 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setMajor(editText_Major.getText().toString());
                 new_p.setEmail(editText_Email.getText().toString());
                 new_p.setMobile(editText_Mobile.getText().toString());
-                // Todo: M/F로 구분하게 할 예정
-                new_p.setGender(radioButton.getText().toString());
+                if(id==R.id.radioButton_Male) new_p.setGender("남성");
+                else if(id==R.id.radioButton_Female) new_p.setGender("여성");
+                else new_p.setGender("알수없음");
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 

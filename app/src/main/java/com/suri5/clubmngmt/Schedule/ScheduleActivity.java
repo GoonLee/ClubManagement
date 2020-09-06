@@ -23,6 +23,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
@@ -62,7 +63,8 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 .commit();
         calendarView.addDecorators(
                 new SundayDecorator(),
-                new SaturdayDecorator()
+                new SaturdayDecorator(),
+                new DotDecorator()
         );
 
         /**
@@ -112,14 +114,54 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
          */
         ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
         if(schedules != null){
-            for(int i=0; i<schedules.size(); i++){
-                adapter.addItem(schedules.get(i));
-
-            }
+            adapter.setItems(schedules);
+            recyclerViewSchedule.setAdapter(adapter);
         }
-        recyclerViewSchedule.setAdapter(adapter);
+        else{
+            recyclerViewSchedule.setAdapter(null);
+        }
     }
 
+    /**
+     * 일정 있는 날짜 점 표시
+     */
+    private class DotDecorator implements DayViewDecorator{
+        private final Calendar calendar=Calendar.getInstance();
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            String date=changeDayString(day.toString());
+
+            return scheduleDB.getSchedule(date).size()>0; //일정이 1개라도 있는 날만 true
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new DotSpan(5,Color.RED));
+        }
+    }
+
+    /**
+     * CalendarDay{2020-8-1} string 형식을 20200801로 변환하는 함수
+     */
+    private String changeDayString(String date) {
+        date=date.substring(12,date.length()-1);
+        String[] arrDay=date.split("-");
+
+        //짜증나게 달만 0부터 시작하는 구조
+        arrDay[1]=Integer.toString(Integer.parseInt(arrDay[1])+1);
+        if(arrDay[1].length()==1){
+            arrDay[1]="0"+arrDay[1];
+        }
+        if(arrDay[2].length()==1){
+            arrDay[2]="0"+arrDay[2];
+        }
+        return arrDay[0]+arrDay[1]+arrDay[2];
+    }
+
+    /**
+     * 주말 색깔 표시
+     */
     private class SundayDecorator implements DayViewDecorator {
         private final Calendar calendar=Calendar.getInstance();
         @Override
