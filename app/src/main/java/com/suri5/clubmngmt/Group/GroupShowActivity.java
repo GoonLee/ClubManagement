@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import com.suri5.clubmngmt.R;
 
 public class GroupShowActivity extends AppCompatActivity {
     public static final int RESULT_SAVE = 102;
+    AutoCompleteTextView editText;
     RecyclerView recyclerView;
     GroupAdapter groupAdapter = new GroupAdapter();
     GroupDB groupDB;
@@ -32,7 +36,8 @@ public class GroupShowActivity extends AppCompatActivity {
 
         //Insert into DB
         groupDB = new GroupDB(new DatabaseHelper(this));
-
+        editText = findViewById(R.id.editText_searchgroup);
+        editText.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,groupDB.getAllGroupsName()));
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
         //인원 추가 버튼
@@ -42,6 +47,15 @@ public class GroupShowActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), GroupEditActivity.class);
                 startActivityForResult(intent, RESULT_SAVE);
+            }
+        });
+        //검색 버튼
+        Button button_search = findViewById(R.id.button);
+        button_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                groupAdapter.setItems(groupDB.findGroups(editText.getText().toString()));
+                groupAdapter.notifyDataSetChanged();
             }
         });
     }
