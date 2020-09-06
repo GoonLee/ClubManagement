@@ -71,11 +71,12 @@
         android:id="@+id/button_addgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        app:backgroundTint="#FFFFFF"
         app:layout_anchor="@+id/nestedScrollView"
         app:layout_anchorGravity="right|bottom"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@drawable/icons8_plus" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

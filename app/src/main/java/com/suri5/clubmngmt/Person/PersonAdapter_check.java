@@ -20,8 +20,7 @@ import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 public class PersonAdapter_check extends RecyclerView.Adapter<PersonAdapter_check.ViewHolder>{
     //회원 프로필 저장 배열
     ArrayList<Person> personItems;
-    ArrayList<Person> personlist;
-    ArrayList<Person> personlist_n;
+    ArrayList<Person> checkedlist = new ArrayList<Person>();
 
 
 
@@ -44,23 +43,28 @@ public class PersonAdapter_check extends RecyclerView.Adapter<PersonAdapter_chec
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                item.setChecked(b);
                 println(item.getName() + item.getChecked());
+
 
                 //새로 체크된 애
                 if(item.getChecked() == true){
-                    personlist.remove(item);
-                    item.setChecked(b);
-                    personlist_n.add(item);
+                    checkedlist.add(item);
                 }
                 //체크 취소된 애
                 else{
-                    personlist_n.remove(item);
-                    item.setChecked(b);
-                    personlist.add(item);
+                    checkedlist.remove(item);
                 }
 
             }
         });
+    }
+
+    public ArrayList<Person> getCheckedlist() {
+        return checkedlist;
+    }
+    public void setCheckedlist(){
+        checkedlist.clear();
     }
 
     @Override
@@ -76,10 +80,6 @@ public class PersonAdapter_check extends RecyclerView.Adapter<PersonAdapter_chec
         this.personItems=personItems;
     }
 
-    public void setLists(ArrayList<Person> a, ArrayList<Person> b){
-        personlist = a;
-        personlist_n = b;
-    }
     public Person getItem(int position){
         return personItems.get(position);
     }

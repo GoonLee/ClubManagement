@@ -29,6 +29,8 @@ import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
 
+import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
+
 public class PersonEditActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
     ImageView imageView;
@@ -155,7 +157,8 @@ public class PersonEditActivity extends AppCompatActivity {
                 }
                 //새로 그룹정보 넣기
                 for(Group g : groups){
-                    personDB.insertGroupFromMember(g.getKey(),pk);
+                    println(g.getName());
+                    personDB.insertGroupFromMember(pk,g.getKey());
                 }
 
                 Intent intent=new Intent();

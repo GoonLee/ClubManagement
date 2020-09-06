@@ -36,7 +36,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="#00FFFFFF"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icons8_delete_240" />
+                android:src="@drawable/icons8_delete" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

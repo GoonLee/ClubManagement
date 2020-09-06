@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,19 +21,22 @@ import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
 
+import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
+
 public class GroupMemberEditActivity extends Activity {
 
     //검색기능 구현해야함
     EditText editText_findperson;
 
-    RecyclerView recyclerView;
-    PersonAdapter_check personAdapter_check = new PersonAdapter_check();
+    RecyclerView recyclerViewup;
+    RecyclerView recyclerViewdown;
+    PersonAdapter_check personAdapter_check_up = new PersonAdapter_check();
+    PersonAdapter_check personAdapter_check_down = new PersonAdapter_check();
     GroupDB groupDB;
     int pk = -1;
 
     ArrayList<Person> personlist;
     ArrayList<Person> personlist_n;
-    ArrayList<Person> newList = new ArrayList<Person>();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +50,10 @@ public class GroupMemberEditActivity extends Activity {
 
         try{
             personlist = getIntent().getParcelableArrayListExtra("pastList");
-            for(Person p : personlist){
-                p.setChecked(true);
-            }
+            personAdapter_check_up.setItems(personlist);
             personlist_n = getIntent().getParcelableArrayListExtra("pastList_n");
-            personAdapter_check.setLists(personlist,personlist_n);
-            newList.addAll(personlist); //단지 보여주기용
-            newList.addAll(personlist_n);
+            personAdapter_check_down.setItems(personlist_n);
+
         }
         catch (Exception e){
             Toast.makeText(getApplicationContext(),"그룹 인원을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
@@ -61,11 +62,52 @@ public class GroupMemberEditActivity extends Activity {
 
 
         //리사이클러뷰 생성
-        recyclerView = findViewById(R.id.recyclerView_editmember);
+        recyclerViewup = findViewById(R.id.recyclerView_checkedmember);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(personAdapter_check);
-        personAdapter_check.setItems(newList);
+        recyclerViewup.setLayoutManager(layoutManager);
+        recyclerViewup.setAdapter(personAdapter_check_up);
+
+        //리사이클러뷰 생성
+        recyclerViewdown = findViewById(R.id.recyclerView_uncheckedmember);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerViewdown.setLayoutManager(layoutManager2);
+        recyclerViewdown.setAdapter(personAdapter_check_down);
+
+        ImageButton button_up = findViewById(R.id.button_up);
+        button_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                check_check(personAdapter_check_down.getItems());
+                personAdapter_check_down.notifyDataSetChanged();
+
+                personlist.addAll(personAdapter_check_down.getCheckedlist());
+                personAdapter_check_up.notifyDataSetChanged();
+
+
+
+                personAdapter_check_down.setCheckedlist();
+
+            }
+        });
+
+        ImageButton button_down = findViewById(R.id.button_down);
+        button_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //체크 안된애 삭제
+                check_check(personAdapter_check_up.getItems());
+                personAdapter_check_up.notifyDataSetChanged();
+
+                //체크된애 추가
+                personlist_n.addAll(personAdapter_check_up.getCheckedlist());
+                personAdapter_check_down.notifyDataSetChanged();
+
+                //체크리스트도 비워주기
+                personAdapter_check_up.setCheckedlist();
+
+            }
+        });
 
 
         //수정된 리스트 전달.
@@ -82,6 +124,22 @@ public class GroupMemberEditActivity extends Activity {
         });
 
 
+
+    }
+
+    //체크표시 되어있는애들 제거하기
+    public void check_check(ArrayList<Person> checklist){
+        int size = checklist.size();
+        int index = 0;
+
+        for(int i=0; i<size; i++){
+            println("--"+checklist.get(index).getName() + " "+checklist.get(index).getChecked());
+            if(checklist.get(index).getChecked()){
+                checklist.get(index).setChecked(false);
+                checklist.remove(index--);
+            }
+            index++;
+        }
 
     }
 

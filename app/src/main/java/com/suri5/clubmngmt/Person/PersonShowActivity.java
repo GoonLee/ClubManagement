@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
@@ -43,7 +45,7 @@ public class PersonShowActivity extends AppCompatActivity {
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();
 
-        Button button_add = findViewById(R.id.button_OK);
+        FloatingActionButton button_add = findViewById(R.id.button_OK);
         //추가
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +55,7 @@ public class PersonShowActivity extends AppCompatActivity {
             }
         });
 
-        Button button_search = findViewById(R.id.button3);
+        ImageButton button_search = findViewById(R.id.button3);
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
