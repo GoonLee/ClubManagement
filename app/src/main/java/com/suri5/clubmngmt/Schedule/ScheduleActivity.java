@@ -40,6 +40,29 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     ScheduleDB scheduleDB;
     ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
     RecyclerView recyclerViewSchedule;
+    String day;
+
+    @Override
+    protected void onResume() {//일정 내용 변경/추가/삭제 후 기존 창 새로고침
+        super.onResume();
+
+        calendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator(),
+                new DotDecorator()
+        );
+
+        ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
+        if(schedules != null){
+            adapter.setItems(schedules);
+            recyclerViewSchedule.setAdapter(adapter);
+        }
+        else{
+            recyclerViewSchedule.setAdapter(null);
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +121,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
      */
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        String day=Integer.toString(date.getYear());
+        day=Integer.toString(date.getYear());
         if(date.getMonth()+1<10){
             day+= '0';
         }

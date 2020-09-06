@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Schedule.ScheduleActivity">
+    tools:context=".Common.ClubActivity">
 
     <!--상단 앱바(툴바)-->
     <com.google.android.material.appbar.AppBarLayout
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="일정"
+                android:text="세부사항"
                 android:textColor="@android:color/background_dark"
                 android:textSize="25sp"
                 />
@@ -46,33 +46,53 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_margin="10dp"
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_launcher_background" />
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
+            <EditText
+                android:id="@+id/editTextTextPersonName"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:mcv_selectionColor="#83CDEF"
-                app:mcv_showOtherDates="other_months" />
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="동아리 이름"
+                android:textSize="40sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewSchedule"
+            <EditText
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/editTextTextPersonName2"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content"
+                android:lines="7"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:text="부가 설명"
+                android:textSize="25sp"
+                android:background="@android:color/transparent"
+                />
+
+            <Button
+                android:id="@+id/buttonSetClubInfor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="설정" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        app:layout_anchor="@+id/nestedScrollView"
-        app:layout_anchorGravity="right|bottom"
-        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -72,20 +72,46 @@
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:text="검색" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/button_OK"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="추가" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewPerson"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                />
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBarPerson"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:clickable="false"
+        app:hideOnScroll="true"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        >
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationViewPerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/person_bottom_navigation"
+            />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        app:layout_anchor="@+id/bottomAppBarPerson"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

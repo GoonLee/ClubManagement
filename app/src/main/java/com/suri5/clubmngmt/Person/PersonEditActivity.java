@@ -47,7 +47,12 @@ public class PersonEditActivity extends AppCompatActivity {
     ArrayList<Group> groups = new ArrayList<Group>();
     GroupAdapter_short groupAdapter_short = new GroupAdapter_short();
 
-    @Override
+    //이메일 확인용
+    String emailPattern="^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    boolean emailCheck =false;
+    String input;
+
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_edit);
@@ -133,12 +138,20 @@ public class PersonEditActivity extends AppCompatActivity {
                     return;
                 }
 
-                Person new_p = new Person();
+                //이메일 확인
+                input = editText_Email.getText().toString().trim();
+                if((input.matches(emailPattern)&&input.length()>0)||input.length()==0){
+                    emailCheck=true;
+                }else{
+                    emailCheck=false;
+                }
+
+               Person new_p = new Person();
                 new_p.setPk(p.getPk());
                 new_p.setName(editText_Name.getText().toString());
                 new_p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
                 new_p.setMajor(editText_Major.getText().toString());
-                new_p.setEmail(editText_Email.getText().toString());
+
                 new_p.setMobile(editText_Mobile.getText().toString());
                 if(id==R.id.radioButton_Male) new_p.setGender("남성");
                 else if(id==R.id.radioButton_Female) new_p.setGender("여성");
@@ -146,23 +159,30 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
-                if(pk != -1){
-                    personDB.updateRecord(new_p);
-                    personDB.deleteGroupALLFromMember(p.getPk());
-                }
-                else{
-                    personDB.insertRecord(new_p);
-                }
-                //새로 그룹정보 넣기
-                for(Group g : groups){
-                    personDB.insertGroupFromMember(g.getKey(),pk);
+                if(emailCheck==true){//이메일 확인
+                    new_p.setEmail(editText_Email.getText().toString());
+
+                    if(pk != -1){
+                        personDB.updateRecord(new_p);
+                        personDB.deleteGroupALLFromMember(p.getPk());
+                    }
+                    else{
+                        personDB.insertRecord(new_p);
+                    }
+                    //새로 그룹정보 넣기
+                    for(Group g : groups){
+                        personDB.insertGroupFromMember(g.getKey(),pk);
+                    }
+
+                    Intent intent=new Intent();
+                    //intent.putExtra("group",g);
+                    setResult(RESULT_OK,intent);
+                    Log.d("PersonManageActivity","onCL");
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"잘못된 이메일입니다",Toast.LENGTH_SHORT).show();
                 }
 
-                Intent intent=new Intent();
-                //intent.putExtra("group",g);
-                setResult(RESULT_OK,intent);
-                Log.d("PersonManageActivity","onCL");
-                finish();
             }
         });
 
