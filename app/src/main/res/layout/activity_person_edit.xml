@@ -93,7 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="생년월일"
-                android:inputType="date" />
+                android:inputType="date"
+                android:maxLength="8"/>
 
             <TextView
                 android:id="@+id/textView"
