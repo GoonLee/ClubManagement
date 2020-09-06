@@ -140,9 +140,8 @@ public class PersonEditActivity extends AppCompatActivity {
 
                 //이메일 확인
                 input = editText_Email.getText().toString().trim();
-                if(input.matches(emailPattern)&& toString().length()>0){
+                if((input.matches(emailPattern)&&input.length()>0)||input.length()==0){
                     emailCheck=true;
-
                 }else{
                     emailCheck=false;
                 }

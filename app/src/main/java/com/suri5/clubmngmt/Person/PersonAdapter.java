@@ -68,8 +68,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                         intent.putExtra("name",personItems.get(pos).getName());
                         intent.putExtra("id_num",personItems.get(pos).getId_num());
                         intent.putExtra("major",personItems.get(pos).getMajor());
-                        intent.putExtra("email",personItems.get(pos).getEmail());
-                        intent.putExtra("birthday",personItems.get(pos).getBirthday());
+                        //intent.putExtra("email",personItems.get(pos).getEmail());
+                        //intent.putExtra("birthday",personItems.get(pos).getBirthday());
                         intent.putExtra("mobile",personItems.get(pos).getMobile());
                         intent.putExtra("gender",personItems.get(pos).getGender());
                         //intent.putExtra("picture",personItems.get(pos).getPicture());
@@ -79,8 +79,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             });
 
             textView_Name=itemView.findViewById(R.id.textView_name);
-            textView_Birth=itemView.findViewById(R.id.textView_birth);
-            textView_Email=itemView.findViewById(R.id.textView_email);
+            //textView_Birth=itemView.findViewById(R.id.textView_birth);
+            //textView_Email=itemView.findViewById(R.id.textView_email);
             textView_Major=itemView.findViewById(R.id.textView_major);
             textView_Mobile=itemView.findViewById(R.id.textView_mobile);
             textView_Sex=itemView.findViewById(R.id.textView_sex);
@@ -92,8 +92,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             textView_Mobile.setText(item.getMobile());
             textView_Sex.setText(item.getGender());
             textView_Major.setText(item.getMajor());
-            textView_Email.setText(item.getEmail());
-            textView_Birth.setText(item.getBirthday());
+            //textView_Email.setText(item.getEmail());
+            //textView_Birth.setText(item.getBirthday());
             imageView_profile.setImageBitmap(item.getPicture());
         }
     }

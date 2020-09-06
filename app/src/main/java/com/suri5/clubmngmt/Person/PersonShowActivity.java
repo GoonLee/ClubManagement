@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
@@ -25,6 +26,8 @@ public class PersonShowActivity extends AppCompatActivity {
     EditText editText;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDB personDB;
+    FloatingActionButton floatingActionButtonPerson;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +46,9 @@ public class PersonShowActivity extends AppCompatActivity {
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();
 
-        Button button_add = findViewById(R.id.button_OK);
         //추가
-        button_add.setOnClickListener(new View.OnClickListener() {
+        floatingActionButtonPerson=findViewById(R.id.floatingActionButtonPerson);
+        floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),PersonEditActivity.class);
