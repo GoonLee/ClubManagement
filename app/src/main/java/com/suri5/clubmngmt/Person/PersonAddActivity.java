@@ -103,8 +103,9 @@ public class PersonAddActivity extends AppCompatActivity {
                 p.setMajor(editText_Major.getText().toString());
                 p.setEmail(editText_Email.getText().toString());
                 p.setMobile(editText_Mobile.getText().toString());
-                if(id==R.id.radioButton_Male) p.setGender("M");
-                else p.setGender("F");
+                if(id==R.id.radioButton_Male) p.setGender("남성");
+                else if(id==R.id.radioButton_Female) p.setGender("여성");
+                else p.setGender("알수없음");
                 p.setPicture(picture);
                 p.setBirthday(editText_Birthday.getText().toString());
 

@@ -57,12 +57,16 @@ public class PersonEditActivity extends AppCompatActivity {
             editText_Birthday.setText(p.getBirthday());
             editText_Name.setText(p.getName());
             editText_IdNum.setText(String.valueOf(p.getId_num()));
-            if(p.getGender().equals("M")){
+            if(p.getGender().equals("남성")){
                 RadioButton radioButton = findViewById(R.id.radioButton_Male);
                 radioButton.setChecked(true);
             }
-            else{
+            else if(p.getGender().equals("여성")){
                 RadioButton radioButton = findViewById(R.id.radioButton_Female);
+                radioButton.setChecked(true);
+            }
+            else{
+                RadioButton radioButton = findViewById(R.id.radioButton_Unknown);
                 radioButton.setChecked(true);
             }
             /*
@@ -117,8 +121,9 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setMajor(editText_Major.getText().toString());
                 new_p.setEmail(editText_Email.getText().toString());
                 new_p.setMobile(editText_Mobile.getText().toString());
-                if(id==R.id.radioButton_Male) new_p.setGender("M");
-                else new_p.setGender("F");
+                if(id==R.id.radioButton_Male) new_p.setGender("남성");
+                else if(id==R.id.radioButton_Female) new_p.setGender("여성");
+                else new_p.setGender("알수없음");
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
