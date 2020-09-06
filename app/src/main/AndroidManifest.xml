@@ -35,7 +35,6 @@
         </activity>
         <activity android:name=".Person.PersonShowActivity"></activity>
         <activity android:name=".Person.PersonEditActivity"></activity>
-        <activity android:name=".Person.PersonAddActivity" />
         <activity android:name=".Schedule.ScheduleActivity" />
         <activity android:name=".Group.GroupEditActivity"/>
         <activity android:name=".Group.GroupShowActivity" />

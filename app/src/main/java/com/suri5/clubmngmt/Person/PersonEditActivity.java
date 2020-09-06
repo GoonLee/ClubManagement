@@ -2,6 +2,7 @@ package com.suri5.clubmngmt.Person;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Group.Group;
+import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
+
+import java.util.ArrayList;
 
 public class PersonEditActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
@@ -29,6 +37,15 @@ public class PersonEditActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     Person p;
+
+    //추가/수정 판단
+    int pk = -1;
+    boolean isEdit = false;
+
+    //소속 그룹 출력용
+    RecyclerView recyclerView;
+    ArrayList<Group> groups = new ArrayList<Group>();
+    GroupAdapter_short groupAdapter_short = new GroupAdapter_short();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,35 +59,53 @@ public class PersonEditActivity extends AppCompatActivity {
         editText_Birthday=findViewById(R.id.editPersonDate);
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
+
+        recyclerView = findViewById(R.id.recyclerView_group_short);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,3);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(groupAdapter_short);
+
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
 
-        Intent received_intent = getIntent();
-        if(received_intent.getIntExtra("pk",-1)!=-1){
-            p = personDB.findMember(Constant.PERSON_COLUMN_PK,String.valueOf(received_intent.getIntExtra("pk",0))).get(0);
-            imageView.setImageBitmap(p.getPicture());
-            editText_Email.setText(p.getEmail());
-            editText_Major.setText(p.getMajor());
-            editText_Mobile.setText(p.getMobile());
-            editText_Birthday.setText(p.getBirthday());
-            editText_Name.setText(p.getName());
-            editText_IdNum.setText(String.valueOf(p.getId_num()));
-            /*
-            Case 1
-                for(그룹 개수만큼){
-                    텍스트뷰 세팅 (그룹 이름이 내용으로 가게)
-                    최상위 리니어 레이아웃에 addView
-                }
-            Case 2 - 이게 더 나울듯?
-                p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
-                for(String s : groups){
-                    TextView 만들어서 setText(s)
-                    최상위 (리니어) 레이아웃에 addView()
-                    보여주기만 할거면 여기서 끝
-                    그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
-             */
-        }
-        else{
-            p = new Person();
+
+        final Button button_save = findViewById(R.id.button_OK);
+        final Button button_delete = findViewById(R.id.button_delete);
+
+        try{
+            Intent received_intent = getIntent();
+            pk = received_intent.getIntExtra("pk",-1);
+
+            //인원 수정임
+            if(pk !=-1) {
+                button_save.setText("수정");
+
+
+                p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(received_intent.getIntExtra("pk", 0))).get(0);
+                picture = p.getPicture();
+                editText_Email.setText(p.getEmail());
+                editText_Major.setText(p.getMajor());
+                editText_Mobile.setText(p.getMobile());
+                editText_Birthday.setText(p.getBirthday());
+                editText_Name.setText(p.getName());
+                editText_IdNum.setText(String.valueOf(p.getId_num()));
+
+                groups = personDB.lookupGroup(p.getPk());
+                groupAdapter_short.setItems(groups);
+                groupAdapter_short.notifyDataSetChanged();
+            }
+            else{
+                p = new Person();
+                button_delete.setVisibility(View.GONE);
+            }
+            //사진 파일 세팅
+            if(picture == null){
+                picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
+            }
+            imageView.setImageBitmap(picture);
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"사람을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
+            finish();
         }
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +116,11 @@ public class PersonEditActivity extends AppCompatActivity {
                 startActivityForResult(intent, Constant.REQUEST_CODE_GET_IMAGE);
             }
         });
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+
+
+
+        //확인하고 저장할거
+        button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
@@ -103,21 +141,41 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
-                personDB.updateRecord(new_p);
+                if(pk != -1){
+                    personDB.updateRecord(new_p);
+                    personDB.deleteGroupALLFromMember(p.getPk());
+                }
+                else{
+                    personDB.insertRecord(new_p);
+                }
+                //새로 그룹정보 넣기
+                for(Group g : groups){
+                    personDB.insertGroupFromMember(g.getKey(),pk);
+                }
 
-
+                Intent intent=new Intent();
+                //intent.putExtra("group",g);
+                setResult(RESULT_OK,intent);
                 Log.d("PersonManageActivity","onCL");
                 finish();
             }
         });
-        Button button_delete = findViewById(R.id.button5);
+
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                personDB.deletePerson(p.getPk());
-                Intent intent = new Intent(getApplicationContext(),PersonShowActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                if(pk != -1){
+                    personDB.deletePerson(pk);
+                    Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다.",Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent();
+                    setResult(RESULT_OK,intent);
+                    finish();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         });
     }

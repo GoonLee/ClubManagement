@@ -224,6 +224,7 @@ public class GroupDB {
         return members;
     }
 
+    //전체 인원들
     public ArrayList<Person> lookUpMember(){
         DatabaseHelper.println("lookUpMember 호출됨");
         ArrayList<Person> members= new ArrayList<Person>();
@@ -259,7 +260,7 @@ public class GroupDB {
                 +" AND " + Constant.GROUP_PERSON_COLUMN_PERSONKEY + " = " + personkey;
         database.rawQuery(sql, null);
     }
-    //그룹에서 인원 삭제
+    //그룹에서 인원 삽입
     public void insertMemberFromGroup(int personkey, int groupkey){
         ContentValues val = new ContentValues();
         val.put(Constant.GROUP_PERSON_COLUMN_PERSONKEY, personkey);

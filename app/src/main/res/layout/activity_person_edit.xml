@@ -5,123 +5,173 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollView_Person"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/avatar_empty" />
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="사진 변경" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/editPersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="이름"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/editPersonIDNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="학번"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                    <EditText
+                        android:id="@+id/editPersonMajor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="전공"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/editPersonMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="전화번호"
+                        android:inputType="phone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editPersonEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="메일 주소"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/editPersonDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="생년월일"
+                android:inputType="date" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="성별"
+                android:textColor="#ff000000"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonPersonMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="남성" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonPersonFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="여성" />
+
+            </RadioGroup>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:src="@drawable/avatar_empty" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button2"
+                <AutoCompleteTextView
+                    android:id="@+id/autoTextView_searchGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:text="그룹" />
+
+                <Button
+                    android:id="@+id/button_addgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:background="@android:color/background_light"
+                    android:text="추가" />
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_group_short"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="사진 변경" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/button_OK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="확인" />
+
+                <Button
+                    android:id="@+id/button_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="삭제" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editPersonName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="이름"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/editPersonIDNum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="학번"
-                android:inputType="number"
-                android:maxLength="10" />
-
-            <EditText
-                android:id="@+id/editPersonMajor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="전공"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/editPersonMobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="전화번호"
-                android:inputType="phone" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/editPersonEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="메일 주소"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/editPersonDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="생년월일"
-        android:inputType="date" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#ff000000"
-        android:textSize="20sp"
-        android:text="성별" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupGender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButtonPersonMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="남성" />
-
-        <RadioButton
-            android:id="@+id/radioButtonPersonFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="여성" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="저장" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="데이터 삭제" />
 
 </LinearLayout>

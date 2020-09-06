@@ -168,11 +168,7 @@ public class GroupEditActivity extends Activity {
             public void onClick(View view) {
                 if(pk != -1){
                     groupDB.deleteRecord(g);
-                    Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다.",Toast.LENGTH_LONG).show();
 
-                    Intent intent=new Intent();
-                    setResult(RESULT_OK,intent);
-                    finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
