@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,20 @@ public class PersonAddActivity extends AppCompatActivity {
         editText_Name=findViewById(R.id.editPersonName);
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
         container = findViewById(R.id.container);
+        /*
+            Case 1
+                for(그룹 개수만큼){
+                    텍스트뷰 세팅 (그룹 이름이 내용으로 가게)
+                    최상위 리니어 레이아웃에 addView
+                }
+            Case 2 - 이게 더 나울듯?
+                p의 pk를 통해서 그룹명 전체가 있는 String Array(List) groups를 받아옴
+                for(String s : groups){
+                    TextView 만들어서 setText(s)
+                    최상위 (리니어) 레이아웃에 addView()
+                    보여주기만 할거면 여기서 끝
+                    그룹이 많아질 수 있으니 스크롤뷰로 가는게 나을수도 있겠음
+        */
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
         Button button_picture = findViewById(R.id.button_picture);
@@ -76,8 +91,10 @@ public class PersonAddActivity extends AppCompatActivity {
                 }
                 //Todo : 빈 필드 확인해서 처리
                 int id=radioGroup_Sex.getCheckedRadioButtonId();
-                //성별 라디오버튼에서 성별 string 에 저장
-                RadioButton radioButton=findViewById(id);
+                if(id==-1){
+                    Toast.makeText(getApplicationContext(),"성별을 선택해주세요",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 //추가한 person 객체를 넘겨줌
                 Person p = new Person();
@@ -86,15 +103,17 @@ public class PersonAddActivity extends AppCompatActivity {
                 p.setMajor(editText_Major.getText().toString());
                 p.setEmail(editText_Email.getText().toString());
                 p.setMobile(editText_Mobile.getText().toString());
-                // Todo: M/F로 구분하게 할 예정
-                p.setGender(radioButton.getText().toString());
+                if(id==R.id.radioButton_Male) p.setGender("M");
+                else p.setGender("F");
                 p.setPicture(picture);
                 p.setBirthday(editText_Birthday.getText().toString());
 
                 personDB.insertRecord(p);
 
                 Log.d("PersonManageActivity","onCL");
-                finish();
+                Intent intent = new Intent(getApplicationContext(),PersonShowActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         Button button_add_group = findViewById(R.id.button4);

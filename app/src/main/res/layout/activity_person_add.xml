@@ -100,13 +100,13 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButtonPersonMale"
+            android:id="@+id/radioButton_Male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="남성" />
 
         <RadioButton
-            android:id="@+id/radioButtonPersonFemale"
+            android:id="@+id/radioButton_Female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="여성" />
