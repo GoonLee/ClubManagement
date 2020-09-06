@@ -8,11 +8,8 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.ImageButton;
-=======
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;

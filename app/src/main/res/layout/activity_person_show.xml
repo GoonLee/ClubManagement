@@ -69,7 +69,6 @@
 
                 <ImageButton
                     android:id="@+id/button3"
-<<<<<<< HEAD
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="#00FFFFFF"
@@ -78,31 +77,19 @@
                     android:src="@drawable/icons8_search" />
 
             </LinearLayout>
-
-
-
-=======
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="검색" />
-            </LinearLayout>
-
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewPerson"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-
-
-        </LinearLayout>
-
-
+            </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-<<<<<<< HEAD
+
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_OK"
+        android:id="@+id/button_addPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
@@ -113,7 +100,6 @@
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/icons8_plus" />
 
-=======
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBarPerson"
         style="@style/Widget.MaterialComponents.BottomAppBar"
@@ -135,13 +121,5 @@
             />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButtonPerson"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        app:layout_anchor="@+id/bottomAppBarPerson"/>
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
