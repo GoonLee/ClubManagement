@@ -226,6 +226,51 @@ public class PersonDB {
         println("삭제 성공 ");
     }
 
+    public ArrayList<String> getAllMembersName(){
+        DatabaseHelper.println("lookUpMember 호출됨");
+        ArrayList<String> names= new ArrayList<>();
+        String[] columns = {Constant.PERSON_COLUMN_NAME};
+        Cursor cursor = database.query(true,Constant.PERSON_TABLE_TITLE, columns, null, null, null, null, sortOrder,null);
+        int recordCount = cursor.getCount();
+        DatabaseHelper.println("레코드 갯수 : " + recordCount);
+
+        while (cursor.moveToNext()){
+            names.add(cursor.getString(0));
+        }
+        cursor.close();
+        return names;
+    }
+
+    public ArrayList<String> getAllMembersIdNum(){
+        DatabaseHelper.println("lookUpMember 호출됨");
+        ArrayList<String> idNums= new ArrayList<>();
+        String[] columns = {Constant.PERSON_COLUMN_IDNUM};
+        Cursor cursor = database.query(true,Constant.PERSON_TABLE_TITLE, columns, null, null, null, null, sortOrder,null);
+        int recordCount = cursor.getCount();
+        DatabaseHelper.println("레코드 갯수 : " + recordCount);
+
+        while (cursor.moveToNext()){
+            idNums.add(cursor.getString(0));
+        }
+        cursor.close();
+        return idNums;
+    }
+
+    public ArrayList<String> getAllMembersMajor(){
+        DatabaseHelper.println("lookUpMember 호출됨");
+        ArrayList<String> majors= new ArrayList<>();
+        String[] columns = {Constant.PERSON_COLUMN_MAJOR};
+        Cursor cursor = database.query(true,Constant.PERSON_TABLE_TITLE, columns, null, null, null, null, sortOrder,null);
+        int recordCount = cursor.getCount();
+        DatabaseHelper.println("레코드 갯수 : " + recordCount);
+
+        while (cursor.moveToNext()){
+            majors.add(cursor.getString(0));
+        }
+        cursor.close();
+        return majors;
+    }
+
 
     public Bitmap getBitmapFromByteArray(byte[] bytes){
         Bitmap bit;

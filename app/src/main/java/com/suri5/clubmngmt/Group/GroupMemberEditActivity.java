@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.ImageButton;
+=======
+>>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +31,7 @@ import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 public class GroupMemberEditActivity extends Activity {
 
     //검색기능 구현해야함
-    EditText editText_findperson;
+    AutoCompleteTextView editText_findperson;
 
     RecyclerView recyclerViewup;
     RecyclerView recyclerViewdown;
@@ -47,6 +52,9 @@ public class GroupMemberEditActivity extends Activity {
         //DB
         groupDB = new GroupDB(new DatabaseHelper(this));
         pk = getIntent().getIntExtra("pk", -1);
+        // 자동완성 설정
+        editText_findperson = findViewById(R.id.editText_findPerson);
+        editText_findperson.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, groupDB.getAllMembersName()));
 
         try{
             personlist = getIntent().getParcelableArrayListExtra("pastList");
@@ -123,6 +131,14 @@ public class GroupMemberEditActivity extends Activity {
             }
         });
 
+        //검색
+        Button button_search = findViewById(R.id.button_searchPerson);
+        button_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
 
     }
