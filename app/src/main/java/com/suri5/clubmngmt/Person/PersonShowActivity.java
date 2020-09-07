@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -83,9 +80,9 @@ public class PersonShowActivity extends AppCompatActivity {
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();
 
-        FloatingActionButton button_add = findViewById(R.id.button_OK);
+
         //추가
-        floatingActionButtonPerson=findViewById(R.id.button_OK);
+        floatingActionButtonPerson=findViewById(R.id.button_addPerson);
         floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

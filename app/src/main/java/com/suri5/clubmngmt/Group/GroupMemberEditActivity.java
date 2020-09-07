@@ -88,8 +88,6 @@ public class GroupMemberEditActivity extends Activity {
                 personlist.addAll(personAdapter_check_down.getCheckedlist());
                 personAdapter_check_up.notifyDataSetChanged();
 
-
-
                 personAdapter_check_down.setCheckedlist();
 
             }
@@ -127,19 +125,6 @@ public class GroupMemberEditActivity extends Activity {
                 finish();
             }
         });
-
-        //검색
-        /*Button button_search = findViewById(R.id.button_searchPerson);
-        button_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-         */
-
-
     }
 
     //체크표시 되어있는애들 제거하기

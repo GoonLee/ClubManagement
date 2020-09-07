@@ -157,6 +157,7 @@ public class PersonEditActivity extends AppCompatActivity {
                     emailCheck=false;
                 }
 
+
                Person new_p = new Person();
                 new_p.setPk(p.getPk());
                 new_p.setName(editText_Name.getText().toString());
@@ -170,18 +171,30 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
-                if(pk != -1){
-                    personDB.updateRecord(new_p);
-                    personDB.deleteGroupALLFromMember(p.getPk());
+
+
+                if (emailCheck == true) {//이메일 확인
+                    new_p.setEmail(editText_Email.getText().toString());
+                    Log.d("PersonManageActivity", "onCL");
+
+                    if(pk != -1){
+                        personDB.updateRecord(new_p);
+                        personDB.deleteGroupALLFromMember(p.getPk());
+                    }
+                    else{
+                        personDB.insertRecord(new_p);
+                    }
+                    //새로 그룹정보 넣기
+                    for(Group g : groups) {
+                        personDB.insertGroupFromMember(pk, g.getKey());
+                    }
+                    Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "잘못된 이메일입니다", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    personDB.insertRecord(new_p);
-                }
-                //새로 그룹정보 넣기
-                for(Group g : groups){
-                    println(g.getName());
-                    personDB.insertGroupFromMember(pk,g.getKey());
-                }
+
 
             }
         });

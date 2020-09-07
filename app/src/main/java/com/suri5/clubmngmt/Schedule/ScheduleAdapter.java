@@ -34,7 +34,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
                     int pos = getAdapterPosition();
                     if(pos!=RecyclerView.NO_POSITION){
                         Schedule item = scheduleItems.get(pos);
-                        Intent intent = new Intent(itemView.getContext(), SetSchedule.class);
+                        Intent intent = new Intent(itemView.getContext(), ScheduleEditActivity.class);
                         intent.putExtra("schedule",item);
                         view.getContext().startActivity(intent);
                     }
