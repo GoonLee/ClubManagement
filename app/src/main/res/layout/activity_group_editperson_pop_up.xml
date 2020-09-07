@@ -28,7 +28,6 @@
             android:hint="이름"
             />
 
-<<<<<<< HEAD
         <ImageButton
             android:id="@+id/button_addPerson"
             android:layout_width="40dp"
@@ -78,10 +77,6 @@
         android:orientation="horizontal">
 
         <TextView
-=======
-        <Button
-            android:id="@+id/button_searchPerson"
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
