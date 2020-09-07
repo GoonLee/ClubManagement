@@ -1,5 +1,6 @@
 package com.suri5.clubmngmt.Person;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
+
+import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder>{
     //회원 프로필 저장 배열
@@ -65,7 +68,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(view.getContext(),PersonEditActivity.class);
                         intent.putExtra("pk",personItems.get(pos).getPk());
-                        view.getContext().startActivity(intent);
+                        ((Activity)view.getContext()).startActivityForResult(intent,RESULT_SAVE);
                     }
                 }
             });

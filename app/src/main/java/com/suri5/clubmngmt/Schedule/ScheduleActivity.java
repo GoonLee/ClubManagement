@@ -102,7 +102,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SetSchedule.class);
+                Intent intent = new Intent(getApplicationContext(), ScheduleEditActivity.class);
                 startActivityForResult(intent, RESULT_SCHEDULE_SAVE);
             }
         });
