@@ -73,4 +73,4 @@ University club management application for android
 수입 / 지출 구분해서 추가하기
 -> 추가해서 리사이클뷰로 띄워주기
 
-Slack 했다.
+
