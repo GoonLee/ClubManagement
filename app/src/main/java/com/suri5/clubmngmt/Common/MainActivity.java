@@ -13,8 +13,10 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.suri5.clubmngmt.Group.GroupEditActivity;
 import com.suri5.clubmngmt.Group.GroupShowActivity;
 import com.suri5.clubmngmt.Person.PersonDB;
+import com.suri5.clubmngmt.Person.PersonEditActivity;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 import com.suri5.clubmngmt.Schedule.ScheduleActivity;
@@ -55,13 +57,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){//각 아이템 클릭에 대한 반응
-                    case R.id.menu_first:
-                        Intent personIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
-                        startActivity(personIntent);
+                    case R.id.personAdd:
+                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
+                        startActivity(personAddIntent);
                         break;
-                    case R.id.menu_first_2:
-                        Intent groupIntent = new Intent(getApplicationContext(), GroupShowActivity.class);
-                        startActivity(groupIntent);
+                    case R.id.personShow:
+                        Intent personShowIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
+                        startActivity(personShowIntent);
+                        break;
+                    case R.id.groupAdd:
+                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
+                        startActivity(groupAddIntent);
+                        break;
+                    case R.id.groupShow:
+                        Intent groupShowIntent=new Intent(getApplicationContext(), GroupShowActivity.class);
+                        startActivity(groupShowIntent);
+                        break;
                     case R.id.menu_second:
                         break;
                     case R.id.menu_third:
@@ -70,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
+                //drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
                 return false;
             }
         });
