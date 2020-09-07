@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigationView = findViewById(R.id.sideMenu);
+        navigationView = (NavigationView)findViewById(R.id.sideMenu);
         //테이블 미리 다 만들어놓기
         PersonDB pd = new PersonDB(new DatabaseHelper(getApplicationContext()));
         pd.createTable();
@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        View headerView = navigationView.getHeaderView(0);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ClubActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //네비게이션뷰 아이템 클릭 리스너
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

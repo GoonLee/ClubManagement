@@ -39,6 +39,7 @@
         <activity android:name=".Group.GroupEditActivity"/>
         <activity android:name=".Group.GroupShowActivity" />
         <activity android:name=".Group.GroupMemberEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-        <activity android:name=".Schedule.SetSchedule" />
+        <activity android:name=".Schedule.ScheduleEditActivity" />
+        <activity android:name=".Common.ClubActivity"/>
     </application>
 </manifest>
