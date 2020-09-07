@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
         <item android:id="@+id/menu_first"
             android:title="인원"
-            />
+            android:checkable="true"
+            android:checked="true"
+            >
+            <menu>
+                <item android:id="@+id/personAdd"
+                    android:title="인원 추가"></item>
+                <item android:id="@+id/personShow"
+                    android:title="인원 조회"></item>
+            </menu>
+        </item>
         <item android:id="@+id/menu_first_2"
             android:title="그룹"
-            />
+            android:checkable="true"
+            android:checked="true"
+            >
+            <menu>
+                <item android:id="@+id/groupAdd"
+                    android:title="그룹 추가"></item>
+                <item android:id="@+id/groupShow"
+                    android:title="그룹 조회"></item>
+            </menu>
+        </item>
+
         <item android:id="@+id/menu_second"
             android:title="회비"
-            />
+            >
+
+        </item>
         <item android:id="@+id/menu_third"
             android:title="일정"
-            />
-    </group>
+            >
+
+        </item>
 
 
 
