@@ -8,11 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.ImageButton;
-=======
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -86,12 +83,8 @@ public class PersonShowActivity extends AppCompatActivity {
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();
 
-<<<<<<< HEAD
-        FloatingActionButton button_add = findViewById(R.id.button_OK);
-=======
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
         //추가
-        floatingActionButtonPerson=findViewById(R.id.floatingActionButtonPerson);
+        floatingActionButtonPerson=findViewById(R.id.button_OK);
         floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
