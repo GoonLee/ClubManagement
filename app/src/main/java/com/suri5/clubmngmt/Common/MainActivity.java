@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     NavigationView navigationView; //사이드 메뉴
     public ActionBarDrawerToggle drawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,5 +122,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //측면 사이드 메뉴 열려있을시 뒤로가기 버튼에 대한 반응
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(navigationView);
+        }else{
+            super.onBackPressed();
+        }
     }
 }
