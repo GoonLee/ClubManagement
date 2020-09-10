@@ -38,11 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".Common.ClubActivity"/>
-=======
-
->>>>>>> master
         <activity android:name=".Person.PersonShowActivity"></activity>
         <activity android:name=".Person.PersonEditActivity"></activity>
         <activity android:name=".Schedule.ScheduleActivity" />
@@ -50,8 +46,6 @@
         <activity android:name=".Group.GroupEditActivity"/>
         <activity android:name=".Group.GroupShowActivity" />
         <activity android:name=".Group.GroupMemberEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-<<<<<<< HEAD
-=======
         <activity android:name=".Schedule.SetSchedule" />
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -66,7 +60,5 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
->>>>>>> master
-
     </application>
 </manifest>
