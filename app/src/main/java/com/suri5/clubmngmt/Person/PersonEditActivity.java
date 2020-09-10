@@ -1,12 +1,11 @@
 package com.suri5.clubmngmt.Person;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,15 +20,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.doodle.android.chips.ChipsView;
+import com.doodle.android.chips.model.Contact;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.Group.Group;
 import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
+import static com.suri5.clubmngmt.Common.EdiImages.resize_filesize;
 
 public class PersonEditActivity extends AppCompatActivity {
     //Todo : Group setting, Date picker, fancier xml, Version matching
@@ -39,6 +44,7 @@ public class PersonEditActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     Person p;
+    Activity activity;
 
     //추가/수정 판단
     int pk = -1;
@@ -57,6 +63,7 @@ public class PersonEditActivity extends AppCompatActivity {
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
         setContentView(R.layout.activity_person_edit);
         imageView = findViewById(R.id.imageView);
         editText_Email=findViewById(R.id.editPersonEmail);
@@ -71,6 +78,8 @@ public class PersonEditActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(groupAdapter_short);
+
+
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
@@ -106,23 +115,26 @@ public class PersonEditActivity extends AppCompatActivity {
                 groups = personDB.lookupGroup(p.getPk());
                 groupAdapter_short.setItems(groups);
                 groupAdapter_short.notifyDataSetChanged();
+
+                for(Group g : groups){
+
+                }
             }
             else{
                 p = new Person();
                 button_delete.setVisibility(View.GONE);
             }
+
             //사진 파일 세팅
-            if(picture == null){
-                picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
-            }
-            imageView.setImageBitmap(picture);
+            Glide.with(this).load(picture).error(R.drawable.avatar_empty).into(imageView);
+
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"사람을 불러오는데 오류가 발생했습니다.",Toast.LENGTH_LONG).show();
             finish();
         }
 
-        Button button_picture = findViewById(R.id.button_picture);
+        /*Button button_picture = findViewById(R.id.button_picture);
         button_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,89 +142,113 @@ public class PersonEditActivity extends AppCompatActivity {
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent, Constant.REQUEST_CODE_GET_IMAGE);
             }
-        });
+        });*/
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 picture = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.avatar_empty);
-                imageView.setImageBitmap(picture);
+                Glide.with(view).load(picture).error(R.drawable.avatar_empty).into(imageView);
             }
         });
+
 
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id=radioGroup_Sex.getCheckedRadioButtonId();
-                if(id==-1){
-                    Toast.makeText(getApplicationContext(),"성별을 선택해주세요",Toast.LENGTH_SHORT).show();
+                int id = radioGroup_Sex.getCheckedRadioButtonId();
+                if (id == -1) {
+                    Toast.makeText(getApplicationContext(), "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //이메일 확인
                 input = editText_Email.getText().toString().trim();
-                if((input.matches(emailPattern)&&input.length()>0)||input.length()==0){
-                    emailCheck=true;
-                }else{
-                    emailCheck=false;
+                if ((input.matches(emailPattern) && input.length() > 0) || input.length() == 0) {
+                    emailCheck = true;
+                } else {
+                    emailCheck = false;
                 }
 
+<<<<<<< HEAD
+
                Person new_p = new Person();
+=======
+                Person new_p = new Person();
+>>>>>>> master
                 new_p.setPk(p.getPk());
                 new_p.setName(editText_Name.getText().toString());
                 new_p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
                 new_p.setMajor(editText_Major.getText().toString());
 
                 new_p.setMobile(editText_Mobile.getText().toString());
-                if(id==R.id.radioButton_Male) new_p.setGender("남성");
-                else if(id==R.id.radioButton_Female) new_p.setGender("여성");
+                if (id == R.id.radioButton_Male) new_p.setGender("남성");
+                else if (id == R.id.radioButton_Female) new_p.setGender("여성");
                 else new_p.setGender("알수없음");
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
 <<<<<<< HEAD
-                if(pk != -1){
+
+=======
+                if (pk != -1) {
                     personDB.updateRecord(new_p);
                     personDB.deleteGroupALLFromMember(p.getPk());
-                }
-                else{
+                } else {
                     personDB.insertRecord(new_p);
                 }
                 //새로 그룹정보 넣기
-                for(Group g : groups){
+                for (Group g : groups) {
                     println(g.getName());
-                    personDB.insertGroupFromMember(pk,g.getKey());
-=======
-                if(emailCheck==true){//이메일 확인
-                    new_p.setEmail(editText_Email.getText().toString());
+                    personDB.insertGroupFromMember(pk, g.getKey());
+                }
+>>>>>>> master
 
-                    if(pk != -1){
+                if (emailCheck == true) {//이메일 확인
+                    new_p.setEmail(editText_Email.getText().toString());
+                    Log.d("PersonManageActivity", "onCL");
+
+                    if (pk != -1) {
                         personDB.updateRecord(new_p);
                         personDB.deleteGroupALLFromMember(p.getPk());
-                    }
-                    else{
+                    } else {
                         personDB.insertRecord(new_p);
                     }
                     //새로 그룹정보 넣기
-                    for(Group g : groups){
-                        personDB.insertGroupFromMember(g.getKey(),pk);
+<<<<<<< HEAD
+                    for(Group g : groups) {
+                        personDB.insertGroupFromMember(pk, g.getKey());
+                    }
+                    Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "잘못된 이메일입니다", Toast.LENGTH_SHORT).show();
+                }
+
+
+=======
+                    for (Group g : groups) {
+                        personDB.insertGroupFromMember(g.getKey(), pk);
                     }
 
-                    Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     //intent.putExtra("group",g);
                     //setResult(RESULT_OK,intent);
-                    Log.d("PersonManageActivity","onCL");
+                    Log.d("PersonManageActivity", "onCL");
                     //finish();
-                }else{
-                    Toast.makeText(getApplicationContext(),"잘못된 이메일입니다",Toast.LENGTH_SHORT).show();
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
+                } else {
+                    Toast.makeText(getApplicationContext(), "잘못된 이메일입니다", Toast.LENGTH_SHORT).show();
                 }
-
+>>>>>>> master
             }
         });
 
+
+    //삭제
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -235,16 +271,38 @@ public class PersonEditActivity extends AppCompatActivity {
         });
     }
 
+    public void ImageChange(View v){
+        // start picker to get image for cropping and then use the image in cropping activity
+        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == Constant.REQUEST_CODE_GET_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        /*if (requestCode == Constant.REQUEST_CODE_GET_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
             try {
                 //Todo: 빨간줄 무시 버전 체크하는 if문 넣을 예정
                 picture = ImageDecoder.decodeBitmap(ImageDecoder.createSource(getContentResolver(), selectedImageUri));
                 imageView.setImageBitmap(picture);
             } catch (Exception e) {}
+        }*/
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            try{
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImageUri = result.getUri();
+                    picture = resize_filesize(getApplicationContext(), selectedImageUri, 107200);
+                    Glide.with(this).load(picture).error(R.drawable.avatar_empty).into(imageView);
+                }
+            }
+            catch (Exception e){
+                println("에러 발생");
+            }
+
         }
     }
 }

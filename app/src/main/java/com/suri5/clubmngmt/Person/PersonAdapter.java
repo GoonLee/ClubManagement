@@ -1,5 +1,6 @@
 package com.suri5.clubmngmt.Person;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
+
+import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder>{
     //회원 프로필 저장 배열
@@ -65,14 +70,12 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(view.getContext(),PersonEditActivity.class);
                         intent.putExtra("pk",personItems.get(pos).getPk());
-                        view.getContext().startActivity(intent);
+                        ((Activity)view.getContext()).startActivityForResult(intent,RESULT_SAVE);
                     }
                 }
             });
 
             textView_Name=itemView.findViewById(R.id.textView_name);
-            //textView_Birth=itemView.findViewById(R.id.textView_birth);
-            //textView_Email=itemView.findViewById(R.id.textView_email);
             textView_Major=itemView.findViewById(R.id.textView_major);
             textView_Mobile=itemView.findViewById(R.id.textView_mobile);
             textView_Sex=itemView.findViewById(R.id.textView_sex);
@@ -84,9 +87,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             textView_Mobile.setText(item.getMobile());
             textView_Sex.setText(item.getGender());
             textView_Major.setText(item.getMajor());
-            //textView_Email.setText(item.getEmail());
-            //textView_Birth.setText(item.getBirthday());
-            imageView_profile.setImageBitmap(item.getPicture());
+            Glide.with(itemView).applyDefaultRequestOptions(new RequestOptions().circleCrop()).load(item.getPicture()).thumbnail(0.8f).into(imageView_profile);
         }
     }
 }

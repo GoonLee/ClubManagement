@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.R;
 
-public class SetSchedule extends AppCompatActivity {
+public class ScheduleEditActivity extends AppCompatActivity {
     EditText editTextSchedule,  editTextPlace, editTextComment;
     Button button,buttonDeleteSchedule;
     DatePicker datePickerS,datePickerE;
@@ -178,7 +178,7 @@ public class SetSchedule extends AppCompatActivity {
                 endDate=yearE+monthE+dayE;
                 endTime = hourE+minuteE;
 
-                if(Integer.parseInt(startDate)<=Integer.parseInt(endDate)&&Integer.parseInt(startTime)<=Integer.parseInt(endTime)){
+                if(Integer.parseInt(startDate)<=Integer.parseInt(endDate)) {
                     Schedule tempSchedule = new Schedule(
                             pk,
                             editTextSchedule.getText().toString(),
@@ -189,7 +189,6 @@ public class SetSchedule extends AppCompatActivity {
                             editTextPlace.getText().toString(),
                             editTextComment.getText().toString()
                     );
-
                     if(isEdit == false){
                         scheduleDB.insertRecord(tempSchedule);
                     }
@@ -198,10 +197,30 @@ public class SetSchedule extends AppCompatActivity {
                     }
                     finish();
                 }
+                else if(Integer.parseInt(startDate)==Integer.parseInt(endDate)){
+                    if(Integer.parseInt(startTime)<=Integer.parseInt(endTime)){
+                        Schedule tempSchedule = new Schedule(
+                                pk,
+                                editTextSchedule.getText().toString(),
+                                startDate,
+                                startTime,
+                                endDate,
+                                endTime,
+                                editTextPlace.getText().toString(),
+                                editTextComment.getText().toString()
+                        );
+                        if(isEdit == false){
+                            scheduleDB.insertRecord(tempSchedule);
+                        }
+                        else{
+                            scheduleDB.updateRecord(tempSchedule);
+                        }
+                        finish();
+                    }
+                }
                 else{
                     Toast.makeText(getApplicationContext(),"시간이 올바르지 않습니다",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

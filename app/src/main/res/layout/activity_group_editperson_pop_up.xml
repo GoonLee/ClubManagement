@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="380dp"
-    android:layout_height="600dp"
+    android:layout_height="620dp"
     android:layout_gravity="center"
     android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="인원 목록" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="5dp"
+        android:id="@+id/recyclerView_checkedmember"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +42,10 @@
             android:completionThreshold="1"
             android:hint="이름"
             />
-
 <<<<<<< HEAD
+
+=======
+>>>>>>> master
         <ImageButton
             android:id="@+id/button_addPerson"
             android:layout_width="40dp"
@@ -39,13 +56,6 @@
             android:src="@drawable/icons8_search" />
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_checkedmember"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,23 +81,34 @@
             android:src="@drawable/icons8_below" />
     </LinearLayout>
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_uncheckedmember"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
+
+
         <TextView
-=======
-        <Button
+<<<<<<< HEAD
             android:id="@+id/button_searchPerson"
->>>>>>> 3d0ee7abe5996bb5fd7d316bb8056514ef312fba
+=======
+>>>>>>> master
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="인원" />
-
         <EditText
             android:id="@+id/editText_findPerson_unchecked"
             android:layout_width="280dp"
@@ -106,19 +127,10 @@
             android:src="@drawable/icons8_search" />
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_uncheckedmember"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
     <Button
         android:id="@+id/button_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="확인" />
-
 </LinearLayout>
