@@ -97,7 +97,7 @@
             app:srcCompat="@drawable/icons8_plus" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    
+
     <!--사이드 메뉴-->
 
     <com.google.android.material.navigation.NavigationView
@@ -109,4 +109,5 @@
         android:background="@android:color/background_light"
         app:menu="@menu/drawer_menu"
         />
+
 </androidx.drawerlayout.widget.DrawerLayout>
