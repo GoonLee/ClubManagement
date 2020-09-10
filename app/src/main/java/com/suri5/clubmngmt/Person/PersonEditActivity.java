@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.doodle.android.chips.ChipsView;
-import com.doodle.android.chips.model.Contact;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.Group.Group;
@@ -171,12 +169,7 @@ public class PersonEditActivity extends AppCompatActivity {
                     emailCheck = false;
                 }
 
-<<<<<<< HEAD
-
-               Person new_p = new Person();
-=======
                 Person new_p = new Person();
->>>>>>> master
                 new_p.setPk(p.getPk());
                 new_p.setName(editText_Name.getText().toString());
                 new_p.setId_num(Integer.parseInt(editText_IdNum.getText().toString()));
@@ -189,9 +182,6 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
-<<<<<<< HEAD
-
-=======
                 if (pk != -1) {
                     personDB.updateRecord(new_p);
                     personDB.deleteGroupALLFromMember(p.getPk());
@@ -203,11 +193,9 @@ public class PersonEditActivity extends AppCompatActivity {
                     println(g.getName());
                     personDB.insertGroupFromMember(pk, g.getKey());
                 }
->>>>>>> master
 
                 if (emailCheck == true) {//이메일 확인
                     new_p.setEmail(editText_Email.getText().toString());
-                    Log.d("PersonManageActivity", "onCL");
 
                     if (pk != -1) {
                         personDB.updateRecord(new_p);
@@ -216,19 +204,6 @@ public class PersonEditActivity extends AppCompatActivity {
                         personDB.insertRecord(new_p);
                     }
                     //새로 그룹정보 넣기
-<<<<<<< HEAD
-                    for(Group g : groups) {
-                        personDB.insertGroupFromMember(pk, g.getKey());
-                    }
-                    Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
-                    setResult(RESULT_OK,intent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "잘못된 이메일입니다", Toast.LENGTH_SHORT).show();
-                }
-
-
-=======
                     for (Group g : groups) {
                         personDB.insertGroupFromMember(g.getKey(), pk);
                     }
@@ -243,7 +218,6 @@ public class PersonEditActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "잘못된 이메일입니다", Toast.LENGTH_SHORT).show();
                 }
->>>>>>> master
             }
         });
 
