@@ -42,7 +42,10 @@
             android:completionThreshold="1"
             android:hint="이름"
             />
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         <ImageButton
             android:id="@+id/button_addPerson"
             android:layout_width="40dp"
@@ -97,13 +100,15 @@
 
 
         <TextView
+<<<<<<< HEAD
             android:id="@+id/button_searchPerson"
+=======
+>>>>>>> master
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="인원" />
-
         <EditText
             android:id="@+id/editText_findPerson_unchecked"
             android:layout_width="280dp"

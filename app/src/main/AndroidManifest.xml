@@ -3,15 +3,19 @@
     package="com.suri5.clubmngmt">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Schedule.GoogleMapActivity"></activity>
 
+        <activity android:name=".Schedule.GoogleMapActivity"></activity>
         <uses-library android:name="com.google.android.maps"/>
         <uses-library android:name="org.apache.http.legacy"
             android:required="false"/>
@@ -21,19 +25,24 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+
         <activity
             android:name=".Common.MainActivity"
             android:launchMode="singleTop"></activity>
+
         <activity
             android:name=".Common.SplashActivity"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".Common.ClubActivity"/>
+=======
+
+>>>>>>> master
         <activity android:name=".Person.PersonShowActivity"></activity>
         <activity android:name=".Person.PersonEditActivity"></activity>
         <activity android:name=".Schedule.ScheduleActivity" />
@@ -41,6 +50,23 @@
         <activity android:name=".Group.GroupEditActivity"/>
         <activity android:name=".Group.GroupShowActivity" />
         <activity android:name=".Group.GroupMemberEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
+<<<<<<< HEAD
+=======
+        <activity android:name=".Schedule.SetSchedule" />
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.suri5.clubmngmt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+>>>>>>> master
 
     </application>
 </manifest>
