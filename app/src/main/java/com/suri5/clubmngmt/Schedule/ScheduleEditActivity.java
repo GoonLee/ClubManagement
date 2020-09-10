@@ -41,7 +41,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==101 && resultCode==RESULT_OK){
             String str=data.getStringExtra("place");
-            Toast.makeText(getApplicationContext(),"됨",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"됨",Toast.LENGTH_SHORT).show();
             editTextPlace.setText(str);
         }
     }
