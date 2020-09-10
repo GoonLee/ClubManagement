@@ -3,19 +3,27 @@ package com.suri5.clubmngmt.Group;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Person.PersonEditActivity;
+import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
+import com.suri5.clubmngmt.Schedule.ScheduleActivity;
 
 public class GroupShowActivity extends AppCompatActivity {
     public static final int RESULT_SAVE = 102;
@@ -24,9 +32,54 @@ public class GroupShowActivity extends AppCompatActivity {
     GroupAdapter groupAdapter = new GroupAdapter();
     GroupDB groupDB;
 
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle drawerToggle;
+    NavigationView navigationView;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_manage);
+
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        navigationView = findViewById(R.id.sideMenu);
+        drawerLayout=findViewById(R.id.drawer);
+        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        //네비게이션뷰 아이템 클릭 리스너
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){//각 아이템 클릭에 대한 반응
+                    case R.id.personAdd:
+                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
+                        startActivity(personAddIntent);
+                        break;
+                    case R.id.personShow:
+                        Intent personShowIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
+                        startActivity(personShowIntent);
+                        break;
+                    case R.id.groupAdd:
+                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
+                        startActivity(groupAddIntent);
+                        break;
+                    case R.id.groupShow:
+                        break;
+                    case R.id.menu_second:
+                        break;
+                    case R.id.menu_third:
+                        Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
+                return false;
+            }
+        });
 
         //인원목록 나타낼 리사이클러뷰 생성
         recyclerView = findViewById(R.id.recyclerView_group);

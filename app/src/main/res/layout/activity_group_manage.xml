@@ -1,94 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Group.GroupShowActivity"
-    android:orientation="vertical">
+    tools:context=".Group.GroupShowActivity">
 
-    <!--상단 앱바(툴바)-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.Appbar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:background="@android:color/background_light"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:contentInsetStartWithNavigation="0dp"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="그룹"
-                android:textColor="@android:color/background_dark"
-                android:textSize="25sp"
-                />
-
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!--메인 화면-->
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/background_light"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:orientation="vertical">
 
+        <!--상단 앱바(툴바)-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.Appbar">
 
-        <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@android:color/background_light"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:contentInsetStartWithNavigation="0dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="그룹"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="25sp"
+                    />
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--메인 화면-->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@android:color/background_light"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <AutoCompleteTextView
-                android:id="@+id/editText_searchgroup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="25sp"
-                android:layout_margin="5dp"
-                android:hint="그룹명"
-                android:completionThreshold="1"/>
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="검색" />
-        </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_group"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="10"/>
+                android:orientation="vertical">
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <AutoCompleteTextView
+                        android:id="@+id/editText_searchgroup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="25sp"
+                        android:layout_margin="5dp"
+                        android:hint="그룹명"
+                        android:completionThreshold="1"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_addgroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        app:backgroundTint="#FFFFFF"
-        app:layout_anchor="@+id/nestedScrollView"
-        app:layout_anchorGravity="right|bottom"
-        app:srcCompat="@drawable/icons8_plus" />
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="검색" />
+                </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_addgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            app:backgroundTint="#FFFFFF"
+            app:layout_anchor="@+id/nestedScrollView"
+            app:layout_anchorGravity="right|bottom"
+            app:srcCompat="@drawable/icons8_plus" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    
+    <!--사이드 메뉴-->
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/sideMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        android:background="@android:color/background_light"
+        app:menu="@menu/drawer_menu"
+        />
+</androidx.drawerlayout.widget.DrawerLayout>
