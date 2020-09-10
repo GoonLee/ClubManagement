@@ -82,14 +82,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-            </LinearLayout>
+
+
+        </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 
-
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_addPerson"
+        android:id="@+id/button_OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
@@ -99,27 +100,5 @@
         app:layout_anchor="@+id/nestedScrollView"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/icons8_plus" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBarPerson"
-        style="@style/Widget.MaterialComponents.BottomAppBar"
-        android:backgroundTint="@android:color/holo_blue_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:clickable="false"
-        app:hideOnScroll="true"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
-        >
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationViewPerson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:menu="@menu/person_bottom_navigation"
-            />
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
