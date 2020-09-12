@@ -1,14 +1,12 @@
 package com.suri5.clubmngmt.Person;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -31,6 +30,7 @@ import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -48,7 +48,6 @@ public class PersonEditActivity extends AppCompatActivity {
     Bitmap picture;
     PersonDB personDB;
     Person p;
-    Activity activity;
 
 
     //추가/수정 판단
@@ -68,7 +67,6 @@ public class PersonEditActivity extends AppCompatActivity {
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this;
         setContentView(R.layout.activity_person_edit);
         imageView = findViewById(R.id.imageView);
         editText_Email=findViewById(R.id.editPersonEmail);
@@ -80,11 +78,10 @@ public class PersonEditActivity extends AppCompatActivity {
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
 
         recyclerView = findViewById(R.id.recyclerView_group_short);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,3);
-        recyclerView.setLayoutManager(layoutManager);
+        FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
+        flowLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
-
-
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
@@ -106,6 +103,7 @@ public class PersonEditActivity extends AppCompatActivity {
                 editText_Birthday.setText(p.getBirthday());
                 editText_Name.setText(p.getName());
                 editText_IdNum.setText(String.valueOf(p.getId_num()));
+
                 if(p.getGender().equals("남성")){
                     RadioButton radioButton = findViewById(R.id.radioButton_Male);
                     radioButton.setChecked(true);
@@ -119,16 +117,14 @@ public class PersonEditActivity extends AppCompatActivity {
 
                 groups = personDB.lookupGroup(p.getPk());
                 groupAdapter_short.setItems(groups);
-                groupAdapter_short.notifyDataSetChanged();
 
-                for(Group g : groups){
 
-                }
             }
             else{
                 p = new Person();
                 button_delete.setVisibility(View.GONE);
             }
+
 
             //사진 파일 세팅
             Glide.with(this).load(picture).error(R.drawable.avatar_empty).into(imageView);
@@ -270,7 +266,6 @@ public class PersonEditActivity extends AppCompatActivity {
             Uri selectedImageUri = data.getData();
             Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
             try {
-                println("크롭 하기 전 주소@@@@@@@@@@@@@@@@" + selectedImageUri.toString());
                 UCrop.of(selectedImageUri, destination).start(this);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -301,4 +296,6 @@ public class PersonEditActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

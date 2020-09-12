@@ -30,13 +30,11 @@
         <activity
             android:name=".Common.MainActivity"
             android:launchMode="singleTop"></activity>
-
         <activity
             android:name=".Common.SplashActivity"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -36,7 +36,7 @@ public class GroupAdapter_short extends RecyclerView.Adapter<GroupAdapter_short.
             public void onClick(View view) {
                 if(!groupItems.isEmpty()){
                     groupItems.remove(position);
-                    notifyDataSetChanged();
+                    notifyItemChanged(position);
                 }
             }
         });
