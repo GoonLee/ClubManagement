@@ -8,25 +8,7 @@ public class MultipleDotSpan implements LineBackgroundSpan {
     public static final float DEFAULT_RADIUS = 3;
 
     private final float radius;
-    private int[] color = new int[0];
-
-    public MultipleDotSpan() {
-        this.radius = DEFAULT_RADIUS;
-        this.color[0] = 0;
-    }
-
-
-    public MultipleDotSpan(int color) {
-        this.radius = DEFAULT_RADIUS;
-        this.color[0] = 0;
-    }
-
-
-    public MultipleDotSpan(float radius) {
-        this.radius = radius;
-        this.color[0] = 0;
-    }
-
+    private int[] color;
 
     public MultipleDotSpan(float radius, int[] color) {
         this.radius = radius;
