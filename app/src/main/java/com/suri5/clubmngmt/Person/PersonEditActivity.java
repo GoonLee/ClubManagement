@@ -21,6 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
+import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import com.bumptech.glide.Glide;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
@@ -78,10 +81,34 @@ public class PersonEditActivity extends AppCompatActivity {
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
 
         recyclerView = findViewById(R.id.recyclerView_group_short);
-        FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
-        flowLayoutManager.setAutoMeasureEnabled(true);
-        recyclerView.setLayoutManager(flowLayoutManager);
+        //FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
+        //flowLayoutManager.setAutoMeasureEnabled(true);
+        //recyclerView.setLayoutManager(flowLayoutManager);
+
+       ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
+               //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
+               .setChildGravity(Gravity.TOP)
+               //whether RecyclerView can scroll. TRUE by default
+               .setScrollingEnabled(true)
+               //set gravity resolver where you can determine gravity for item in position.
+               //This method have priority over previous one
+               .setGravityResolver(new IChildGravityResolver() {
+                   @Override
+                   public int getItemGravity(int position) {
+                       return Gravity.CENTER;
+                   }
+               })
+               //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
+               .setOrientation(ChipsLayoutManager.HORIZONTAL)
+               // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
+               //STRATEGY_FILL_SPACE or STRATEGY_CENTER
+               .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER)
+               .build();
+
+        recyclerView.setLayoutManager(chipsLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
+
+
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
