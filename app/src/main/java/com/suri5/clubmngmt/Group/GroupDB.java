@@ -329,6 +329,7 @@ public class GroupDB {
         //insert시 Primary key return
         database.insert(Constant.GROUP_PERSON_TABLE_TITLE, null, val);
     }
+
     //그룹에서 인원 전체 삭제
     public void deleteMemberAllGroup(int groupkey){
         String selection = Constant.GROUP_PERSON_COLUMN_GROUPKEY + " LIKE ?";
