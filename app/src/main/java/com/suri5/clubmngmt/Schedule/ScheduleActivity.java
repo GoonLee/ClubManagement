@@ -2,12 +2,16 @@ package com.suri5.clubmngmt.Schedule;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,7 @@ import com.suri5.clubmngmt.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 
 public class ScheduleActivity extends AppCompatActivity implements OnDateSelectedListener {
@@ -50,9 +55,11 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     RecyclerView recyclerViewSchedule;
     String day;
 
+
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
     NavigationView navigationView;
+
 
     @Override
     protected void onResume() {//일정 내용 변경/추가/삭제 후 기존 창 새로고침
@@ -141,6 +148,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 new DotDecorator()
         );
 
+
         /**
          * 해당 날짜 아래 스케줄 띄우는 리사이클러뷰 설정
          */
@@ -200,18 +208,24 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
      */
     private class DotDecorator implements DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
+        private String date;
+
         @Override
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
-            String date=changeDayString(day.toString());
-
+            date=changeDayString(day.toString());
             return scheduleDB.getSchedule(date).size()>0; //일정이 1개라도 있는 날만 true
         }
 
         @Override
         public void decorate(DayViewFacade view) {
             view.addSpan(new DotSpan(5,Color.RED));
+            SpannableString temp = new SpannableString("event");
+            temp.setSpan(new BackgroundColorSpan(Color.BLUE), 0, temp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            view.addSpan(temp);
         }
+
     }
 
     /**

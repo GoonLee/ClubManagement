@@ -56,12 +56,17 @@
                 android:orientation="vertical">
 
 
+
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:mcv_selectionColor="#83CDEF"
-                    app:mcv_showOtherDates="other_months" />
+                    app:mcv_showOtherDates="other_months"
+                    app:mcv_tileHeight="45dp"
+                    />
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewSchedule"
@@ -79,7 +84,8 @@
             android:layout_marginRight="20dp"
             app:layout_anchor="@+id/nestedScrollView"
             app:layout_anchorGravity="right|bottom"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            app:backgroundTint="#FFFFFF"
+            app:srcCompat="@drawable/icons8_plus" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
