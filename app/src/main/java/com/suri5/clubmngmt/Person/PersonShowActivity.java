@@ -2,16 +2,15 @@ package com.suri5.clubmngmt.Person;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,14 +35,11 @@ import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 
 public class PersonShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    Spinner spinner;
-    AutoCompleteTextView editText;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDB personDB;
-    ArrayList<String> names;
-    ArrayList<String> idNums;
-    ArrayList<String> majors;
+    EditText editText;
     FloatingActionButton floatingActionButtonPerson;
+    SearchHandler handler;
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
@@ -96,43 +92,12 @@ public class PersonShowActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recyclerviewPerson);
-        editText = findViewById(R.id.editText);
-        spinner = findViewById(R.id.spinner);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(personAdapter);
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        names = personDB.getAllMembersName();
-        idNums = personDB.getAllMembersIdNum();
-        majors = personDB.getAllMembersMajor();
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
-                    case 0:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, names));
-                        break;
-                    }
-                    case 1:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, idNums));
-                        break;
-                    }
-                    case 2:{
-                        editText.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, majors));
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         personAdapter.setItems(personDB.lookUpMember());
         personAdapter.notifyDataSetChanged();
 
@@ -145,26 +110,46 @@ public class PersonShowActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_SAVE);
             }
         });
-
-        ImageButton button_search = findViewById(R.id.button3);
-        button_search.setOnClickListener(new View.OnClickListener() {
+        handler = new SearchHandler(Looper.getMainLooper());
+        editText = findViewById(R.id.search_people);
+        editText.addTextChangedListener(new TextWatcher() {
+            Thread thread;
             @Override
-            public void onClick(View view) {
-                switch (spinner.getSelectedItemPosition()){
-                    case 0: {
-                        personAdapter.setItems(personDB.findMember(Constant.PERSON_COLUMN_NAME, editText.getText().toString()));
-                        break;
-                    }
-                    case 1: {
-                        personAdapter.setItems(personDB.findMember(Constant.PERSON_COLUMN_IDNUM, editText.getText().toString()));
-                        break;
-                    }
-                    case 2: {
-                        personAdapter.setItems(personDB.findMember(Constant.PERSON_COLUMN_MAJOR, editText.getText().toString()));
-                        break;
-                    }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(thread!=null&&thread.isAlive()){
+                    thread.interrupt();
                 }
-                personAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                final String data = charSequence.toString();
+                thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            //Todo: Set proper timing
+                            Thread.sleep(150);
+                            ArrayList<Person> found = personDB.findMember(Constant.PERSON_COLUMN_NAME,data);
+                            Message msg = handler.obtainMessage();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelableArrayList("found",found);
+                            msg.setData(bundle);
+
+                            handler.sendMessage(msg);
+                        } catch (InterruptedException e){
+                            //e.printStackTrace();
+                        } finally{
+                            ;
+                        }
+                    }
+                });
+                thread.start();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -176,6 +161,21 @@ public class PersonShowActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
 
             personAdapter.setItems(personDB.lookUpMember());
+            personAdapter.notifyDataSetChanged();
+        }
+    }
+
+    class SearchHandler extends Handler{
+        public SearchHandler(@NonNull Looper looper) {
+            super(looper);
+        }
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+
+            Bundle bundle = msg.getData();
+            ArrayList found = bundle.getParcelableArrayList("found");
+            personAdapter.setItems(found);
             personAdapter.notifyDataSetChanged();
         }
     }

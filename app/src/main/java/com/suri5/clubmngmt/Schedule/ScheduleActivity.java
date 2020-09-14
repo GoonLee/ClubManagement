@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,9 +47,11 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     RecyclerView recyclerViewSchedule;
     String day;
 
+
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
     NavigationView navigationView;
+
 
     @Override
     protected void onResume() {//일정 내용 변경/추가/삭제 후 기존 창 새로고침
@@ -61,7 +60,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         calendarView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                new DotDecorator()
+                new DotDecorator(),
+                new DecoratorEvent2(),
+                new DecoratorEvent3()
         );
 
         ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
@@ -138,8 +139,11 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         calendarView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                new DotDecorator()
+                new DotDecorator(),
+                new DecoratorEvent2(),
+                new DecoratorEvent3()
         );
+
 
         /**
          * 해당 날짜 아래 스케줄 띄우는 리사이클러뷰 설정
@@ -200,17 +204,55 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
      */
     private class DotDecorator implements DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
+        private String date;
+
         @Override
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
-            String date=changeDayString(day.toString());
-
-            return scheduleDB.getSchedule(date).size()>0; //일정이 1개라도 있는 날만 true
+            date=changeDayString(day.toString());
+            return scheduleDB.getSchedule(date).size()==1; //일정이 1개라도 있는 날만 true
         }
 
         @Override
         public void decorate(DayViewFacade view) {
             view.addSpan(new DotSpan(5,Color.RED));
+        }
+
+    }
+
+    private class DecoratorEvent2 implements  DayViewDecorator{
+        private final Calendar calendar=Calendar.getInstance();
+        private String date;
+        private final int[] colors={Color.GREEN,Color.RED};
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            date=changeDayString(day.toString());
+            return scheduleDB.getSchedule(date).size()==2; //일정이 1개라도 있는 날만 true
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan((new MultipleDotSpan(5,colors)));
+        }
+    }
+
+    private class DecoratorEvent3 implements  DayViewDecorator{
+        private final Calendar calendar=Calendar.getInstance();
+        private String date;
+        private final int[] colors={Color.BLUE,Color.GREEN,Color.RED};
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            date=changeDayString(day.toString());
+            return scheduleDB.getSchedule(date).size()>2; //일정이 1개라도 있는 날만 true
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan((new MultipleDotSpan(5,colors)));
         }
     }
 
