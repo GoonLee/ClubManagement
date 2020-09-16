@@ -210,6 +210,7 @@ public class PersonDB {
                 +" AND " + Constant.GROUP_PERSON_COLUMN_PERSONKEY + " = " + personkey;
         database.rawQuery(sql, null);
     }
+
     //인원에서 그룹 삽입
     public void insertGroupFromMember(int personkey, int groupkey){
         ContentValues val = new ContentValues();
@@ -218,6 +219,7 @@ public class PersonDB {
         //insert시 Primary key return
         database.insert(Constant.GROUP_PERSON_TABLE_TITLE, null, val);
     }
+
     //인원에서 그룹 전체 삭제
     public void deleteGroupALLFromMember(int personkey){
         String selection = Constant.GROUP_PERSON_COLUMN_PERSONKEY + " LIKE ?";
@@ -274,7 +276,6 @@ public class PersonDB {
 
     public Bitmap getBitmapFromByteArray(byte[] bytes){
         Bitmap bit;
-
         if(bytes != null){
             bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
             return bit;

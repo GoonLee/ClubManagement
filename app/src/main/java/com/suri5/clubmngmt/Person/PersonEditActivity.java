@@ -204,6 +204,7 @@ public class PersonEditActivity extends AppCompatActivity {
                         personDB.insertGroupFromMember(pk, g.getKey());
                     }
 
+
                     Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -232,7 +233,7 @@ public class PersonEditActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"인원이 없습니다.",Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

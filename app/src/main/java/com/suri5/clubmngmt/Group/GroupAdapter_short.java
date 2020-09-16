@@ -30,6 +30,7 @@ public class GroupAdapter_short extends RecyclerView.Adapter<GroupAdapter_short.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Group item= groupItems.get(position);
+
         holder.setItem(item);
         holder.button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

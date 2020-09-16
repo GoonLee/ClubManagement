@@ -80,8 +80,10 @@ public class GroupDB {
             g = new Group();
             g.setKey(cursor.getInt(0));
             g.setName(cursor.getString(1));
-            g.setTotalNum(cursor.getInt(2));
 
+            int number = findGroupmemberNum(g.getKey());
+            g.setTotalNum(number);
+            updateRecord(g);
             groups.add(g);
         }
 
@@ -202,20 +204,32 @@ public class GroupDB {
                 + Constant.GROUP_PERSON_TABLE_TITLE
                 + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY+ " = " + groupkey //여기에 키
                 + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY +" = "+  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK;
-        println(query);
         Cursor cursor = database.rawQuery(query,null);
 
         while (cursor.moveToNext()){
-
             p = new Person();
             p.setPk(cursor.getInt(0));
             p.setName(cursor.getString(1));
             p.setId_num(cursor.getInt(2));
-            println(cursor.getString(1) + " " + cursor.getInt(2));
             brif_member.add(p);
-
         }
+
         return brif_member;
+    }
+
+    public int findGroupmemberNum(int groupkey){
+        int num = 0;
+        String query = "SELECT COUNT (" +Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK+")"
+                + " FROM " + Constant.PERSON_TABLE_TITLE + ", "
+                + Constant.GROUP_PERSON_TABLE_TITLE
+                + " WHERE " + Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_GROUPKEY+ " = " + groupkey //여기에 키
+                + " AND " +  Constant.GROUP_PERSON_TABLE_TITLE+"."+Constant.GROUP_PERSON_COLUMN_PERSONKEY +" = "+  Constant.PERSON_TABLE_TITLE+"."+Constant.PERSON_COLUMN_PK;
+        Cursor cursor = database.rawQuery(query,null);
+
+        if(cursor.moveToFirst()){
+            num = cursor.getInt(0);
+        }
+        return num;
     }
 
     //현재 그룹 뺀 나머지 사람들
