@@ -216,7 +216,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.addSpan(new DotSpan(5,Color.RED));
+            view.addSpan(new DotSpan(5,Color.GREEN));
         }
 
     }
@@ -224,7 +224,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     private class DecoratorEvent2 implements  DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
         private String date;
-        private final int[] colors={Color.GREEN,Color.RED};
+        private final int[] colors={Color.GREEN,Color.GREEN};
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
@@ -242,7 +242,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     private class DecoratorEvent3 implements  DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
         private String date;
-        private final int[] colors={Color.BLUE,Color.GREEN,Color.RED};
+        private final int[] colors={Color.GREEN,Color.GREEN,Color.GREEN};
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
