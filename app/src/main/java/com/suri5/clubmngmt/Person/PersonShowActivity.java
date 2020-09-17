@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
+import com.suri5.clubmngmt.Common.SearchBar;
 import com.suri5.clubmngmt.Group.GroupEditActivity;
 import com.suri5.clubmngmt.Group.GroupShowActivity;
 import com.suri5.clubmngmt.R;
@@ -36,7 +34,7 @@ import static com.suri5.clubmngmt.Common.Constant.RESULT_SAVE;
 public class PersonShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PersonAdapter personAdapter = new PersonAdapter();
-    PersonDB personDB;
+    PersonDBManager personDB;
     EditText editText;
     FloatingActionButton floatingActionButtonPerson;
     SearchHandler handler;
@@ -97,8 +95,8 @@ public class PersonShowActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(personAdapter);
 
-        personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
-        personAdapter.setItems(personDB.lookUpMember());
+        personDB = new PersonDBManager(new DatabaseHelper(getApplicationContext()));
+        personAdapter.setItems(personDB.getAllRecord());
         personAdapter.notifyDataSetChanged();
 
         //추가
@@ -111,47 +109,10 @@ public class PersonShowActivity extends AppCompatActivity {
             }
         });
         handler = new SearchHandler(Looper.getMainLooper());
-        editText = findViewById(R.id.search_people);
-        editText.addTextChangedListener(new TextWatcher() {
-            Thread thread;
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(thread!=null&&thread.isAlive()){
-                    thread.interrupt();
-                }
-            }
+        SearchBar<Person> personSearchBar = findViewById(R.id.search_people);
+        personSearchBar.setDBManager(personDB);
+        personSearchBar.setHandler(handler);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String data = charSequence.toString();
-                thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            //Todo: Set proper timing
-                            Thread.sleep(150);
-                            ArrayList<Person> found = personDB.findMember(Constant.PERSON_COLUMN_NAME,data);
-                            Message msg = handler.obtainMessage();
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelableArrayList("found",found);
-                            msg.setData(bundle);
-
-                            handler.sendMessage(msg);
-                        } catch (InterruptedException e){
-                            //e.printStackTrace();
-                        } finally{
-                            ;
-                        }
-                    }
-                });
-                thread.start();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -160,7 +121,7 @@ public class PersonShowActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
 
-            personAdapter.setItems(personDB.lookUpMember());
+            personAdapter.setItems(personDB.getAllRecord());
             personAdapter.notifyDataSetChanged();
         }
     }
@@ -174,7 +135,7 @@ public class PersonShowActivity extends AppCompatActivity {
             super.handleMessage(msg);
 
             Bundle bundle = msg.getData();
-            ArrayList found = bundle.getParcelableArrayList("found");
+            ArrayList<Person> found = bundle.getParcelableArrayList("list");
             personAdapter.setItems(found);
             personAdapter.notifyDataSetChanged();
         }
