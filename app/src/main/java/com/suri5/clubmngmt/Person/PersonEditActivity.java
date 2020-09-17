@@ -15,25 +15,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
-import com.suri5.clubmngmt.Common.EdiImages;
 import com.suri5.clubmngmt.Group.Group;
 import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
@@ -224,7 +219,7 @@ public class PersonEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(pk != -1){
-                    personDB.deletePerson(pk);
+                    personDB.deleteRecord(pk);
                     Toast.makeText(getApplicationContext(),"삭제가 완료되었습니다.",Toast.LENGTH_LONG).show();
                     //Intent intent=new Intent();
                     //setResult(RESULT_OK,intent);
