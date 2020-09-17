@@ -18,12 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-<<<<<<< HEAD
-=======
-
-import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
->>>>>>> master
 import com.bumptech.glide.Glide;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
@@ -32,6 +26,7 @@ import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
