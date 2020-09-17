@@ -61,7 +61,7 @@
                     android:orientation="horizontal">
 
 
-                    <EditText
+                    <com.suri5.clubmngmt.Common.SearchBar
                         android:id="@+id/search_people"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
