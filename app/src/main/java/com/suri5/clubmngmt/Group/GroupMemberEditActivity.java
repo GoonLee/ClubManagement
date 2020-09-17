@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,14 +69,16 @@ public class GroupMemberEditActivity extends Activity {
 
         //리사이클러뷰 생성
         recyclerViewup = findViewById(R.id.recyclerView_checkedmember);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerViewup.setLayoutManager(layoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerViewup.setLayoutManager(gridLayoutManager);
         recyclerViewup.setAdapter(personAdapter_check_up);
 
         //리사이클러뷰 생성
         recyclerViewdown = findViewById(R.id.recyclerView_uncheckedmember);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerViewdown.setLayoutManager(layoutManager2);
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this,2);
+        //LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerViewdown.setLayoutManager(gridLayoutManager2);
         recyclerViewdown.setAdapter(personAdapter_check_down);
 
         ImageButton button_up = findViewById(R.id.button_up);

@@ -18,9 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.bumptech.glide.Glide;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
@@ -75,31 +72,9 @@ public class PersonEditActivity extends AppCompatActivity {
         radioGroup_Sex=findViewById(R.id.radioGroupGender);
 
         recyclerView = findViewById(R.id.recyclerView_group_short);
-        //FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
-        //flowLayoutManager.setAutoMeasureEnabled(true);
-        //recyclerView.setLayoutManager(flowLayoutManager);
-
-       ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(this)
-               //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
-               .setChildGravity(Gravity.TOP)
-               //whether RecyclerView can scroll. TRUE by default
-               .setScrollingEnabled(true)
-               //set gravity resolver where you can determine gravity for item in position.
-               //This method have priority over previous one
-               .setGravityResolver(new IChildGravityResolver() {
-                   @Override
-                   public int getItemGravity(int position) {
-                       return Gravity.CENTER;
-                   }
-               })
-               //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
-               .setOrientation(ChipsLayoutManager.HORIZONTAL)
-               // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
-               //STRATEGY_FILL_SPACE or STRATEGY_CENTER
-               .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER)
-               .build();
-
-        recyclerView.setLayoutManager(chipsLayoutManager);
+        FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
+        flowLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
 
 
@@ -209,18 +184,6 @@ public class PersonEditActivity extends AppCompatActivity {
                 new_p.setPicture(picture);
                 new_p.setBirthday(editText_Birthday.getText().toString());
 
-                if (pk != -1) {
-                    personDB.updateRecord(new_p);
-                    personDB.deleteGroupALLFromMember(p.getPk());
-                } else {
-                    personDB.insertRecord(new_p);
-                }
-                //새로 그룹정보 넣기
-                for (Group g : groups) {
-                    println(g.getName());
-                    personDB.insertGroupFromMember(pk, g.getKey());
-                }
-
                 if (emailCheck == true) {//이메일 확인
                     new_p.setEmail(editText_Email.getText().toString());
 
@@ -232,8 +195,10 @@ public class PersonEditActivity extends AppCompatActivity {
                     }
                     //새로 그룹정보 넣기
                     for (Group g : groups) {
-                        personDB.insertGroupFromMember(g.getKey(), pk);
+                        println(g.getName());
+                        personDB.insertGroupFromMember(pk, g.getKey());
                     }
+
 
                     Intent intent = new Intent(getApplicationContext(), PersonShowActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -263,7 +228,7 @@ public class PersonEditActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"그룹이 없습니다.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"인원이 없습니다.",Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(getApplicationContext(),PersonShowActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

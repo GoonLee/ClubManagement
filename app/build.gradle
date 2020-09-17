@@ -4,12 +4,15 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
+    def VERSION_CODE = 1
+    def VERSION_NAME = "1.0"
+
     defaultConfig {
         applicationId "com.suri5.clubmngmt"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,10 +49,10 @@ dependencies {
     implementation 'com.github.pedroSG94:AutoPermissions:1.0.3'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.github.yalantis:ucrop:2.2.6'
     compile 'com.xiaofeng.android:flowlayoutmanager:1.2.3.2'
-    compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
 
 }
