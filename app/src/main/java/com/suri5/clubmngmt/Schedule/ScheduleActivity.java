@@ -1,13 +1,19 @@
 package com.suri5.clubmngmt.Schedule;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -28,7 +34,9 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
+import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.Group.GroupEditActivity;
 import com.suri5.clubmngmt.Group.GroupShowActivity;
@@ -36,8 +44,12 @@ import com.suri5.clubmngmt.Person.PersonEditActivity;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
 import com.suri5.clubmngmt.R;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static java.lang.Integer.parseInt;
 
 
 public class ScheduleActivity extends AppCompatActivity implements OnDateSelectedListener {
@@ -48,7 +60,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     TextView textView_schedule_num;
     TextView textView_schedule_date;
 
-    Button setScheldule_month;
+    Button button_setScheldule_month;
+    DatePickerDialog.OnDateSetListener callBackMethod;
+    Context context;
 
     ScheduleAdapter adapter;
     ScheduleDB scheduleDB;
@@ -86,11 +100,38 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
 
     }
 
+    public void InitializeListener(){
+        callBackMethod = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                String[] prev = button_setScheldule_month.getText().toString().split(". ");
+
+                int range = Integer.parseInt(prev[0]) - i/100 + Integer.parseInt(prev[1]) - (i1+1);
+                button_setScheldule_month.setText(Integer.toString(i).substring(2,4)+". "+(i1+1));
+
+                if(range >=0){
+                    //전보다 앞으로감
+                    while(range > 0){
+                        range--;
+                        calendarView.goToPrevious();
+                    }
+                }else{
+                    //전보다 뒤로감
+                    while(range < 0){
+                        range++;
+                        calendarView.goToNext();
+                    }
+                }
+            }
+        };
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         textView = findViewById(R.id.textView);
+        context = this;
 
         textView_schedule_date=findViewById(R.id.textView_schedule_date);
         textView_schedule_num=findViewById(R.id.textView_schedule_num);
@@ -102,10 +143,18 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         // 캘린더 기본 설정
         calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangedListener(this);
+
+        //월 바뀜
+        calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
+            @Override //월 바뀌면 같이 바뀌게
+            public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                button_setScheldule_month.setText(Integer.toString(date.getYear()).substring(2,4) + ". "+Integer.toString(date.getMonth()+1));
+            }
+        });
         calendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2019, 0, 1))
-                .setMaximumDate(CalendarDay.from(2040,11,31))
+                .setMaximumDate(CalendarDay.from(2030,11,31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
         calendarView.addDecorators(
@@ -115,10 +164,20 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 new DecoratorEvent2(),
                 new DecoratorEvent3()
         );
+        calendarView.setSelectedDate(CalendarDay.today());
 
         //버튼 현재 날짜로
-        String s = Integer.toString(calendarView.getCurrentDate().getYear()) + "년 "+Integer.toString(calendarView.getCurrentDate().getMonth()+1) +"월";
-        setScheldule_month.setText(s);
+        String s = Integer.toString(calendarView.getCurrentDate().getYear()).substring(2,4) + ". "+Integer.toString(calendarView.getCurrentDate().getMonth()+1);
+        this.InitializeListener();
+        button_setScheldule_month.setText(s);
+        button_setScheldule_month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(context,callBackMethod,calendarView.getCurrentDate().getYear(),
+                        calendarView.getCurrentDate().getMonth(), calendarView.getCurrentDate().getDay());
+                dialog.show();
+            }
+        });
 
         // 해당 날짜 아래 스케줄 띄우는 리사이클러뷰 설정
 
@@ -150,6 +209,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
      */
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        Toast.makeText(context,date.getYear() + " " + date.getMonth()+1, Toast.LENGTH_LONG).show();
         day=Integer.toString(date.getYear());
         if(date.getMonth()+1<10){
             day+= '0';
@@ -165,9 +225,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
-
             textView_schedule_date.setText(Integer.toString(date.getYear()).substring(2,4) + "년 "+Integer.toString(date.getMonth()+1) +"월 "+Integer.toString(date.getDay())+"일");
             textView_schedule_num.setText("총 "+ Integer.toString(schedules.size())+"건");
+            button_setScheldule_month.setText(Integer.toString(date.getYear()).substring(2,4) + ". "+Integer.toString(date.getMonth()+1));
         }
         else{
             recyclerViewSchedule.setAdapter(null);
@@ -239,7 +299,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         String[] arrDay=date.split("-");
 
         //짜증나게 달만 0부터 시작하는 구조
-        arrDay[1]=Integer.toString(Integer.parseInt(arrDay[1])+1);
+        arrDay[1]=Integer.toString(parseInt(arrDay[1])+1);
         if(arrDay[1].length()==1){
             arrDay[1]="0"+arrDay[1];
         }
@@ -284,9 +344,10 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
 
     public void setNav(String actname){
 
-        TextView textView = findViewById(R.id.textView_toolbar);
-        setScheldule_month = findViewById(R.id.button_setScheduleMonth);
-        textView.setText(actname);
+        //TextView textView = findViewById(R.id.textView_toolbar);
+        //textView.setText(actname);
+        button_setScheldule_month = findViewById(R.id.button_setScheduleMonth);
+
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
