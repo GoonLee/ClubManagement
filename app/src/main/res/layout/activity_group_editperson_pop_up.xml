@@ -3,7 +3,8 @@
     android:layout_width="380dp"
     android:layout_height="600dp"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="7dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,16 +24,16 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="center"
             android:completionThreshold="1"
-            android:hint="이름"
-            />
+            android:gravity="center"
+            android:hint="이름" />
+
         <ImageButton
             android:id="@+id/button_addPerson"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="#00FFFFFF"
             android:layout_gravity="center"
+            android:background="#00FFFFFF"
             android:scaleType="centerCrop"
             android:src="@drawable/icons8_search" />
 
@@ -81,6 +82,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="인원" />
+
         <EditText
             android:id="@+id/editText_findPerson_unchecked"
             android:layout_width="280dp"

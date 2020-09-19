@@ -91,8 +91,10 @@ public class GroupShowActivity extends AppCompatActivity {
         groupDB = new GroupDB(new DatabaseHelper(this));
         editText = findViewById(R.id.editText_searchgroup);
         editText.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,groupDB.getAllGroupsName()));
+
         groupAdapter.setItems(groupDB.lookupGroup());
         groupAdapter.notifyDataSetChanged();
+
         //인원 추가 버튼
         FloatingActionButton button_addGroup = findViewById(R.id.button_addgroup);
         button_addGroup.setOnClickListener(new View.OnClickListener() {
