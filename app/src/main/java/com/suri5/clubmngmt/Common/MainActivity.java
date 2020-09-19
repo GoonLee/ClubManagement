@@ -1,10 +1,6 @@
 package com.suri5.clubmngmt.Common;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.pedro.library.AutoPermissions;
-import com.suri5.clubmngmt.Budget.BudgetShowActivity;
+import com.suri5.clubmngmt.Budget.BudgetActivity;
 import com.suri5.clubmngmt.Group.GroupEditActivity;
 import com.suri5.clubmngmt.Group.GroupShowActivity;
 import com.suri5.clubmngmt.Person.PersonDB;
@@ -84,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(groupShowIntent);
                         break;
                     case R.id.menu_second:
-                        Intent budgetIntent=new Intent(getApplicationContext(), BudgetShowActivity.class);
+                        Intent budgetIntent=new Intent(getApplicationContext(), BudgetActivity.class);
                         startActivity(budgetIntent);
                         break;
                     case R.id.menu_third:
@@ -114,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         cardViewBudget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent budgetIntent=new Intent(getApplicationContext(), BudgetShowActivity.class);
+                Intent budgetIntent=new Intent(getApplicationContext(), BudgetActivity.class);
                 startActivity(budgetIntent);
             }
         });
