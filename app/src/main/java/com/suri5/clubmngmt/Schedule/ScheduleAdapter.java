@@ -17,8 +17,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     private OnItemClickListener mListener = null;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewScheduleTitle, textViewScheduleStartTime;
-        TextView textViewScheduleEnd;
+        TextView textViewScheduleTitle, textViewScheduleStartTime, textViewScheduleEnd, textViewScheduleplace;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -26,6 +25,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             textViewScheduleTitle=itemView.findViewById(R.id.textViewScheduleTitle);
             textViewScheduleStartTime=itemView.findViewById(R.id.textViewScheduleStartTime);
             textViewScheduleEnd=itemView.findViewById(R.id.textViewScheduleEnd);
+            textViewScheduleplace = itemView.findViewById(R.id.textViewSchedulePlace);
 
             //아이템 클릭 리스너
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -44,10 +44,34 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         }
 
         public void setItem(Schedule item) {
-            textViewScheduleTitle.setText(item.title);
-            textViewScheduleStartTime.setText(item.startDate.substring(4,8)+" "+item.startTime.substring(0,2)+":"+item.startTime.substring(2,4));
-            textViewScheduleEnd.setText("~"+item.endDate.substring(4,8)+" "+item.endTime.substring(0,2)+":"+item.endTime.substring(2,4));
+            textViewScheduleTitle.setText(item.getTitle());
+            textViewScheduleStartTime.setText(setDateText(item.getStartDate(), item.getStartTime()));
+            textViewScheduleEnd.setText(" ~ "+setDateText(item.getEndDate(), item.getEndTime()));
+            textViewScheduleplace.setText(setplace(item.getPlace()));
         }
+    }
+
+    public String setDateText(String date, String time){
+        String output = date.substring(4,6) + "/" +date.substring(6,8) + " " + time.substring(0,2)+":"+time.substring(2,4);
+        return output;
+    }
+
+    //끝에 두단어만 나오게
+    public String setplace(String place){
+        String output = place;
+        String[] array  = output.split(" ");
+
+        try{
+            if(array.length > 2){
+                output = array[array.length-2]+" "+array[array.length-1];
+            }
+            else{
+                output = array[array.length-1];
+            }
+        }catch (Exception e){
+            return "";
+        }
+        return output;
     }
 
     public interface OnItemClickListener{
@@ -62,7 +86,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View itemView=inflater.inflate(R.layout.schedule_item,parent,false);
+        View itemView=inflater.inflate(R.layout.item_schedule,parent,false);
 
         return new ViewHolder(itemView);
     }

@@ -8,7 +8,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +35,7 @@ public class PersonShowActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     PersonAdapter personAdapter = new PersonAdapter();
     PersonDBManager personDB;
-    EditText editText;
+    TextView toolbar_name;
     FloatingActionButton floatingActionButtonPerson;
     SearchHandler handler;
 
@@ -47,6 +47,50 @@ public class PersonShowActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_show);
+
+        setNav("인원");
+
+        recyclerView = findViewById(R.id.recyclerviewPerson);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(personAdapter);
+
+        personDB = new PersonDBManager(new DatabaseHelper(getApplicationContext()));
+        personAdapter.setItems(personDB.getAllRecord());
+        personAdapter.notifyDataSetChanged();
+
+        //추가
+        floatingActionButtonPerson=findViewById(R.id.button_OK);
+        floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),PersonEditActivity.class);
+                startActivityForResult(intent, RESULT_SAVE);
+            }
+        });
+        handler = new SearchHandler(Looper.getMainLooper());
+        SearchBar<Person> personSearchBar = findViewById(R.id.search_people);
+        personSearchBar.setDBManager(personDB);
+        personSearchBar.setHandler(handler);
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("GroupManageActivity", "onAc");
+
+        if (resultCode == RESULT_OK) {
+
+            personAdapter.setItems(personDB.getAllRecord());
+            personAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setNav(String actname){
+
+        TextView textView = findViewById(R.id.textView_toolbar);
+        textView.setText(actname);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,42 +132,6 @@ public class PersonShowActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        recyclerView = findViewById(R.id.recyclerviewPerson);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(personAdapter);
-
-        personDB = new PersonDBManager(new DatabaseHelper(getApplicationContext()));
-        personAdapter.setItems(personDB.getAllRecord());
-        personAdapter.notifyDataSetChanged();
-
-        //추가
-        floatingActionButtonPerson=findViewById(R.id.button_OK);
-        floatingActionButtonPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),PersonEditActivity.class);
-                startActivityForResult(intent, RESULT_SAVE);
-            }
-        });
-        handler = new SearchHandler(Looper.getMainLooper());
-        SearchBar<Person> personSearchBar = findViewById(R.id.search_people);
-        personSearchBar.setDBManager(personDB);
-        personSearchBar.setHandler(handler);
-
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("GroupManageActivity", "onAc");
-
-        if (resultCode == RESULT_OK) {
-
-            personAdapter.setItems(personDB.getAllRecord());
-            personAdapter.notifyDataSetChanged();
-        }
     }
 
     class SearchHandler extends Handler{

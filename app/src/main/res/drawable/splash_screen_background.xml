@@ -3,6 +3,6 @@
     android:opacity="opaque">
     <item>
         <bitmap
-            android:src="@drawable/splash" />
+           android:src="@drawable/splash" />
     </item>
 </layer-list>

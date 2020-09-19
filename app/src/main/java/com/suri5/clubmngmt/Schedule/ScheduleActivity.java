@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -41,6 +45,11 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     public static final int RESULT_SCHEDULE_SAVE = 103;
     MaterialCalendarView calendarView;
     TextView textView;
+    TextView textView_schedule_num;
+    TextView textView_schedule_date;
+
+    Button setScheldule_month;
+
     ScheduleAdapter adapter;
     ScheduleDB scheduleDB;
     ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
@@ -51,6 +60,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
     NavigationView navigationView;
+    Toolbar toolbar;
 
 
     @Override
@@ -82,52 +92,14 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         setContentView(R.layout.activity_schedule);
         textView = findViewById(R.id.textView);
 
+        textView_schedule_date=findViewById(R.id.textView_schedule_date);
+        textView_schedule_num=findViewById(R.id.textView_schedule_num);
+
         scheduleDB = new ScheduleDB(new DatabaseHelper(this));
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       setNav("일정");
 
-        navigationView = findViewById(R.id.sideMenu);
-        drawerLayout=findViewById(R.id.drawer);
-        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-
-        //네비게이션뷰 아이템 클릭 리스너
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){//각 아이템 클릭에 대한 반응
-                    case R.id.personAdd:
-                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
-                        startActivity(personAddIntent);
-                        break;
-                    case R.id.personShow:
-                        Intent personShowIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
-                        startActivity(personShowIntent);
-                        break;
-                    case R.id.groupAdd:
-                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
-                        startActivity(groupAddIntent);
-                        break;
-                    case R.id.groupShow:
-                        Intent groupShowIntent=new Intent(getApplicationContext(), GroupShowActivity.class);
-                        startActivity(groupShowIntent);
-                        break;
-                    case R.id.menu_second:
-                        break;
-                    case R.id.menu_third:
-                        break;
-                }
-
-                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
-                return false;
-            }
-        });
-
-        /**
-         * 캘린더 기본 설정
-         */
+        // 캘린더 기본 설정
         calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangedListener(this);
         calendarView.state().edit()
@@ -144,10 +116,12 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 new DecoratorEvent3()
         );
 
+        //버튼 현재 날짜로
+        String s = Integer.toString(calendarView.getCurrentDate().getYear()) + "년 "+Integer.toString(calendarView.getCurrentDate().getMonth()+1) +"월";
+        setScheldule_month.setText(s);
 
-        /**
-         * 해당 날짜 아래 스케줄 띄우는 리사이클러뷰 설정
-         */
+        // 해당 날짜 아래 스케줄 띄우는 리사이클러뷰 설정
+
         recyclerViewSchedule=findViewById(R.id.recyclerviewSchedule);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerViewSchedule.setLayoutManager(layoutManager);
@@ -186,13 +160,14 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         }
         day+=Integer.toString(date.getDay());
         //날짜20000101 형식으로 전달해서 해당 스케줄들 다 받아옴
-        /**
-         * 이 부분이 현재 저장해도 실행이 안되는중
-         */
+
         ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
+
+            textView_schedule_date.setText(Integer.toString(date.getYear()).substring(2,4) + "년 "+Integer.toString(date.getMonth()+1) +"월 "+Integer.toString(date.getDay())+"일");
+            textView_schedule_num.setText("총 "+ Integer.toString(schedules.size())+"건");
         }
         else{
             recyclerViewSchedule.setAdapter(null);
@@ -305,5 +280,53 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public void decorate(DayViewFacade view) {
             view.addSpan(new ForegroundColorSpan(Color.BLUE));
         }
+    }
+
+    public void setNav(String actname){
+
+        TextView textView = findViewById(R.id.textView_toolbar);
+        setScheldule_month = findViewById(R.id.button_setScheduleMonth);
+        textView.setText(actname);
+
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        navigationView = findViewById(R.id.sideMenu);
+        drawerLayout=findViewById(R.id.drawer);
+        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        //네비게이션뷰 아이템 클릭 리스너
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){//각 아이템 클릭에 대한 반응
+                    case R.id.personAdd:
+                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
+                        startActivity(personAddIntent);
+                        break;
+                    case R.id.personShow:
+                        break;
+                    case R.id.groupAdd:
+                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
+                        startActivity(groupAddIntent);
+                        break;
+                    case R.id.groupShow:
+                        Intent groupShowIntent=new Intent(getApplicationContext(), GroupShowActivity.class);
+                        startActivity(groupShowIntent);
+                        break;
+                    case R.id.menu_second:
+                        break;
+                    case R.id.menu_third:
+                        Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
+                return false;
+            }
+        });
     }
 }
