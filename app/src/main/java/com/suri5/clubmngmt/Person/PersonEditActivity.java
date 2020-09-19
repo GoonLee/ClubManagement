@@ -26,6 +26,7 @@ import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -76,8 +77,6 @@ public class PersonEditActivity extends AppCompatActivity {
         flowLayoutManager.setAutoMeasureEnabled(true);
         recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
-
-
 
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);

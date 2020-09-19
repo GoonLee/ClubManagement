@@ -3,60 +3,61 @@
     package="com.suri5.clubmngmt">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Budget.BudgetShowActivity"></activity>
+        <activity android:name=".Schedule.GoogleMapActivity" />
 
-        <activity android:name=".Schedule.GoogleMapActivity"></activity>
+        <uses-library android:name="com.google.android.maps" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
-        <uses-library android:name="com.google.android.maps"/>
-        <uses-library android:name="org.apache.http.legacy"
-            android:required="false"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCBk560ht8fxukjlScTvWWLd-OqYN2UN5A" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".Common.MainActivity"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".Common.SplashActivity"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Person.PersonShowActivity"></activity>
-        <activity android:name=".Person.PersonEditActivity"></activity>
-
-        <activity android:name=".Schedule.ScheduleEditActivity"/>
+        <activity android:name=".Person.PersonShowActivity" />
+        <activity android:name=".Person.PersonEditActivity" />
+        <activity android:name=".Schedule.ScheduleEditActivity" />
         <activity android:name=".Schedule.ScheduleActivity" />
-
-        <activity android:name=".Group.GroupEditActivity"/>
+        <activity android:name=".Group.GroupEditActivity" />
         <activity android:name=".Group.GroupShowActivity" />
-        <activity android:name=".Group.GroupMemberEditActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-
-        <activity android:name=".Common.ClubActivity"/>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".Group.GroupMemberEditActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".Common.ClubActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -67,6 +68,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-
     </application>
+
 </manifest>
