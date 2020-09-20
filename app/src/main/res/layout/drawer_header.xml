@@ -6,6 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="200dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:src="@drawable/club_profile_default" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -13,44 +21,38 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:background="@android:color/holo_red_light"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:text="동아리 이름"/>
+                android:textSize="30sp"
+                android:gravity="center"
+                android:text="정보를 입력하세요"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:background="@android:color/holo_green_light"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
-                android:text="부가 설명"/>
+                android:text=""
+                android:gravity="center"/>
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background" />
 
 
 </LinearLayout>
