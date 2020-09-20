@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.suri5.clubmngmt.Common.ClubActivity;
 import com.suri5.clubmngmt.Group.GroupEditActivity;
@@ -95,6 +96,15 @@ public class BudgetActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.BudgetShowFrame,budgetShowFragment);
         fragmentTransaction.commit();
 
+
+        FloatingActionButton button = findViewById(R.id.floatingActionButtonBudget);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), BudgetEditActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

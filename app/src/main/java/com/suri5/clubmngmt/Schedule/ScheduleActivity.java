@@ -43,7 +43,6 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     TextView textView;
     ScheduleAdapter adapter;
     ScheduleDB scheduleDB;
-    ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
     RecyclerView recyclerViewSchedule;
     String day;
 

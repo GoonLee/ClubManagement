@@ -19,7 +19,20 @@
         android:layout_gravity="center"
         />
 
+
+    <TextView
+        android:layout_marginRight="10dp"
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="현 총액"
+        android:textSize="25sp"
+        android:textAlignment="textEnd"
+        android:layout_gravity="end"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewBudget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

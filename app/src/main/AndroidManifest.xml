@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Budget.BudgetActivity"></activity>
+        <activity android:name=".Budget.BudgetEditActivity"></activity>
+        <activity android:name=".Budget.BudgetActivity" />
         <activity android:name=".Schedule.GoogleMapActivity" />
 
         <uses-library android:name="com.google.android.maps" />
