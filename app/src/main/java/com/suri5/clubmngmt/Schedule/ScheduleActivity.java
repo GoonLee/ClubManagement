@@ -106,7 +106,9 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 String[] prev = button_setScheldule_month.getText().toString().split(". ");
 
-                int range = Integer.parseInt(prev[0]) - i/100 + Integer.parseInt(prev[1]) - (i1+1);
+                int range = (Integer.parseInt(prev[0]) - i%100)*12 + Integer.parseInt(prev[1]) - (i1+1);
+               /*Toast.makeText(getApplicationContext(),prev[0] + " " + prev[1] + " " +
+                       Integer.toString(i) + " " + Integer.toString(i1 + 1) + " " + Integer.toString(range), Toast.LENGTH_LONG).show();*/
                 button_setScheldule_month.setText(Integer.toString(i).substring(2,4)+". "+(i1+1));
 
                 if(range >=0){
@@ -153,7 +155,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         });
         calendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(2019, 0, 1))
+                .setMinimumDate(CalendarDay.from(2018, 0, 1))
                 .setMaximumDate(CalendarDay.from(2030,11,31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
@@ -175,6 +177,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
             public void onClick(View view) {
                 DatePickerDialog dialog = new DatePickerDialog(context,callBackMethod,calendarView.getCurrentDate().getYear(),
                         calendarView.getCurrentDate().getMonth(), calendarView.getCurrentDate().getDay());
+
                 dialog.show();
             }
         });
@@ -209,7 +212,6 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
      */
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        Toast.makeText(context,date.getYear() + " " + date.getMonth()+1, Toast.LENGTH_LONG).show();
         day=Integer.toString(date.getYear());
         if(date.getMonth()+1<10){
             day+= '0';
