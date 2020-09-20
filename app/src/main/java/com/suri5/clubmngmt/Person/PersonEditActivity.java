@@ -26,6 +26,7 @@ import com.suri5.clubmngmt.Group.GroupAdapter_short;
 import com.suri5.clubmngmt.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -89,7 +90,7 @@ public class PersonEditActivity extends AppCompatActivity {
 
             //인원 수정임
             if(pk !=-1) {
-                button_save.setText("수정");
+                button_save.setText("Save");
 
                 p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
                 picture = p.getPicture();
