@@ -78,8 +78,6 @@ public class PersonEditActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
 
-
-
         personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
         final Button button_delete = findViewById(R.id.button_delete);

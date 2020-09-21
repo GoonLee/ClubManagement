@@ -41,6 +41,8 @@
 
 
                     <com.suri5.clubmngmt.Common.SearchBar
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:id="@+id/search_people"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

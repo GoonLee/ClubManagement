@@ -66,7 +66,6 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
 
     ScheduleAdapter adapter;
     ScheduleDB scheduleDB;
-    ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
     RecyclerView recyclerViewSchedule;
     String day;
 
@@ -204,6 +203,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_SCHEDULE_SAVE && resultCode == RESULT_OK) {
+
         }
     }
 
@@ -252,7 +252,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.addSpan(new DotSpan(5,Color.RED));
+            view.addSpan(new DotSpan(5,Color.GREEN));
         }
 
     }
@@ -260,7 +260,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     private class DecoratorEvent2 implements  DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
         private String date;
-        private final int[] colors={Color.GREEN,Color.RED};
+        private final int[] colors={Color.GREEN,Color.GREEN};
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
@@ -278,7 +278,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     private class DecoratorEvent3 implements  DayViewDecorator{
         private final Calendar calendar=Calendar.getInstance();
         private String date;
-        private final int[] colors={Color.BLUE,Color.GREEN,Color.RED};
+        private final int[] colors={Color.GREEN,Color.GREEN,Color.GREEN};
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
