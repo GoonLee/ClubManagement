@@ -31,6 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="검색"
+            android:textColor="#473C3C"
+            android:background="#60BDC5C5"
             android:textSize="30sp"/>
     </LinearLayout>
     <FrameLayout
@@ -53,9 +55,11 @@
             android:id="@+id/button_selectPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장소 선택"
+            android:text="선택"
             android:textSize="30sp"
             android:layout_gravity="center"
+            android:textColor="#473C3C"
+            android:background="#60BDC5C5"
             android:layout_margin="30dp"/>
         </LinearLayout>
     </FrameLayout>

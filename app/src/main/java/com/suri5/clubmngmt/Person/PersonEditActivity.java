@@ -90,7 +90,7 @@ public class PersonEditActivity extends AppCompatActivity {
 
             //인원 수정임
             if(pk !=-1) {
-                button_save.setText("수정");
+                button_save.setText("Save");
 
                 p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
                 picture = p.getPicture();

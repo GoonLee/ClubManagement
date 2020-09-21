@@ -181,6 +181,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="추가"
+                        android:textColor="#FFFFFF"
+                        android:background="#99e9f2"
                         android:textSize="25sp" />
                 </LinearLayout>
 
