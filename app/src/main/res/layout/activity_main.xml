@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="Club UOS"
                     android:textColor="@android:color/black"
                     android:fontFamily="monospace"
@@ -51,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewPeople"

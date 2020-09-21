@@ -28,7 +28,7 @@
         </item>
 
         <item android:id="@+id/menu_second"
-            android:title="회비"
+            android:title="예산"
             >
 
         </item>

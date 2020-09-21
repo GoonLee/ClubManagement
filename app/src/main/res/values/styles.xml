@@ -17,7 +17,7 @@
     <!-- 앱바 -->
     <style name="AppTheme.Appbar">
         <item name="titleTextColor">@android:color/black</item>
-
+        <item name="android:fitsSystemWindows">true</item>
         <item name="colorControlNormal">@android:color/black</item>
     </style>
 

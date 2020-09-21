@@ -13,32 +13,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--상단 앱바(툴바)-->
-        <com.google.android.material.appbar.AppBarLayout
+        <!--툴바-->
+        <include
+            layout="@layout/common_top_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.Appbar">
+            android:layout_height="wrap_content" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:background="@android:color/background_light"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:contentInsetStartWithNavigation="0dp"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="그룹"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="25sp"
-                    />
-
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
 
         <!--메인 화면-->
         <androidx.core.widget.NestedScrollView
