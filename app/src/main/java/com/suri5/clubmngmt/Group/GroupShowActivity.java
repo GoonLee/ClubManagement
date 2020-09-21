@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
 import com.suri5.clubmngmt.Person.PersonEditActivity;
 import com.suri5.clubmngmt.Person.PersonShowActivity;
@@ -31,7 +32,7 @@ public class GroupShowActivity extends AppCompatActivity {
     AutoCompleteTextView editText;
     RecyclerView recyclerView;
     GroupAdapter groupAdapter = new GroupAdapter();
-    GroupDB groupDB;
+    GroupDBManager groupDB;
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
@@ -50,11 +51,11 @@ public class GroupShowActivity extends AppCompatActivity {
         recyclerView.setAdapter(groupAdapter);
 
         //Insert into DB
-        groupDB = new GroupDB(new DatabaseHelper(this));
+        groupDB = new GroupDBManager(new DatabaseHelper(this));
         editText = findViewById(R.id.editText_searchgroup);
         editText.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,groupDB.getAllGroupsName()));
 
-        groupAdapter.setItems(groupDB.lookupGroup());
+        groupAdapter.setItems(groupDB.getAllRecord());
         groupAdapter.notifyDataSetChanged();
 
         //인원 추가 버튼
@@ -71,7 +72,7 @@ public class GroupShowActivity extends AppCompatActivity {
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                groupAdapter.setItems(groupDB.findGroups(editText.getText().toString()));
+                groupAdapter.setItems(groupDB.findRecord(Constant.GROUP_COLUMN_NAME,editText.getText().toString()));
                 groupAdapter.notifyDataSetChanged();
             }
         });
@@ -90,7 +91,7 @@ public class GroupShowActivity extends AppCompatActivity {
             groupAdapter.notifyDataSetChanged();
             }*/
 
-            groupAdapter.setItems(groupDB.lookupGroup());
+            groupAdapter.setItems(groupDB.getAllRecord());
             groupAdapter.notifyDataSetChanged();
         }
     }

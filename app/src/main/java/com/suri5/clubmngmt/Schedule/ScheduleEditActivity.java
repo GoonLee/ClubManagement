@@ -27,7 +27,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
     String monthS, dayS, monthE, dayE;
     String hourS, minuteS, hourE, minuteE;
     String startDate, endDate, startTime, endTime;
-    ScheduleDB scheduleDB;
+    ScheduleDBManager scheduleDB;
     TextView textViewSetPlace;
     LinearLayout buttonDeleteScheduleLayout;
     boolean isEdit = false;
@@ -51,7 +51,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         //      기본 구현
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_schedule);
-        scheduleDB = new ScheduleDB(new DatabaseHelper(getApplicationContext()));
+        scheduleDB = new ScheduleDBManager(new DatabaseHelper(getApplicationContext()));
         editTextSchedule=findViewById(R.id.editTextSchedule);
         editTextPlace=findViewById(R.id.editTextPlace);
         editTextComment=findViewById(R.id.editTextComment);
@@ -275,7 +275,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         buttonDeleteSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scheduleDB.deleteRecord(needChange);
+                scheduleDB.deleteRecord(needChange.getKey());
                 finish();
             }
         });

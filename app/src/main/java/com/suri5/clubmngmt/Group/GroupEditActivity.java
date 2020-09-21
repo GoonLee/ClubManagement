@@ -34,7 +34,7 @@ public class GroupEditActivity extends Activity {
     ArrayList<Person> personlist_short;
     ArrayList<Person> personlist_short_n;
     int totalNum = 0;
-    GroupDB groupDB;
+    GroupDBManager groupDB;
 
     StringBuilder member = new StringBuilder();
 
@@ -58,7 +58,7 @@ public class GroupEditActivity extends Activity {
         recyclerView.setAdapter(personAdapter_short);
 
         textView_number = findViewById(R.id.textView_number);
-        groupDB = new GroupDB(new DatabaseHelper(this));
+        groupDB = new GroupDBManager(new DatabaseHelper(this));
         g = getIntent().getParcelableExtra("group");
 
 
@@ -145,7 +145,7 @@ public class GroupEditActivity extends Activity {
 
                     }
                     else{
-                       pk =  groupDB.insertRecord(g);
+                       groupDB.insertRecord(g);
                     }
 
                     //새로 넣기
@@ -167,7 +167,7 @@ public class GroupEditActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(pk != -1){
-                    groupDB.deleteRecord(g);
+                    groupDB.deleteRecord(g.getKey());
 
                 }
                 else{

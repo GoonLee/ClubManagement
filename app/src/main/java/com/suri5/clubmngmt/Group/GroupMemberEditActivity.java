@@ -8,12 +8,10 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suri5.clubmngmt.Common.Constant;
@@ -35,7 +33,7 @@ public class GroupMemberEditActivity extends Activity {
     RecyclerView recyclerViewdown;
     PersonAdapter_check personAdapter_check_up = new PersonAdapter_check();
     PersonAdapter_check personAdapter_check_down = new PersonAdapter_check();
-    GroupDB groupDB;
+    GroupDBManager groupDB;
     int pk = -1;
 
     ArrayList<Person> personlist;
@@ -48,7 +46,7 @@ public class GroupMemberEditActivity extends Activity {
         setContentView(R.layout.activity_group_editperson_pop_up);
 
         //DB
-        groupDB = new GroupDB(new DatabaseHelper(this));
+        groupDB = new GroupDBManager(new DatabaseHelper(this));
         pk = getIntent().getIntExtra("pk", -1);
         // 자동완성 설정
         editText_findperson = findViewById(R.id.editText_findPerson);

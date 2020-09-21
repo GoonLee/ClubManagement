@@ -63,9 +63,10 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     Button button_setScheldule_month;
     DatePickerDialog.OnDateSetListener callBackMethod;
     Context context;
-
     ScheduleAdapter adapter;
-    ScheduleDB scheduleDB;
+
+    ScheduleDBManager scheduleDB;
+    ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
     RecyclerView recyclerViewSchedule;
     String day;
 
@@ -88,7 +89,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 new DecoratorEvent3()
         );
 
-        ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
+        ArrayList<Schedule> schedules = scheduleDB.findRecordFromDate(day);
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
@@ -137,7 +138,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         textView_schedule_date=findViewById(R.id.textView_schedule_date);
         textView_schedule_num=findViewById(R.id.textView_schedule_num);
 
-        scheduleDB = new ScheduleDB(new DatabaseHelper(this));
+        scheduleDB = new ScheduleDBManager(new DatabaseHelper(this));
 
        setNav("일정");
 
@@ -222,8 +223,10 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         }
         day+=Integer.toString(date.getDay());
         //날짜20000101 형식으로 전달해서 해당 스케줄들 다 받아옴
-
-        ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
+        /**
+         * 이 부분이 현재 저장해도 실행이 안되는중
+         */
+        ArrayList<Schedule> schedules = scheduleDB.findRecordFromDate(day);
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
@@ -247,7 +250,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()==1; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()==1; //일정이 1개라도 있는 날만 true
         }
 
         @Override
@@ -266,7 +269,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()==2; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()==2; //일정이 1개라도 있는 날만 true
         }
 
         @Override
@@ -284,7 +287,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()>2; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()>2; //일정이 1개라도 있는 날만 true
         }
 
         @Override

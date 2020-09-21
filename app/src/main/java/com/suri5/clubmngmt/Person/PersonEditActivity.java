@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.suri5.clubmngmt.Common.Constant;
 import com.suri5.clubmngmt.Common.DatabaseHelper;
@@ -41,7 +41,7 @@ public class PersonEditActivity extends AppCompatActivity {
     EditText editText_Name,editText_IdNum,editText_Major,editText_Birthday,editText_Mobile,editText_Email;
     RadioGroup radioGroup_Sex;
     Bitmap picture;
-    PersonDB personDB;
+    PersonDBManager personDB;
     Person p;
 
 
@@ -78,7 +78,7 @@ public class PersonEditActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
 
-        personDB = new PersonDB(new DatabaseHelper(getApplicationContext()));
+        personDB = new PersonDBManager(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
         final Button button_delete = findViewById(R.id.button_delete);
 
@@ -90,7 +90,7 @@ public class PersonEditActivity extends AppCompatActivity {
             if(pk !=-1) {
                 button_save.setText("Save");
 
-                p = personDB.findMember(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
+                p = personDB.findRecord(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
                 picture = p.getPicture();
                 editText_Email.setText(p.getEmail());
                 editText_Major.setText(p.getMajor());
