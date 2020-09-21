@@ -42,7 +42,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
     MaterialCalendarView calendarView;
     TextView textView;
     ScheduleAdapter adapter;
-    ScheduleDB scheduleDB;
+    ScheduleDBManager scheduleDB;
     ScheduleAdapter scheduleAdapter = new ScheduleAdapter();
     RecyclerView recyclerViewSchedule;
     String day;
@@ -65,7 +65,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
                 new DecoratorEvent3()
         );
 
-        ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
+        ArrayList<Schedule> schedules = scheduleDB.findRecordFromDate(day);
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
@@ -82,7 +82,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         setContentView(R.layout.activity_schedule);
         textView = findViewById(R.id.textView);
 
-        scheduleDB = new ScheduleDB(new DatabaseHelper(this));
+        scheduleDB = new ScheduleDBManager(new DatabaseHelper(this));
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,7 +189,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         /**
          * 이 부분이 현재 저장해도 실행이 안되는중
          */
-        ArrayList<Schedule> schedules = scheduleDB.getSchedule(day);
+        ArrayList<Schedule> schedules = scheduleDB.findRecordFromDate(day);
         if(schedules != null){
             adapter.setItems(schedules);
             recyclerViewSchedule.setAdapter(adapter);
@@ -210,7 +210,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()==1; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()==1; //일정이 1개라도 있는 날만 true
         }
 
         @Override
@@ -229,7 +229,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()==2; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()==2; //일정이 1개라도 있는 날만 true
         }
 
         @Override
@@ -247,7 +247,7 @@ public class ScheduleActivity extends AppCompatActivity implements OnDateSelecte
         public boolean shouldDecorate(CalendarDay day) {
             day.copyTo(calendar);
             date=changeDayString(day.toString());
-            return scheduleDB.getSchedule(date).size()>2; //일정이 1개라도 있는 날만 true
+            return scheduleDB.findRecordFromDate(date).size()>2; //일정이 1개라도 있는 날만 true
         }
 
         @Override

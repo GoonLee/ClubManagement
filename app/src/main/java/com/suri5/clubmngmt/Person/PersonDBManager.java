@@ -2,6 +2,7 @@ package com.suri5.clubmngmt.Person;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -15,11 +16,26 @@ import java.util.ArrayList;
 
 import static com.suri5.clubmngmt.Common.DatabaseHelper.println;
 
-public class PersonDBManager extends DBManager<Person> {
+public class PersonDBManager implements DBManager<Person> {
+    SQLiteDatabase database;
+    DatabaseHelper dbHelper;
+
     private String sortOrder = Constant.PERSON_COLUMN_PK + " ASC";
 
     public PersonDBManager(DatabaseHelper databaseHelper) {
-        super(databaseHelper);
+        this.dbHelper = databaseHelper;
+        database = dbHelper.getWritableDatabase();
+    }
+
+    public void createTable(){
+        if(database == null){
+            DatabaseHelper.println("데이터베이스를 먼저 생성하세요.");
+            return;
+        }
+        database.execSQL(Constant.PERSON_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_CREATE_TABLE);
+        database.execSQL(Constant.GROUP_PERSON_CREATE_TABLE);
+        database.execSQL(Constant.SCHEDULE_CREATE_TABLE);
     }
 
     @Override
