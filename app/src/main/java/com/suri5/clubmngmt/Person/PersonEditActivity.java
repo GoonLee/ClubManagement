@@ -78,8 +78,6 @@ public class PersonEditActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(flowLayoutManager);
         recyclerView.setAdapter(groupAdapter_short);
 
-
-
         personDB = new PersonDBManager(new DatabaseHelper(getApplicationContext()));
         final Button button_save = findViewById(R.id.button_OK);
         final Button button_delete = findViewById(R.id.button_delete);
@@ -90,7 +88,7 @@ public class PersonEditActivity extends AppCompatActivity {
 
             //인원 수정임
             if(pk !=-1) {
-                button_save.setText("수정");
+                button_save.setText("Save");
 
                 p = personDB.findRecord(Constant.PERSON_COLUMN_PK, String.valueOf(pk)).get(0);
                 picture = p.getPicture();

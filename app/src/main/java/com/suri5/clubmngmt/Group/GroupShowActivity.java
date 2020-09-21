@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,48 +40,9 @@ public class GroupShowActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_manage);
+        setContentView(R.layout.activity_group_show);
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        navigationView = findViewById(R.id.sideMenu);
-        drawerLayout=findViewById(R.id.drawer);
-        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-
-        //네비게이션뷰 아이템 클릭 리스너
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){//각 아이템 클릭에 대한 반응
-                    case R.id.personAdd:
-                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
-                        startActivity(personAddIntent);
-                        break;
-                    case R.id.personShow:
-                        Intent personShowIntent=new Intent(getApplicationContext(), PersonShowActivity.class);
-                        startActivity(personShowIntent);
-                        break;
-                    case R.id.groupAdd:
-                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
-                        startActivity(groupAddIntent);
-                        break;
-                    case R.id.groupShow:
-                        break;
-                    case R.id.menu_second:
-                        break;
-                    case R.id.menu_third:
-                        Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-
-                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
-                return false;
-            }
-        });
+        setNav("그룹");
 
         //인원목록 나타낼 리사이클러뷰 생성
         recyclerView = findViewById(R.id.recyclerView_group);
@@ -133,4 +95,51 @@ public class GroupShowActivity extends AppCompatActivity {
             groupAdapter.notifyDataSetChanged();
         }
     }
+    public void setNav(String actname){
+
+        TextView textView = findViewById(R.id.textView_toolbar);
+        textView.setText(actname);
+
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        navigationView = findViewById(R.id.sideMenu);
+        drawerLayout=findViewById(R.id.drawer);
+        drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        //네비게이션뷰 아이템 클릭 리스너
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){//각 아이템 클릭에 대한 반응
+                    case R.id.personAdd:
+                        Intent personAddIntent=new Intent(getApplicationContext(), PersonEditActivity.class);
+                        startActivity(personAddIntent);
+                        break;
+                    case R.id.personShow:
+                        break;
+                    case R.id.groupAdd:
+                        Intent groupAddIntent = new Intent(getApplicationContext(), GroupEditActivity.class);
+                        startActivity(groupAddIntent);
+                        break;
+                    case R.id.groupShow:
+                        Intent groupShowIntent=new Intent(getApplicationContext(), GroupShowActivity.class);
+                        startActivity(groupShowIntent);
+                        break;
+                    case R.id.menu_second:
+                        break;
+                    case R.id.menu_third:
+                        Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                drawerLayout.closeDrawer(navigationView); //아이템 선택후 네비게이션뷰 닫힘
+                return false;
+            }
+        });
+    }
+
 }
